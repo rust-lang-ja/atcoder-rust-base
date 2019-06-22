@@ -22,9 +22,9 @@
 
 If you want a template with English source code comments, please request it to us by filing [a GitHub issue][gh-issue].
 
-[ja-branch]: ./tree/ja
-[vendor-ja-branch]: ./tree/vendor-ja
-[gh-issue]: ./issues
+[ja-branch]: /tree/ja
+[vendor-ja-branch]: /tree/vendor-ja
+[gh-issue]: /issues
 
 
 ## ライセンス / License
@@ -32,4 +32,4 @@ If you want a template with English source code comments, please request it to u
 本リポジトリの内容は **MITライセンス** のもとで公開されています。
 詳しくは[LICENSE][license-file]ファイルを参照してください。
 
-[license-file]: ./blob/master/LICENSE
+[license-file]: ./LICENSE
