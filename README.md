@@ -42,11 +42,11 @@ If you want a template with English source code comments, please request it to u
    - `--name`: パッケージの名前。例：`abc086c`
    - `--branch`: このテンプレートリポジトリのブランチ名。`ja`テンプレートを使いたいなら`ja`を指定する
 
-1. `Cargo.toml`ファイルを開き`[dependencies]`セクションにあるクレートのなかから、必要なものをコメントアウトします。
+1. [`Cargo.toml`](./Cargo.toml)ファイルを開き`[dependencies]`セクションにあるクレートのなかで必要なもののコメントを外します。
 
-1. `tests/sample_inputs.rs`ファイルを開き、テストケースを追加します。
+1. [`tests/sample_inputs.rs`](./tests/sample_inputs.rs)ファイルを開き、テストケースを追加します。
 
-1. `src/main.rs`に解答となるプログラムを書きます。
+1. [`src/main.rs`](./src/main.rs)に解答となるプログラムを書きます。
 
 1. 以下のコマンドでテストケースを実行し、テストにパスするか確認します。
 
