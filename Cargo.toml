@@ -20,8 +20,9 @@ proconio-derive = { git = "https://github.com/statiolake/proconio-rs", rev = "21
 # f64のOrd/Eq実装
 # ordered-float = "=1.0.2"
 
-# 剰余関連。Mで割った余りを求める際に、いちいちMで...）
-# modtype = "=0.2.0"
+# 剰余関連。普通の整数型などと同じ感覚で扱うだけで自動的にmodを取ってくれる
+# 答えの整数をMで割った余りが要求される設問で便利
+# modtype = "=0.3.0"
 
 # BitSet。C++のbitsetに相当
 # bitset-fixed = { git = "https://github.com/hatoo/bitset-fixed", rev = "2d6347acd634a9cce18be6f133f64535a26a0f00" }
