@@ -1,28 +1,24 @@
 <!-- -*- coding:utf-8-unix -*- -->
 
-# AtCoder Rust Base
+# AtCoder Rust Base （`ja`テンプレート）
 
-このリポジトリは[AtCoder][atcoder]コンテスト（競技プログラミング）にRustで参加するためのCargoパッケージテンプレートです。
-パッケージの作成は[cargo-generate][cargo-generate-crate]で行います。
+このリポジトリには[AtCoder][atcoder]コンテスト（競技プログラミング）にRustで参加するためのCargoパッケージテンプレートが用意されています。
+パッケージは[cargo-generate][cargo-generate-crate]で作成します。
+
+**この`README.md`では`ja`テンプレートの内容について説明します**。
+他のテンプレートについては[こちら][list-of-templates]をご覧ください。
 
 [atcoder]: https://atcoder.jp
 [cargo-generate-crate]: https://crates.io/crates/cargo-generate
+[list-of-templates]: https://github.com/rust-lang-ja/atcoder-rust-base/blob/master/README.md#用意されているテンプレート
 
 
-## 用意されているテンプレート
+## `ja`テンプレートの内容
 
-以下のテンプレートが用意されています。
+**TODO** もう少し詳しく書く
 
-| 名前 | Rustバージョン | 内容 |
-|:-- |:--:|:-- |
-| [ja][ja-branch] | 1.35.0 | 標準的な内容のテンプレートに日本語のソースコードコメントを付けたもの。注意：2019年言語アップデート後の環境向け。Rust 1.15.1の環境では使用できない |
-| [vendor-ja][vendor-ja-branch] | 1.35.0 | jaをベースに、依存するクレートのソースコードを`vendor`ディレクトリ配下に展開したもの。AtCoderの運営者が環境構築に使用できる。注意：Rust 1.15.1の環境では使用できない |
-
-If you want a template with English source code comments, please request it to us by filing [a GitHub issue][gh-issue].
-
-[ja-branch]: https://github.com/rust-lang-ja/atcoder-rust-base/tree/ja
-[vendor-ja-branch]: https://github.com/rust-lang-ja/atcoder-rust-base/tree/vendor-ja
-[gh-issue]: https://github.com/rust-lang-ja/atcoder-rust-base/issues
+- AtCoder 2019年言語アップデート後の環境向け
+- Rust 1.35.0
 
 
 ## 使いかた
@@ -31,35 +27,93 @@ If you want a template with English source code comments, please request it to u
 
 **TODO**
 
+
 ### パッケージの生成
 
-1. `cargo generate`コマンドでパッケージを生成します。
+`cargo generate`コマンドでパッケージを生成します。
 
-   ```console
-   $ cargo generate --name abc086c --git https://github.com/rust-lang-ja/atcoder-rust-base --branch ja
-   ```
+```console
+$ cargo generate --name abc086c \
+    --git https://github.com/rust-lang-ja/atcoder-rust-base \
+    --branch ja
+```
 
-   - `--name`: パッケージの名前。例：`abc086c`
-   - `--branch`: このテンプレートリポジトリのブランチ名。`ja`テンプレートを使いたいなら`ja`を指定する
+- `--name`: これから作成するパッケージの名前。好きな名前が付けられる。例：`abc086c`
+- `--branch`: このテンプレートリポジトリのブランチ名。`ja`テンプレートを使うなら`ja`を指定する
 
-1. [`Cargo.toml`](./Cargo.toml)ファイルを開き`[dependencies]`セクションにあるクレートのなかで必要なもののコメントを外します。
 
-1. [`tests/sample_inputs.rs`](./tests/sample_inputs.rs)ファイルを開き、テストケースを追加します。
+### 解答となるプログラムの作成
 
-1. [`src/main.rs`](./src/main.rs)に解答となるプログラムを書きます。
+1. 使用するクレートの選択
+   - [`Cargo.toml`][cargo-toml-file]ファイルを開き`[dependencies]`セクションに書かれているクレートのなかで、必要なものがあればコメントを外します。
+   - 注意：AtCoderの環境では、これら以外のクレートは使用できません。またバージョンも固定されています。
 
-1. 以下のコマンドでテストケースを実行し、テストにパスするか確認します。
+1. 使用するクレートのドキュメントの生成
+   - 必須ではありませんが、以下のコマンドで依存クレートのドキュメントをビルドし、Webブラウザで開いておくと便利でしょう。
 
-   ```console
-   $ cargo test -j 1
-   ```
+      ```console
+      $ cargo doc --open   # ドキュメントのビルドし、ビルドできたらWebブラウザで開く
+      # または
+      $ cargo doc          # ドキュメントのビルドのみ行う
+      ```
 
-1. プログラムが完成したら、AtCoderに`src/main.rs`の内容を提出します。
+1. テストケースの作成
+   - [`tests/sample_inputs.rs`](./tests/sample_inputs.rs)ファイルには、ひな型となるテストケースが用意されています。
+   - AtCoderの問題文に書かれているサンプル入出力をこのファイルに書き写します。
+     これにより、`cargo test`でプログラムの動作が確認できるようになります。
+
+1. プログラムの作成
+   - [`src/main.rs`](./src/main.rs)に解答となるプログラムを書きます。
+
+1. テストケースの実行
+   - 以下のコマンドでテストケースを実行し、テストにパスすることを確認します。
+
+      ```console
+      $ cargo test -j 1
+      ```
+
+      **実行例**
+
+      ```console
+      $ cargo test -j 1
+          ...
+          Finished dev [unoptimized + debuginfo] target(s) in 25.31s
+           Running target/debug/deps/main-aae3efe8c7e14c29
+
+      running 0 tests
+
+      test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+
+           Running target/debug/deps/sample_inputs-946c74199de6e6a4
+
+      running 3 tests
+      No
+      test sample2 ... ok
+      Yes
+      test sample1 ... ok
+      No
+      test sample3 ... ok
+
+      test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+      ```
+
+   - `-j`オプションはテストケース実行の並列数を指定し、デフォルト値はCPUの論理コア数です。
+     `-j 1`を指定すると、テストケースが複数あるときに、それらを1つずつ順番に実行するようになります。
+   - 上の例では`No`や`Yes`のようにプログラムからの標準出力を表示しています。
+     もしテストケースが並列に実行されると、複数のテストケースからの標準出力が混ざって分かりにくくなります。
+     `-j 1`の指定は、このようなときに便利です。
+
+
+1. プログラムの提出
+   - プログラムが完成したら、`src/main.rs`の内容をAtCoderに提出します。
+     `AC`を目指して頑張ってください。
+
+[cargo-toml-file]: ./Cargo.toml
 
 
 ## 使用可能なクレート
 
-**TODO**
+AtCoderの環境では、[`Cargo.toml`][cargo-toml-file]にあらかじめ書かれているクレートのみが使用できます。それら以外のクレートを追加するとコンパイルエラーになりますので注意してください。
 
 
 ## ライセンス / License
