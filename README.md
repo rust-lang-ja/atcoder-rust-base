@@ -2,8 +2,8 @@
 
 # AtCoder Rust Base
 
-このリポジトリは[AtCoder][atcoder]コンテスト（競技プログラミング）にRustで参加するためのCargoパッケージテンプレートです。
-パッケージの作成は[cargo-generate][cargo-generate-crate]で行います。
+このリポジトリには[AtCoder][atcoder]コンテスト（競技プログラミング）にRustで参加するためのCargoパッケージテンプレートが用意されています。
+パッケージは[cargo-generate][cargo-generate-crate]で作成します。
 
 [atcoder]: https://atcoder.jp
 [cargo-generate-crate]: https://crates.io/crates/cargo-generate
