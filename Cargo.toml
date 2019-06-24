@@ -14,8 +14,8 @@ path = "src/main.rs"
 # AtCoder 2019年言語アップデート以降に使用できるクレート
 
 # 競技プログラミングの入出力サポート
-proconio        = { git = "https://github.com/statiolake/proconio-rs", rev = "2115d40ffe9c07edbb9aff99b9f2008690fad201" }
-proconio-derive = { git = "https://github.com/statiolake/proconio-rs", rev = "2115d40ffe9c07edbb9aff99b9f2008690fad201" }
+proconio = "=0.1.2"
+proconio-derive = "=0.1.2"
 
 # f64のOrd/Eq実装
 # ordered-float = "=1.0.2"
