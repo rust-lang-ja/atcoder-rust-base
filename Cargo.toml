@@ -1,9 +1,8 @@
 # -*- coding:utf-8-unix -*-
 
 [package]
-name = "{{project-name}}"
+name = "atcoder-rust-base"
 version = "0.1.0"
-authors = ["{{authors}}"]
 edition = "2018"
 
 [[bin]]
@@ -18,56 +17,56 @@ proconio = "=0.2.0"
 proconio-derive = "=0.1.5"
 
 # f64のOrd/Eq実装
-# ordered-float = "=1.0.2"
+ordered-float = "=1.0.2"
 
 # 剰余関連。普通の整数型などと同じ感覚で扱うだけで自動的にmodを取ってくれる
 # 答えの整数をMで割った余りが要求される設問で便利
-# modtype = "=0.3.0"
+modtype = "=0.3.0"
 
 # BitSet。C++のbitsetに相当
-# bitset-fixed = { git = "https://github.com/hatoo/bitset-fixed", rev = "2d6347acd634a9cce18be6f133f64535a26a0f00" }
+bitset-fixed = { git = "https://github.com/hatoo/bitset-fixed", rev = "2d6347acd634a9cce18be6f133f64535a26a0f00" }
 
 # Permutation生成。C++のnext_permutationに相当する機能を提供
-# permutohedron = "=0.2.4"
+permutohedron = "=0.2.4"
 
 # スライスの強化。C++のlower_bound, upper_boundに相当する機能を提供
-# superslice = "=1.0.0"
+superslice = "=1.0.0"
 
 # イテレータの強化
-# itertools = "=0.8.0"
+itertools = "=0.8.0"
 
 # 高速なハッシュ関数
-# rustc-hash = "=1.0.1"
+rustc-hash = "=1.0.1"
 
 # 高速なHashMap
 # Rust 1.36.0からは標準ライブラリのHashMapがこれに置き換わる。（AtCoder 2019年言語
 # アップデートではそれより古い1.35.0を採用）　ハッシュ関数として従来のSipHashが用いられる
 # ことに注意。（SipHashは暗号強度を持つため計算量が多く低速）
-# hashbrown = "=0.4.0"
+hashbrown = "=0.4.0"
 
 # 固定配列上のベクタ。ヒープ領域でなくスタック領域にアロケートされるので高速かもしれない
-# smallvec = "=0.6.10"
-# arrayvec = "=0.4.10"
+smallvec = "=0.6.10"
+arrayvec = "=0.4.10"
 
 # 標準ライブラリのVecやHashMapに対応する永続データ構造
 # 永続データ構造は関数型言語によく見られるデータ構造で、要素を更新しても、そのデータ構造の
 # 以前のバージョンにアクセスできる。（更新の度に差分が記録されていくイメージ）
-# im    = "=13.0.0"   # スレッドセーフ
-# im-rc = "=13.0.0"   # スレッドセーフでないが高速
+im    = "=13.0.0"   # スレッドセーフ
+im-rc = "=13.0.0"   # スレッドセーフでないが高速
 
 # 多バイト長整数、分数、複素数など
-# num = "=0.2.0"
+num = "=0.2.0"
 
 # RNG 疑似乱数生成器
-# rand = "=0.6.5"
-# sfmt = "=0.5.0"   # SIMD-oriented Fast Mersenne Twister (SFMT)のpure Rust実装。
-                    # 高速で高品質な疑似乱数を生成。モンテカルロ・シミュレーションに適している
+rand = "=0.6.5"
+sfmt = "=0.5.0"   # SIMD-oriented Fast Mersenne Twister (SFMT)のpure Rust実装。
+                  # 高速で高品質な疑似乱数を生成。モンテカルロ・シミュレーションに適している
 
 # 正規表現
-# regex = "=1.1.7"
+regex = "=1.1.7"
 
 # 代替ヒープアロケータ。条件によってはシステムアロケータより速いことも
-# jemallocator = "0.3.2"
+jemallocator = "0.3.2"
 
 # ---------------------------------------------------------------------
 
