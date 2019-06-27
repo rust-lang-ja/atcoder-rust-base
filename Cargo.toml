@@ -24,8 +24,12 @@ proconio-derive = "=0.1.5"
 # 答えの整数をMで割った余りが要求される設問で便利
 # modtype = "=0.3.0"
 
+# 英数字などのASCII文字専用の文字列。文字にインデックスでアクセスしたり
+# substringを簡単に作ったりできる
+# ascii = "=0.9.1"
+
 # BitSet。C++のbitsetに相当
-# bitset-fixed = { git = "https://github.com/hatoo/bitset-fixed", rev = "2d6347acd634a9cce18be6f133f64535a26a0f00" }
+# bitset-fixed = "=0.1.0"
 
 # Permutation生成。C++のnext_permutationに相当する機能を提供
 # permutohedron = "=0.2.4"
