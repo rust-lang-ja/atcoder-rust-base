@@ -1,48 +1,19 @@
-use cli_test_dir::*;
-
-const BIN: &'static str = "./main";
+use procontest::*;
 
 #[test]
 fn sample1() {
-    let testdir = TestDir::new(BIN, "");
-    let output = testdir
-        .cmd()
-        .output_with_stdin(r#"2
-3 1 2
-6 1 1
-"#)
-        .tee_output()
-        .expect_success();
-    assert_eq!(output.stdout_str(), "Yes\n");
-    assert!(output.stderr_str().is_empty());
+    let res = do_test("sample1", include_str!("in1.txt"), include_str!("out1.txt"));
+    assert_eq!(res, TestResult::Accepted, "{}", format(&res));
 }
 
 #[test]
 fn sample2() {
-    let testdir = TestDir::new(BIN, "");
-    let output = testdir
-        .cmd()
-        .output_with_stdin(r#"1
-2 100 100
-"#)
-        .tee_output()
-        .expect_success();
-    assert_eq!(output.stdout_str(), "No\n");
-    assert!(output.stderr_str().is_empty());
+    let res = do_test("sample2", include_str!("in2.txt"), include_str!("out2.txt"));
+    assert_eq!(res, TestResult::Accepted, "{}", format(&res));
 }
 
 #[test]
 fn sample3() {
-    let testdir = TestDir::new(BIN, "");
-    let output = testdir
-        .cmd()
-        .output_with_stdin(r#"2
-5 1 1
-100 1 1
-"#)
-        .tee_output()
-        .expect_success();
-    assert_eq!(output.stdout_str(), "No\n");
-    assert!(output.stderr_str().is_empty());
+    let res = do_test("sample3", include_str!("in3.txt"), include_str!("out3.txt"));
+    assert_eq!(res, TestResult::Accepted, "{}", format(&res));
 }
-
