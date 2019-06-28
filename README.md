@@ -15,17 +15,45 @@
 
 ## `ja`テンプレートの内容
 
-**TODO** もう少し詳しく書く
+**TODO** もう少し丁寧に書く
 
 - AtCoder 2019年言語アップデート後の環境向け
 - Rust 1.35.0
-
+  - `rustup`でインストールされていることを前提にしている
 
 ## 使いかた
 
 ### 準備：cargo-generateのインストール
 
-**TODO**
+cargo-generateをインストールしましょう。以下のライブラリとツールが必要です。
+
+- openssl
+- pkg-config
+
+
+#### Linux (Ubuntu 18.04)
+
+```console
+$ sudo apt install libssl-dev pkg-config
+```
+
+#### macOS
+
+**TODO** opensslとpkg-configのインストール方法を書く（Homebrew）
+
+
+#### Windows MSVC
+
+**TODO** openssl(?)とcmakeのインストール方法を書く
+
+
+#### インストール
+
+以下のコマンドを実行します。
+
+```
+$ cargo install cargo-generate
+```
 
 
 ### パッケージの生成
@@ -114,7 +142,7 @@ $ cargo generate --name abc086c \
 ## 使用可能なクレート
 
 AtCoderの環境では、[`Cargo.toml`][cargo-toml-file]にあらかじめ書かれているクレートのみが使用できます。
-それら以外のクレートを追加するとコンパイルエラーになりますので注意してください。
+それら以外のクレートを追加すると、手元ではコンパイルできてもAtCoderの環境ではコンパイルエラーになりますので注意してください。
 またクレートのバージョンも固定されており、変更できません。
 
 
