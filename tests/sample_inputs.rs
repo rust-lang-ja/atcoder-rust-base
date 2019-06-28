@@ -1,5 +1,5 @@
 use procontest::testcase;
 
-testcase!(id: 1);
-testcase!(id: 2);
-testcase!(id: 3);
+testcase!(id: t1);
+testcase!(id: t2);
+testcase!(id: t3);
