@@ -22,10 +22,12 @@ fn run_proconio() {
     use proconio::input;
     use proconio::source::auto::AutoSource;
 
-    let source = AutoSource::from(r#"2
+    let source = AutoSource::from(
+        r#"2
 3 1 2
 6 1 1
-"#);
+"#,
+    );
 
     input! {
         from source,
@@ -87,13 +89,16 @@ fn test_ascii() -> UnitResult {
 // This code was taken from an example on: https://crates.io/crates/bitset-fixed
 fn run_bitset_fixed() {
     use bitset_fixed::BitSet;
-    use rand::prelude::*;
     use rand::distributions::Uniform;
+    use rand::prelude::*;
 
     let mut rng = StdRng::seed_from_u64(114514);
     let dist = Uniform::from(0..2000);
 
-    let n = rng.sample_iter::<usize, _>(&dist).take(25).collect::<Vec<_>>();
+    let n = rng
+        .sample_iter::<usize, _>(&dist)
+        .take(25)
+        .collect::<Vec<_>>();
     let sum = n.iter().sum::<usize>();
 
     let mut bitset = BitSet::new(sum + 1);
