@@ -62,10 +62,15 @@ proconio-derive = "=0.1.5"
 # 多バイト長整数、分数、複素数など
 # num = "=0.2.0"
 
-# RNG 疑似乱数生成器
-# rand = "=0.6.5"
-# sfmt = "=0.5.0"   # SIMD-oriented Fast Mersenne Twister (SFMT)のpure Rust実装。
-                    # 高速で高品質な疑似乱数を生成。モンテカルロ・シミュレーションに適している
+# RNG 疑似乱数生成器 (randファミリー)
+# rand = "0.6.5"
+# rand_chacha = "=0.1.1"
+# rand_pcg = "=0.1.2"
+
+# RNG 疑似乱数生成器 (SFMT)
+# SIMD-oriented Fast Mersenne Twister (SFMT)のpure Rust実装
+# 高速で高品質な疑似乱数を生成。モンテカルロ・シミュレーションに適している
+# sfmt = "=0.5.0"
 
 # 正規表現
 # regex = "=1.1.7"
