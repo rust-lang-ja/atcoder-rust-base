@@ -4,12 +4,15 @@ type UnitResult = Result<(), Box<dyn std::error::Error>>;
 
 fn main() -> UnitResult {
     run_proconio();
+    run_modtype()?;
+    run_modtype_derive();
     run_ascii()?;
     run_bitset_fixed();
     run_superslice();
     run_itertools();
     run_rand_family()?;
     run_sfmt()?;
+    run_regex()?;
     Ok(())
 }
 
@@ -54,6 +57,114 @@ fn test_proconio() {
 // ordered-float
 
 // modtype
+// these codes were taken from examples at https://github.com/qryxip/modtype/tree/master/examples
+fn run_modtype() -> UnitResult {
+    use modtype::use_modtype;
+
+    #[use_modtype]
+    type F = modtype::u64::F<1_000_000_007u64>;
+
+    let mut a = "13".parse::<F>()?;
+    a += F(1_000_000_000);
+    assert_eq!(a, F(6));
+
+    Ok(())
+}
+
+#[test]
+fn test_modtype() -> UnitResult {
+    run_modtype()
+}
+
+// these codes were taken from examples at https://github.com/qryxip/modtype/blob/master/examples/derive.rs
+fn run_modtype_derive() {
+    use modtype::{use_modtype, ConstValue};
+    use std::marker::PhantomData;
+
+    #[use_modtype]
+    type F = F_<17u32>;
+
+    #[derive(
+        modtype::new,
+        modtype::new_unchecked,
+        modtype::get,
+        Default,
+        Clone,
+        Copy,
+        PartialEq,
+        Eq,
+        PartialOrd,
+        Ord,
+        modtype::From,
+        modtype::Into,
+        modtype::Display,
+        modtype::Debug,
+        modtype::FromStr,
+        modtype::Deref,
+        modtype::Neg,
+        modtype::Add,
+        modtype::AddAssign,
+        modtype::Sub,
+        modtype::SubAssign,
+        modtype::Mul,
+        modtype::MulAssign,
+        modtype::Div,
+        modtype::DivAssign,
+        modtype::Rem,
+        modtype::RemAssign,
+        modtype::Num,
+        modtype::Unsigned,
+        modtype::Bounded,
+        modtype::Zero,
+        modtype::One,
+        modtype::FromPrimitive,
+        modtype::Inv,
+        modtype::CheckedNeg,
+        modtype::CheckedAdd,
+        modtype::CheckedSub,
+        modtype::CheckedMul,
+        modtype::CheckedDiv,
+        modtype::CheckedRem,
+        modtype::Pow,
+        modtype::Integer,
+    )]
+    #[modtype(
+        modulus = "M::VALUE",
+        std = "std",
+        num_traits = "num::traits",
+        num_integer = "num::integer",
+        num_bigint = "num::bigint",
+        from(InnerValue, BigUint, BigInt),
+        debug(SingleTuple),
+        neg(for_ref = true),
+        add(for_ref = true),
+        add_assign(for_ref = true),
+        sub(for_ref = true),
+        sub_assign(for_ref = true),
+        mul(for_ref = true),
+        mul_assign(for_ref = true),
+        div(for_ref = true),
+        div_assign(for_ref = true),
+        rem(for_ref = true),
+        rem_assign(for_ref = true),
+        inv(for_ref = true),
+        pow(for_ref = true)
+    )]
+    struct F_<M: ConstValue<Value = u32>> {
+        #[modtype(value)]
+        __value: u32,
+        phantom: PhantomData<fn() -> M>,
+    }
+    assert_eq!(F(7) + F(13), F(3));
+    assert_eq!(F(5) - F(11), F(11));
+    assert_eq!(F(3), F(4) * F(5));
+    assert_eq!(F(3) / F(4), F(5));
+}
+
+#[test]
+fn test_modtype_derive() {
+    run_modtype_derive();
+}
 
 // ascii
 fn run_ascii() -> UnitResult {
@@ -219,6 +330,44 @@ fn calc_mean(rng: &mut impl rand::Rng) -> f64 {
         .fold(0.0, |mean, (t, x)| mean + (x - mean) / (t + 1) as f64)
 }
 
-// regex
+// regex and lazy_static
+// these codes were taken from examples on: https://docs.rs/regex/1.1.7/regex/
+fn run_regex() -> UnitResult {
+    use lazy_static::lazy_static;
+    use regex::{Regex, RegexSet};
 
-// jemallocator
+    // ...
+    lazy_static! {
+        static ref RE_YYYYMMDD: Regex = Regex::new(r"(\d{4})-(\d{2})-(\d{2})").unwrap();
+        static ref RE_SET: RegexSet =
+            RegexSet::new(&[r"\w+", r"\d+", r"\pL+", r"foo", r"bar", r"barfoo", r"foobar",])
+                .unwrap();
+    }
+
+    let text = "2012-03-14, 2013-01-01 and 2014-07-05";
+    let mut iter = RE_YYYYMMDD.captures_iter(text);
+
+    let mut cap;
+    cap = iter.next().ok_or_else(|| "got none")?;
+    assert_eq!((&cap[1], &cap[2], &cap[3]), ("2012", "03", "14"));
+    cap = iter.next().ok_or_else(|| "got none")?;
+    assert_eq!((&cap[1], &cap[2], &cap[3]), ("2013", "01", "01"));
+    cap = iter.next().ok_or_else(|| "got none")?;
+    assert_eq!((&cap[1], &cap[2], &cap[3]), ("2014", "07", "05"));
+
+    // Iterate over and collect all of the matches.
+    let matches: Vec<_> = RE_SET.matches("foobar").into_iter().collect();
+    assert_eq!(matches, vec![0, 2, 3, 4, 6]);
+
+    // You can also test whether a particular regex matched:
+    let matches = RE_SET.matches("foobar");
+    assert!(!matches.matched(5));
+    assert!(matches.matched(6));
+
+    Ok(())
+}
+
+#[test]
+fn test_regex() -> UnitResult {
+    run_regex()
+}
