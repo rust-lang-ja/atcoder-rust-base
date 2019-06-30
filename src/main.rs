@@ -4,12 +4,21 @@ type UnitResult = Result<(), Box<dyn std::error::Error>>;
 
 fn main() -> UnitResult {
     run_proconio();
+    run_ordered_float();
     run_modtype()?;
     run_modtype_derive();
     run_ascii()?;
     run_bitset_fixed();
+    run_permutohedron();
     run_superslice();
     run_itertools();
+    run_rustc_hash();
+    run_hashbrown();
+    // run_smallvec();
+    // run_arrayvec();
+    // run_im();
+    // run_im_rc();
+    // run_num();
     run_rand_family()?;
     run_sfmt()?;
     run_regex()?;
@@ -55,6 +64,46 @@ fn test_proconio() {
 }
 
 // ordered-float
+fn run_ordered_float() {
+    use ordered_float::OrderedFloat;
+    use rustc_hash::FxHasher;
+    use std::f64::{INFINITY, NAN};
+    use std::hash::{Hash, Hasher};
+
+    let mut v = [
+        8.20, -5.83, -0.21, 3.44, -7.12, 3.39, -0.72, -1.07, 9.36, NAN,
+        5.16, -2.81, 1.02, -8.67, 5.77, -1.24, 0.44, 9.91, -7.06, INFINITY,
+        -3.93, 5.82, 9.64, -8.04, -4.53,
+    ]
+    .iter()
+    .map(|&n| OrderedFloat(n))
+    .collect::<Vec<_>>();
+
+    assert_eq!(v.iter().min(), Some(&OrderedFloat(-8.67)));
+    assert_eq!(v.iter().max(), Some(&OrderedFloat(NAN)));
+
+    v.sort_unstable();
+
+    let size = v.len();
+    assert_eq!(v[0], OrderedFloat(-8.67));
+    assert_eq!(v[size - 2], OrderedFloat(INFINITY));
+    assert_eq!(v[size - 1], OrderedFloat(NAN));
+
+    let mut hasher = FxHasher::default();
+    v[0].hash(&mut hasher);
+    println!("hash for {} is {}", v[0], hasher.finish());
+
+    v.pop(); // NAN
+    v.pop(); // INFINITY
+
+    let s = v.iter().map::<f64, _>(|&n| n.into()).sum::<f64>();
+    assert!(10.91 < s && s < 10.92);
+}
+
+#[test]
+fn test_ordered_float() {
+    run_ordered_float();
+}
 
 // modtype
 // these codes were taken from examples at https://github.com/qryxip/modtype/tree/master/examples
@@ -231,6 +280,32 @@ fn test_bitset_fixed() {
 }
 
 // permutohedron
+fn run_permutohedron() {
+    use permutohedron::Heap;
+
+    let mut data = vec![1, 2, 3];
+
+    let mut permutations = Heap::new(&mut data).collect::<Vec<_>>();
+    assert_eq!(permutations.len(), 6);
+
+    permutations.sort_unstable();
+    assert_eq!(
+        permutations,
+        [
+            [1, 2, 3],
+            [1, 3, 2],
+            [2, 1, 3],
+            [2, 3, 1],
+            [3, 1, 2],
+            [3, 2, 1]
+        ]
+    );
+}
+
+#[test]
+fn test_permutohedron() {
+    run_permutohedron();
+}
 
 // superslice
 fn run_superslice() {
@@ -262,8 +337,40 @@ fn test_itertools() {
 }
 
 // rustc-hash
+fn run_rustc_hash() {
+    use rustc_hash::FxHashMap;
+
+    let mut map = [('c', "Cindy"), ('a', "Alice"), ('b', "Bob")]
+        .iter()
+        .map(|(c, s)| (*c, s.to_string()))
+        .collect::<FxHashMap<_, _>>();
+    map.entry('d').or_insert("Denis".to_string());
+    map.insert('a', "Alexa".to_string());
+    assert_eq!(map.len(), 4);
+}
+
+#[test]
+fn test_rustc_hash() {
+    run_rustc_hash();
+}
 
 // hashbrown
+fn run_hashbrown() {
+    use hashbrown::HashMap;
+
+    let mut map = [('c', "Cindy"), ('a', "Alice"), ('b', "Bob")]
+        .iter()
+        .map(|(c, s)| (*c, s.to_string()))
+        .collect::<HashMap<_, _>>();
+    map.entry('d').or_insert("Denis".to_string());
+    map.insert('a', "Alexa".to_string());
+    assert_eq!(map.len(), 4);
+}
+
+#[test]
+fn test_hashbrown() {
+    run_hashbrown();
+}
 
 // smallvec
 // arrayvec
