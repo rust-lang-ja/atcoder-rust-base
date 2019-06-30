@@ -19,8 +19,8 @@ fn main() -> UnitResult {
 // ABC086C - Traveling
 // https://atcoder.jp/contests/abs/fasks/arc089_a
 
-// proconio, proconio-derive
-#[proconio_derive::fastout]
+// proconio
+#[proconio::fastout]
 fn run_proconio() {
     use proconio::input;
     use proconio::source::auto::AutoSource;
