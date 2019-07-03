@@ -5,8 +5,8 @@ type UnitResult = Result<(), Box<dyn std::error::Error>>;
 fn main() -> UnitResult {
     run_proconio();
     run_ordered_float();
-    run_modtype()?;
-    run_modtype_derive();
+    // run_modtype()?;
+    // run_modtype_derive();
     run_ascii()?;
     run_bitset_fixed();
     run_permutohedron();
@@ -107,113 +107,113 @@ fn test_ordered_float() {
 
 // modtype
 // these codes were taken from examples at https://github.com/qryxip/modtype/tree/master/examples
-fn run_modtype() -> UnitResult {
-    use modtype::use_modtype;
+// fn run_modtype() -> UnitResult {
+//     use modtype::use_modtype;
+//
+//     #[use_modtype]
+//     type F = modtype::u64::F<1_000_000_007u64>;
+//
+//     let mut a = "13".parse::<F>()?;
+//     a += F(1_000_000_000);
+//     assert_eq!(a, F(6));
+//
+//     Ok(())
+// }
 
-    #[use_modtype]
-    type F = modtype::u64::F<1_000_000_007u64>;
-
-    let mut a = "13".parse::<F>()?;
-    a += F(1_000_000_000);
-    assert_eq!(a, F(6));
-
-    Ok(())
-}
-
-#[test]
-fn test_modtype() -> UnitResult {
-    run_modtype()
-}
+// #[test]
+// fn test_modtype() -> UnitResult {
+//     run_modtype()
+// }
 
 // these codes were taken from examples at https://github.com/qryxip/modtype/blob/master/examples/derive.rs
-fn run_modtype_derive() {
-    use modtype::{use_modtype, ConstValue};
-    use std::marker::PhantomData;
+// fn run_modtype_derive() {
+//     use modtype::{use_modtype, ConstValue};
+//     use std::marker::PhantomData;
+//
+//     #[use_modtype]
+//     type F = F_<17u32>;
+//
+//     #[derive(
+//         modtype::new,
+//         modtype::new_unchecked,
+//         modtype::get,
+//         Default,
+//         Clone,
+//         Copy,
+//         PartialEq,
+//         Eq,
+//         PartialOrd,
+//         Ord,
+//         modtype::From,
+//         modtype::Into,
+//         modtype::Display,
+//         modtype::Debug,
+//         modtype::FromStr,
+//         modtype::Deref,
+//         modtype::Neg,
+//         modtype::Add,
+//         modtype::AddAssign,
+//         modtype::Sub,
+//         modtype::SubAssign,
+//         modtype::Mul,
+//         modtype::MulAssign,
+//         modtype::Div,
+//         modtype::DivAssign,
+//         modtype::Rem,
+//         modtype::RemAssign,
+//         modtype::Num,
+//         modtype::Unsigned,
+//         modtype::Bounded,
+//         modtype::Zero,
+//         modtype::One,
+//         modtype::FromPrimitive,
+//         modtype::Inv,
+//         modtype::CheckedNeg,
+//         modtype::CheckedAdd,
+//         modtype::CheckedSub,
+//         modtype::CheckedMul,
+//         modtype::CheckedDiv,
+//         modtype::CheckedRem,
+//         modtype::Pow,
+//         modtype::Integer,
+//     )]
+//     #[modtype(
+//         modulus = "M::VALUE",
+//         std = "std",
+//         num_traits = "num::traits",
+//         num_integer = "num::integer",
+//         num_bigint = "num::bigint",
+//         from(InnerValue, BigUint, BigInt),
+//         debug(SingleTuple),
+//         neg(for_ref = true),
+//         add(for_ref = true),
+//         add_assign(for_ref = true),
+//         sub(for_ref = true),
+//         sub_assign(for_ref = true),
+//         mul(for_ref = true),
+//         mul_assign(for_ref = true),
+//         div(for_ref = true),
+//         div_assign(for_ref = true),
+//         rem(for_ref = true),
+//         rem_assign(for_ref = true),
+//         inv(for_ref = true),
+//         pow(for_ref = true)
+//     )]
+//     struct F_<M: ConstValue<Value = u32>> {
+//         #[modtype(value)]
+//         __value: u32,
+//         phantom: PhantomData<fn() -> M>,
+//     }
+//     assert_eq!(F(7) + F(13), F(3));
+//     assert_eq!(F(5) - F(11), F(11));
+//     assert_eq!(F(3), F(4) * F(5));
+//     assert_eq!(F(3) / F(4), F(5));
+// }
 
-    #[use_modtype]
-    type F = F_<17u32>;
-
-    #[derive(
-        modtype::new,
-        modtype::new_unchecked,
-        modtype::get,
-        Default,
-        Clone,
-        Copy,
-        PartialEq,
-        Eq,
-        PartialOrd,
-        Ord,
-        modtype::From,
-        modtype::Into,
-        modtype::Display,
-        modtype::Debug,
-        modtype::FromStr,
-        modtype::Deref,
-        modtype::Neg,
-        modtype::Add,
-        modtype::AddAssign,
-        modtype::Sub,
-        modtype::SubAssign,
-        modtype::Mul,
-        modtype::MulAssign,
-        modtype::Div,
-        modtype::DivAssign,
-        modtype::Rem,
-        modtype::RemAssign,
-        modtype::Num,
-        modtype::Unsigned,
-        modtype::Bounded,
-        modtype::Zero,
-        modtype::One,
-        modtype::FromPrimitive,
-        modtype::Inv,
-        modtype::CheckedNeg,
-        modtype::CheckedAdd,
-        modtype::CheckedSub,
-        modtype::CheckedMul,
-        modtype::CheckedDiv,
-        modtype::CheckedRem,
-        modtype::Pow,
-        modtype::Integer,
-    )]
-    #[modtype(
-        modulus = "M::VALUE",
-        std = "std",
-        num_traits = "num::traits",
-        num_integer = "num::integer",
-        num_bigint = "num::bigint",
-        from(InnerValue, BigUint, BigInt),
-        debug(SingleTuple),
-        neg(for_ref = true),
-        add(for_ref = true),
-        add_assign(for_ref = true),
-        sub(for_ref = true),
-        sub_assign(for_ref = true),
-        mul(for_ref = true),
-        mul_assign(for_ref = true),
-        div(for_ref = true),
-        div_assign(for_ref = true),
-        rem(for_ref = true),
-        rem_assign(for_ref = true),
-        inv(for_ref = true),
-        pow(for_ref = true)
-    )]
-    struct F_<M: ConstValue<Value = u32>> {
-        #[modtype(value)]
-        __value: u32,
-        phantom: PhantomData<fn() -> M>,
-    }
-    assert_eq!(F(7) + F(13), F(3));
-    assert_eq!(F(5) - F(11), F(11));
-    assert_eq!(F(3), F(4) * F(5));
-    assert_eq!(F(3) / F(4), F(5));
-}
-
-#[test]
-fn test_modtype_derive() {
-    run_modtype_derive();
-}
+// #[test]
+// fn test_modtype_derive() {
+//     run_modtype_derive();
+// }
 
 // ascii
 fn run_ascii() -> UnitResult {
