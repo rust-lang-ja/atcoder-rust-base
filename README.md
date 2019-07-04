@@ -15,11 +15,12 @@
 
 ## `ja`テンプレートの内容
 
-**TODO** もう少し丁寧に書く
-
 - AtCoder 2019年言語アップデート後の環境向け
 - Rust 1.35.0
   - `rustup`でインストールされていることを前提にしている
+
+**TODO** もう少し詳しく書く
+
 
 ## 使いかた
 
@@ -31,6 +32,12 @@
 
 ```console
 $ sudo apt install libssl-dev pkg-config
+$ cargo install cargo-generate
+```
+
+#### Windows 10 MSVC
+
+```console
 $ cargo install cargo-generate
 ```
 
@@ -59,16 +66,11 @@ $ brew install openssl
 
 cargo-generateをインストールします。
 
-```
+```console
 $ cargo install cargo-generate
 ```
 
 [homebrew]: https://brew.sh/
-
-
-#### Windows 10 MSVC
-
-**TODO** openssl(?)とcmakeのインストール方法を書く
 
 
 ### パッケージの生成
