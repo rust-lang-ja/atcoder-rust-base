@@ -15,7 +15,6 @@ path = "src/main.rs"
 
 # 競技プログラミングの入出力サポート
 proconio = "=0.2.1"
-procontest = "0.1.0"
 
 # f64のOrd/Eq実装
 # ordered-float = "=1.0.2"
@@ -87,3 +86,4 @@ procontest = "0.1.0"
 
 [dev-dependencies]
 cli_test_dir = "0.1"
+procontest = "0.1.0"
