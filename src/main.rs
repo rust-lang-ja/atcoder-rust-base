@@ -28,31 +28,40 @@ fn main() -> UnitResult {
 // proconio
 #[proconio_derive::fastout]
 fn run_proconio() {
-    use proconio::input;
-    use proconio::source::auto::AutoSource;
+    use proconio::source::{line::LineSource, once::OnceSource, Source};
+    use std::io::BufReader;
 
-    let source = AutoSource::from(
-        r#"2
+    run_proconio_for::<OnceSource<BufReader<&[u8]>>>();
+    run_proconio_for::<LineSource<BufReader<&[u8]>>>();
+
+    #[proconio_derive::fastout]
+    fn run_proconio_for<'a, T: Source<BufReader<&'a [u8]>> + From<&'a str>>() {
+        use proconio::input;
+
+        let source = T::from(
+            r#"2
 3 1 2
 6 1 1
 "#,
-    );
+        );
 
-    input! {
-        from source,
-        n: usize,
-        mut plan: [(i32, i32, i32); n],  // Vec<(i32, i32, i32)>
+        input! {
+            from source,
+            n: usize,
+            mut plan: [(i32, i32, i32); n],  // Vec<(i32, i32, i32)>
+        }
+
+        plan.insert(0, (0, 0, 0));
+        let yes = plan.windows(2).all(|w| {
+            let (t0, x0, y0) = w[0];
+            let (t1, x1, y1) = w[1];
+            let time = t1 - t0;
+            let dist = (x1 - x0).abs() + (y1 - y0).abs();
+            dist <= time && time % 2 == dist % 2
+        });
+        println!("{}", if yes { "Yes" } else { "No" });
+        assert!(yes);
     }
-    plan.insert(0, (0, 0, 0));
-    let yes = plan.windows(2).all(|w| {
-        let (t0, x0, y0) = w[0];
-        let (t1, x1, y1) = w[1];
-        let time = t1 - t0;
-        let dist = (x1 - x0).abs() + (y1 - y0).abs();
-        dist <= time && time % 2 == dist % 2
-    });
-    println!("{}", if yes { "Yes" } else { "No" });
-    assert!(yes);
 }
 
 #[test]
