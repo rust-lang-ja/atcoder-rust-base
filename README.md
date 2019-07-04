@@ -25,35 +25,50 @@
 
 ### 準備：cargo-generateのインストール
 
-cargo-generateをインストールしましょう。以下のライブラリとツールが必要です。
-
-- openssl
-- pkg-config
-
+以下のコマンドでcargo-generateをインストールします。
 
 #### Linux (Ubuntu 18.04)
 
 ```console
 $ sudo apt install libssl-dev pkg-config
+$ cargo install cargo-generate
 ```
 
-#### macOS
+#### macOS Mojave 10.14
 
-**TODO** opensslとpkg-configのインストール方法を書く（Homebrew）
+cargo-generateが依存しているopenss-sysクレートは、macOSに元から入っているOpenSSLライブラリのバージョンに対応していません。
+（OpenSSLのバージョンが低すぎる）　
+そのOpenSSLライブラリを使おうとすると以下のようなエラーになります。
 
+```console
+error failed to run custom build command for `openssl-sys v0.9.47`
+...
 
-#### Windows MSVC
+It looks like you're compiling on macOS, where the system contains a version of
+OpenSSL 0.9.8. This crate no longer supports OpenSSL 0.9.8.
 
-**TODO** openssl(?)とcmakeのインストール方法を書く
+As a consumer of this crate, you can fix this error by using Homebrew to
+install the `openssl` package, ...
+```
 
+エラーメッセージのおすすめにしたがって、[Homebrew][homebrew]で新しいバージョンのOpenSSLライブラリをインストールします。
 
-#### インストール
+```console
+$ brew install openssl
+```
 
-以下のコマンドを実行します。
+cargo-generateをインストールします。
 
 ```
 $ cargo install cargo-generate
 ```
+
+[homebrew]: https://brew.sh/
+
+
+#### Windows 10 MSVC
+
+**TODO** openssl(?)とcmakeのインストール方法を書く
 
 
 ### パッケージの生成
