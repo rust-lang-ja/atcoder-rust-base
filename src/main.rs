@@ -29,7 +29,7 @@ fn main() -> UnitResult {
 // https://atcoder.jp/contests/abs/fasks/arc089_a
 
 // proconio
-#[proconio::fastout]
+#[proconio_derive::fastout]
 fn run_proconio() {
     use proconio::input;
     use proconio::source::auto::AutoSource;
