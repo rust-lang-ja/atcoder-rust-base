@@ -70,9 +70,8 @@ fn run_ordered_float() {
     use std::hash::{Hash, Hasher};
 
     let mut v = [
-        8.20, -5.83, -0.21, 3.44, -7.12, 3.39, -0.72, -1.07, 9.36, NAN,
-        5.16, -2.81, 1.02, -8.67, 5.77, -1.24, 0.44, 9.91, -7.06, INFINITY,
-        -3.93, 5.82, 9.64, -8.04, -4.53,
+        8.20, -5.83, -0.21, 3.44, -7.12, 3.39, -0.72, -1.07, 9.36, NAN, 5.16, -2.81, 1.02, -8.67,
+        5.77, -1.24, 0.44, 9.91, -7.06, INFINITY, -3.93, 5.82, 9.64, -8.04, -4.53,
     ]
     .iter()
     .map(|&n| OrderedFloat(n))
@@ -223,9 +222,9 @@ fn run_ascii() -> UnitResult {
     let (i0, _) = ix.next().ok_or_else(|| "got none")?;
     let (i1, _) = ix.next().ok_or_else(|| "got none")?;
 
-    assert_eq!(s[..i0].as_str(),       "2019");
+    assert_eq!(s[..i0].as_str(), "2019");
     assert_eq!(s[i0 + 1..i1].as_str(), "07");
-    assert_eq!(s[i1 + 1..].as_str(),   "01");
+    assert_eq!(s[i1 + 1..].as_str(), "01");
 
     // split is not available in ascii 0.9.1
     // https://github.com/tomprogrammer/rust-ascii/issues/62
