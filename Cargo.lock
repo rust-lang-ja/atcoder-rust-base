@@ -35,7 +35,7 @@ dependencies = [
  "jemalloc-ctl 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "jemallocator 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "modtype 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "modtype 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "num 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "once_cell 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "ordered-float 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -210,16 +210,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "modtype"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "modtype_derive 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "modtype_derive 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "num 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num-bigint 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num-integer 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "modtype_derive"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "heck 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -695,8 +698,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum lock_api 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ed946d4529956a20f2d63ebe1b69996d5a2137c91913fe3ebbeff957f5bca7ff"
 "checksum maplit 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "08cbb6b4fef96b6d77bfc40ec491b1690c779e77b05cd9f07f787ed376fd4c43"
 "checksum memchr 2.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "2efc7bc57c883d4a4d6e3246905283d8dae951bb3bd32f49d6ef297f546e1c39"
-"checksum modtype 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7bf71f32c60f674f1b998ddb1c4cb964e868dcd38b3c404701a890fea73a8613"
-"checksum modtype_derive 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "75bf38a727330495bdc947e427006b448f52ec44cc85ea6ce8e09b17add0d0e9"
+"checksum modtype 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7c6bffa83fe8c98bd8eaa2ca4f4cf867d61940718049d4faeb496d9e83435e4b"
+"checksum modtype_derive 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b2f5ebe9234d3ba9510165e562083b7b7ad985a37407abd4ec48ffb61066a941"
 "checksum nodrop 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)" = "2f9667ddcc6cc8a43afc9b7917599d7216aa09c463919ea32c59ed6cac8bc945"
 "checksum num 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "cf4825417e1e1406b3782a8ce92f4d53f26ec055e3622e1881ca8e9f5f9e08db"
 "checksum num-bigint 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "57450397855d951f1a41305e54851b1a7b8f5d2e349543a02a2effe25459f718"
