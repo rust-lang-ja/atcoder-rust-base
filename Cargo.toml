@@ -71,6 +71,12 @@ regex = "=1.2.1"
 # staticアイテムの遅延初期化
 lazy_static = "=1.3.0"
 
+# 多次元配列
+ndarray = "=0.12.1"
+
+# 線形代数
+nalgebra = "=0.18.0"
+
 # 代替ヒープアロケータ。条件によってはシステムアロケータより速いことも
 jemallocator = "=0.3.2"
 jemalloc-ctl = "=0.3.3"

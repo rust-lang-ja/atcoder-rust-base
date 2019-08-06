@@ -19,6 +19,8 @@ fn main() -> UnitResult {
     // run_num();
     run_rand_family()?;
     run_regex()?;
+    // run_ndarray();
+    // run_nalgebra();
     Ok(())
 }
 
