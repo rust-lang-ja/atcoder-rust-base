@@ -66,11 +66,6 @@ rand = "=0.6.5"
 rand_chacha = "=0.1.1"
 rand_pcg = "=0.1.2"
 
-# RNG 疑似乱数生成器 (SFMT)
-# SIMD-oriented Fast Mersenne Twister (SFMT)のpure Rust実装
-# 高速で高品質な疑似乱数を生成。モンテカルロ・シミュレーションに適している
-sfmt = "=0.5.0"
-
 # 正規表現
 regex = "=1.1.7"
 

@@ -19,7 +19,6 @@ fn main() -> UnitResult {
     // run_im_rc();
     // run_num();
     run_rand_family()?;
-    run_sfmt()?;
     run_regex()?;
     Ok(())
 }
@@ -403,23 +402,6 @@ fn run_rand_family() -> UnitResult {
 #[test]
 fn test_rand_family() -> UnitResult {
     run_rand_family()
-}
-
-// sfmt
-fn run_sfmt() -> UnitResult {
-    use rand::prelude::*;
-    use sfmt::SFMT;
-
-    let mut rng = SFMT::from_rng(thread_rng())?;
-    let mean = calc_mean(&mut rng);
-    println!("SFMT: mean = {:.4}", mean);
-    assert_eq!((mean * 10.0).round() as u32, 5);
-    Ok(())
-}
-
-#[test]
-fn test_sfmt() -> UnitResult {
-    run_sfmt()
 }
 
 fn calc_mean(rng: &mut impl rand::Rng) -> f64 {
