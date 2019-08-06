@@ -15,7 +15,6 @@ fn main() -> UnitResult {
     run_hashbrown();
     // run_smallvec();
     // run_arrayvec();
-    // run_im();
     // run_im_rc();
     // run_num();
     run_rand_family()?;
@@ -370,7 +369,6 @@ fn test_hashbrown() {
 // smallvec
 // arrayvec
 
-// im
 // im-rc
 
 // num
