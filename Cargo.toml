@@ -61,9 +61,9 @@ im-rc = "=13.0.0"
 num = "=0.2.0"
 
 # RNG 疑似乱数生成器 (randファミリー)
-rand = "=0.6.5"
-rand_chacha = "=0.1.1"
-rand_pcg = "=0.1.2"
+rand = { version = "=0.7.0", features = ["small_rng"] }
+rand_chacha = "=0.2.1"
+rand_pcg = "=0.2.0"
 
 # 正規表現
 regex = "=1.2.1"

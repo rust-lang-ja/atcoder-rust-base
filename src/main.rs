@@ -246,7 +246,7 @@ fn run_bitset_fixed() {
     use rand::distributions::Uniform;
     use rand::prelude::*;
 
-    let mut rng = StdRng::seed_from_u64(114514);
+    let rng = StdRng::seed_from_u64(114514);
     let dist = Uniform::from(0..2000);
 
     let n = rng
@@ -265,7 +265,7 @@ fn run_bitset_fixed() {
     let ans = ((sum + 1) / 2..).find(|&i| bitset[i]).unwrap();
 
     println!("N = {:?}\nAnswer = {}", n, ans);
-    assert_eq!(ans, 14675);
+    assert_eq!(ans, 13465);
 }
 
 #[test]
@@ -403,6 +403,8 @@ fn test_rand_family() -> UnitResult {
 }
 
 fn calc_mean(rng: &mut impl rand::Rng) -> f64 {
+    // to see `impl Rng for &mut R where R: Rng`, which prevent moving in `rng.sample_iter()`
+    use rand::Rng as _;
     const ITERATIONS: usize = 10000;
 
     // the stardard distribution for f64 generates a random rumber in interval [0, 1)
