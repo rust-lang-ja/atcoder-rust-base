@@ -15,11 +15,9 @@ fn main() -> UnitResult {
     run_hashbrown();
     // run_smallvec();
     // run_arrayvec();
-    // run_im();
     // run_im_rc();
     // run_num();
     run_rand_family()?;
-    run_sfmt()?;
     run_regex()?;
     Ok(())
 }
@@ -248,7 +246,7 @@ fn run_bitset_fixed() {
     use rand::distributions::Uniform;
     use rand::prelude::*;
 
-    let mut rng = StdRng::seed_from_u64(114514);
+    let rng = StdRng::seed_from_u64(114514);
     let dist = Uniform::from(0..2000);
 
     let n = rng
@@ -267,7 +265,7 @@ fn run_bitset_fixed() {
     let ans = ((sum + 1) / 2..).find(|&i| bitset[i]).unwrap();
 
     println!("N = {:?}\nAnswer = {}", n, ans);
-    assert_eq!(ans, 14675);
+    assert_eq!(ans, 13465);
 }
 
 #[test]
@@ -371,7 +369,6 @@ fn test_hashbrown() {
 // smallvec
 // arrayvec
 
-// im
 // im-rc
 
 // num
@@ -405,24 +402,9 @@ fn test_rand_family() -> UnitResult {
     run_rand_family()
 }
 
-// sfmt
-fn run_sfmt() -> UnitResult {
-    use rand::prelude::*;
-    use sfmt::SFMT;
-
-    let mut rng = SFMT::from_rng(thread_rng())?;
-    let mean = calc_mean(&mut rng);
-    println!("SFMT: mean = {:.4}", mean);
-    assert_eq!((mean * 10.0).round() as u32, 5);
-    Ok(())
-}
-
-#[test]
-fn test_sfmt() -> UnitResult {
-    run_sfmt()
-}
-
 fn calc_mean(rng: &mut impl rand::Rng) -> f64 {
+    // to see `impl Rng for &mut R where R: Rng`, which prevent moving in `rng.sample_iter()`
+    use rand::Rng as _;
     const ITERATIONS: usize = 10000;
 
     // the stardard distribution for f64 generates a random rumber in interval [0, 1)
