@@ -25,7 +25,7 @@ fn do_allocate_heap() -> UnitResult {
 
     let mut rng = SmallRng::from_rng(thread_rng())?;
 
-    let v = rng
+    let v = (&mut rng)
         .sample_iter(&rand::distributions::Standard)
         .take(SIZE)
         .collect::<Vec<usize>>();
