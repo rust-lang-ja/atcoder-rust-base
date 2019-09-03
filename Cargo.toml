@@ -9,6 +9,10 @@ edition = "2018"
 name = "main"
 path = "src/main.rs"
 
+[features]
+jemalloc = ["jemalloc-ctl", "jemallocator"]
+default = ["jemalloc"]
+
 [dependencies]
 # AtCoder 2019年言語アップデート以降に使用できるクレート
 
@@ -70,8 +74,14 @@ ndarray = "=0.12.1"
 nalgebra = "=0.18.1"
 
 # 代替ヒープアロケータ。条件によってはシステムアロケータより速いことも
-jemallocator = "=0.3.2"
-jemalloc-ctl = "=0.3.3"
+[target.'cfg(not(windows))'.dependencies]
+jemallocator = { version = "=0.3.2", optional = true }
+jemalloc-ctl = { version = "=0.3.3", optional = true }
+
+[[test]]
+name = "jemallocator"
+path = "tests/test_jemallocator.rs"
+required-features = ["jemalloc"]
 
 # ---------------------------------------------------------------------
 
