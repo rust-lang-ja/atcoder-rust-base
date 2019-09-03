@@ -13,8 +13,7 @@ path = "src/main.rs"
 # AtCoder 2019年言語アップデート以降に使用できるクレート
 
 # 競技プログラミングの入出力サポート
-proconio = "=0.3.0"
-proconio-derive = "=0.1.5"
+proconio = { version = "=0.3.4", features = ["derive"] }
 
 # f64のOrd/Eq実装
 ordered-float = "=1.0.2"

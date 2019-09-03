@@ -49,8 +49,7 @@ dependencies = [
  "num 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ordered-float 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "permutohedron 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "proconio 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "proconio-derive 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "proconio 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand_chacha 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand_pcg 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -428,10 +427,11 @@ dependencies = [
 
 [[package]]
 name = "proconio"
-version = "0.3.0"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "proconio-derive 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -779,7 +779,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum ppv-lite86 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)" = "e3cbf9f658cdb5000fcf6f362b8ea2ba154b9f146a61c7a20d647034c6b6561b"
 "checksum proc-macro-hack 0.5.7 (registry+https://github.com/rust-lang/crates.io-index)" = "0c1dd4172a1e1f96f709341418f49b11ea6c2d95d53dca08c0f74cbd332d9cf3"
 "checksum proc-macro2 0.4.30 (registry+https://github.com/rust-lang/crates.io-index)" = "cf3d2011ab5c909338f7887f4fc896d35932e29146c12c8d01da6b22a80ba759"
-"checksum proconio 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "be9f4a2df92cbf40e170078ca07aff564233a9e00f8c34573d4cf6bc50b4afcf"
+"checksum proconio 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "f52d77f4e38736cf6e74cf5cb9bcc5da999d5823d01523395f25a9b80a81d517"
 "checksum proconio-derive 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "cbe4b8993fb10674fbc95383266dbb57608642c389134495e5f485a54d19fe3f"
 "checksum quote 0.6.12 (registry+https://github.com/rust-lang/crates.io-index)" = "faf4799c5d274f3868a4aae320a0a182cbd2baee377b378f080e16a23e9d80db"
 "checksum rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)" = "6d71dacdc3c88c1fde3885a3be3fbab9f35724e6ce99467f7d9c5026132184ca"

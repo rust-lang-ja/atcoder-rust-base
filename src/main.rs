@@ -26,7 +26,7 @@ fn main() -> UnitResult {
 // https://atcoder.jp/contests/abs/fasks/arc089_a
 
 // proconio
-#[proconio_derive::fastout]
+#[proconio::fastout]
 fn run_proconio() {
     use proconio::source::{line::LineSource, once::OnceSource, Source};
     use std::io::BufReader;
@@ -34,7 +34,7 @@ fn run_proconio() {
     run_proconio_for::<OnceSource<BufReader<&[u8]>>>();
     run_proconio_for::<LineSource<BufReader<&[u8]>>>();
 
-    #[proconio_derive::fastout]
+    #[proconio::fastout]
     fn run_proconio_for<'a, T: Source<BufReader<&'a [u8]>> + From<&'a str>>() {
         use proconio::input;
 
