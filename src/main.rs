@@ -12,9 +12,7 @@ fn main() -> UnitResult {
     run_superslice();
     run_itertools();
     run_rustc_hash();
-    run_hashbrown();
     // run_smallvec();
-    // run_arrayvec();
     // run_im_rc();
     // run_num();
     run_rand_family()?;
@@ -359,26 +357,7 @@ fn test_rustc_hash() {
     run_rustc_hash();
 }
 
-// hashbrown
-fn run_hashbrown() {
-    use hashbrown::HashMap;
-
-    let mut map = [('c', "Cindy"), ('a', "Alice"), ('b', "Bob")]
-        .iter()
-        .map(|(c, s)| (*c, s.to_string()))
-        .collect::<HashMap<_, _>>();
-    map.entry('d').or_insert("Denis".to_string());
-    map.insert('a', "Alexa".to_string());
-    assert_eq!(map.len(), 4);
-}
-
-#[test]
-fn test_hashbrown() {
-    run_hashbrown();
-}
-
 // smallvec
-// arrayvec
 
 // im-rc
 
