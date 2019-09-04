@@ -10,78 +10,70 @@ edition = "2018"
 name = "main"
 path = "src/main.rs"
 
-[dependencies]
 # AtCoder 2019年言語アップデート以降に使用できるクレート
-
+[dependencies.proconio]
 # 競技プログラミングの入出力サポート
-proconio = "=0.3.0"
-# proconio-derive = "=0.1.5"
+version = "=0.3.4"
+#features = ["derive"]
 
+[dependencies]
 # f64のOrd/Eq実装
-# ordered-float = "=1.0.2"
+#ordered-float = "=1.0.2"
 
 # 剰余関連。普通の整数型などと同じ感覚で扱うだけで自動的にmodを取ってくれる
 # 答えの整数をMで割った余りが要求される設問で便利
-# modtype = "=0.6.0"
+#modtype = "=0.7.0"
 
 # 英数字などのASCII文字専用の文字列。文字にインデックスでアクセスしたり
 # substringを簡単に作ったりできる
-# ascii = "=0.9.1"
+#ascii = "=1.0.0"
 
 # BitSet。C++のbitsetに相当
-# bitset-fixed = "=0.1.0"
+#bitset-fixed = "=0.1.0"
 
 # Permutation生成。C++のnext_permutationに相当する機能を提供
-# permutohedron = "=0.2.4"
+#permutohedron = "=0.2.4"
 
 # スライスの強化。C++のlower_bound, upper_boundに相当する機能を提供
-# superslice = "=1.0.0"
+#superslice = "=1.0.0"
 
 # イテレータの強化
-# itertools = "=0.8.0"
+#itertools = "=0.8.0"
 
 # 高速なハッシュ関数
-# rustc-hash = "=1.0.1"
-
-# 高速なHashMap
-# Rust 1.36.0からは標準ライブラリのHashMapがこれに置き換わる。（AtCoder 2019年言語
-# アップデートではそれより古い1.35.0を採用）　ハッシュ関数として従来のSipHashが用いられる
-# ことに注意。（SipHashは暗号強度を持つため計算量が多く低速）
-# hashbrown = "=0.4.0"
+#rustc-hash = "=1.0.1"
 
 # 固定配列上のベクタ。ヒープ領域でなくスタック領域にアロケートされるので高速かもしれない
-# smallvec = "=0.6.10"
-# arrayvec = "=0.4.10"
+#smallvec = "=0.6.10"
 
 # 標準ライブラリのVecやHashMapに対応する永続データ構造
 # 永続データ構造は関数型言語によく見られるデータ構造で、要素を更新しても、そのデータ構造の
 # 以前のバージョンにアクセスできる。（更新の度に差分が記録されていくイメージ）
-# im    = "=13.0.0"   # スレッドセーフ
-# im-rc = "=13.0.0"   # スレッドセーフでないが高速
+#im-rc = "=13.0.0"
 
 # 多バイト長整数、分数、複素数など
-# num = "=0.2.0"
+#num = "=0.2.0"
 
 # RNG 疑似乱数生成器 (randファミリー)
-# rand = "=0.6.5"
-# rand_chacha = "=0.1.1"
-# rand_pcg = "=0.1.2"
-
-# RNG 疑似乱数生成器 (SFMT)
-# SIMD-oriented Fast Mersenne Twister (SFMT)のpure Rust実装
-# 高速で高品質な疑似乱数を生成。モンテカルロ・シミュレーションに適している
-# sfmt = "=0.5.0"
+#rand = { version = "=0.7.0", features = ["small_rng"] }
+#rand_chacha = "=0.2.1"
+#rand_pcg = "=0.2.0"
 
 # 正規表現
-# regex = "=1.1.7"
+#regex = "=1.3.0"
 
 # staticアイテムの遅延初期化
-# lazy_static = "=1.3.0"
-# once_cell = "=0.2.1"
+#lazy_static = "=1.4.0"
+
+# 多次元配列
+#ndarray = "=0.12.1"
+
+# 線形代数
+#nalgebra = "=0.18.1"
 
 # 代替ヒープアロケータ。条件によってはシステムアロケータより速いことも
-# jemallocator = "=0.3.2"
-# jemalloc-ctl = "=0.3.3"
+#jemallocator = "=0.3.2"
+#jemalloc-ctl = "=0.3.3"
 
 # ---------------------------------------------------------------------
 
