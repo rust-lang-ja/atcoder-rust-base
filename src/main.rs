@@ -252,8 +252,8 @@ fn test_ascii() -> UnitResult {
 // This code was taken from an example on: https://crates.io/crates/bitset-fixed
 fn run_bitset_fixed() {
     use bitset_fixed::BitSet;
-    use rand::distributions::Uniform;
     use rand::prelude::*;
+    use rand_distr::Uniform;
 
     let rng = StdRng::seed_from_u64(114514);
     let dist = Uniform::from(0..2000);
@@ -367,22 +367,32 @@ fn test_rustc_hash() {
 fn run_rand_family() -> UnitResult {
     use rand::prelude::*;
     use rand_chacha::ChaChaRng;
+    use rand_distr::{Normal, Uniform};
     use rand_pcg::Pcg64Mcg;
 
-    let mut rng = SmallRng::from_rng(thread_rng())?;
-    let mean = calc_mean(&mut rng);
-    println!("SmallRng: mean = {:.4}", mean);
-    assert_eq!((mean * 10.0).round() as u32, 5);
+    macro_rules! test_mean {
+        ($($rng:ident @ $distr:expr,)*) => {
+            $(
+                let mut rng = $rng::from_rng(thread_rng())?;
+                let mean = calc_mean(&mut rng, &$distr);
+                println!("{}: mean = {:.4}", stringify!($rng), mean);
+                assert_eq!((mean * 10.0).round() as u32, 5);
+            )*
+        };
+    }
 
-    let mut rng = Pcg64Mcg::from_rng(thread_rng())?;
-    let mean = calc_mean(&mut rng);
-    println!("ChaChaRng: mean = {:.4}", mean);
-    assert_eq!((mean * 10.0).round() as u32, 5);
+    let distr_normal = Normal::new(0.5, 1.0).unwrap();
+    let distr_uniform = Uniform::from(0.0..1.0);
 
-    let mut rng = ChaChaRng::from_rng(thread_rng())?;
-    let mean = calc_mean(&mut rng);
-    println!("Pcg64Mcg: mean = {:.4}", mean);
-    assert_eq!((mean * 10.0).round() as u32, 5);
+    test_mean! {
+        SmallRng  @ distr_uniform,
+        ChaChaRng @ distr_uniform,
+        Pcg64Mcg  @ distr_uniform,
+
+        SmallRng  @ distr_normal,
+        ChaChaRng @ distr_normal,
+        Pcg64Mcg  @ distr_normal,
+    }
 
     Ok(())
 }
@@ -392,13 +402,13 @@ fn test_rand_family() -> UnitResult {
     run_rand_family()
 }
 
-fn calc_mean(rng: &mut impl rand::Rng) -> f64 {
-    // to see `impl Rng for &mut R where R: Rng`, which prevent moving in `rng.sample_iter()`
-    use rand::Rng as _;
+fn calc_mean<D: rand_distr::Distribution<f64>>(rng: &mut impl rand::Rng, distr: &D) -> f64 {
+    use rand::Rng;
+
     const ITERATIONS: usize = 10000;
 
     // the stardard distribution for f64 generates a random rumber in interval [0, 1)
-    rng.sample_iter::<f64, _>(&rand::distributions::Standard)
+    rng.sample_iter::<f64, _>(distr)
         .take(ITERATIONS)
         .enumerate()
         // calculate the mean iteratively. https://stackoverflow.com/a/1934266
