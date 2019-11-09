@@ -225,7 +225,7 @@ fn run_ascii() -> UnitResult {
     use std::str::FromStr;
 
     let s = AsciiString::from_str("2019-07-01")?;
-    let mut ix = s.as_str().match_indices("-");
+    let mut ix = s.as_str().match_indices('-');
     let (i0, _) = ix.next().ok_or_else(|| "got none")?;
     let (i1, _) = ix.next().ok_or_else(|| "got none")?;
 
@@ -255,7 +255,7 @@ fn run_bitset_fixed() {
     use rand::prelude::*;
     use rand_distr::Uniform;
 
-    let rng = StdRng::seed_from_u64(114514);
+    let rng = StdRng::seed_from_u64(114_514);
     let dist = Uniform::from(0..2000);
 
     let n = rng
@@ -345,9 +345,9 @@ fn run_rustc_hash() {
 
     let mut map = [('c', "Cindy"), ('a', "Alice"), ('b', "Bob")]
         .iter()
-        .map(|(c, s)| (*c, s.to_string()))
+        .map(|&(c, s)| (c, s.to_string()))
         .collect::<FxHashMap<_, _>>();
-    map.entry('d').or_insert("Denis".to_string());
+    map.entry('d').or_insert_with(|| "Denis".to_string());
     map.insert('a', "Alexa".to_string());
     assert_eq!(map.len(), 4);
 }
@@ -417,6 +417,7 @@ fn calc_mean<D: rand_distr::Distribution<f64>>(rng: &mut impl rand::Rng, distr: 
 
 // regex and lazy_static
 // these codes were taken from examples on: https://docs.rs/regex/1.1.7/regex/
+#[allow(clippy::trivial_regex)]
 fn run_regex() -> UnitResult {
     use lazy_static::lazy_static;
     use regex::{Regex, RegexSet};
