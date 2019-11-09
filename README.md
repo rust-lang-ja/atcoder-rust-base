@@ -2,6 +2,8 @@
 
 # AtCoder Rust Base (`ja-all-enabled`)
 
+[![CI](https://github.com/rust-lang-ja/atcoder-rust-base/workflows/CI/badge.svg)](https://github.com/rust-lang-ja/atcoder-rust-base/actions?workflow=CI)
+
 このリポジトリには[AtCoder][atcoder]コンテスト（競技プログラミング）にRustで参加するためのCargoパッケージテンプレートが用意されています。
 パッケージは[cargo-generate][cargo-generate-crate]で作成します。
 
