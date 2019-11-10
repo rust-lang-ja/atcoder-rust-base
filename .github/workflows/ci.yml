@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  push:
+  pull_request:
+
+jobs:
+  rustfmt:
+    strategy:
+      fail-fast: false
+      matrix:
+        # Breaking changes like this might be mixed into the future stable versions.
+        # https://github.com/rust-lang/rustfmt/pull/3632
+        channel:
+          - 1.38.0
+          - stable
+
+    name: Rustfmt (${{ matrix.channel }})
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.channel }}-x86_64-unknown-linux-gnu
+          override: true
+          profile: default
+
+      - name: '`cargo fmt -- --check`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          # `x86_64-pc-windows-msvc` is tier 1 **for now**.
+          - 1.38.0-x86_64-pc-windows-msvc
+          - 1.38.0-x86_64-pc-windows-gnu
+          - 1.38.0-x86_64-apple-darwin
+          - 1.38.0-x86_64-unknown-linux-gnu
+          - stable-x86_64-pc-windows-msvc
+          - stable-x86_64-pc-windows-gnu
+          - stable-x86_64-apple-darwin
+          - stable-x86_64-unknown-linux-gnu
+          - beta-x86_64-pc-windows-msvc
+          - beta-x86_64-pc-windows-gnu
+          - beta-x86_64-apple-darwin
+          - beta-x86_64-unknown-linux-gnu
+        include:
+          - toolchain: 1.38.0-x86_64-pc-windows-msvc
+            os: windows-latest
+          - toolchain: 1.38.0-x86_64-pc-windows-gnu
+            os: windows-latest
+          - toolchain: 1.38.0-x86_64-apple-darwin
+            os: macOS-latest
+          - toolchain: 1.38.0-x86_64-unknown-linux-gnu
+            os: ubuntu-18.04
+          - toolchain: stable-x86_64-pc-windows-msvc
+            os: windows-latest
+          - toolchain: stable-x86_64-pc-windows-gnu
+            os: windows-latest
+          - toolchain: stable-x86_64-apple-darwin
+            os: macOS-latest
+          - toolchain: stable-x86_64-unknown-linux-gnu
+            os: ubuntu-18.04
+          - toolchain: beta-x86_64-pc-windows-msvc
+            os: windows-latest
+          - toolchain: beta-x86_64-pc-windows-gnu
+            os: windows-latest
+          - toolchain: beta-x86_64-apple-darwin
+            os: macOS-latest
+          - toolchain: beta-x86_64-unknown-linux-gnu
+            os: ubuntu-18.04
+
+    name: ${{ matrix.toolchain }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: '`git config --global core.autocrlf false`'
+        run: git config --global core.autocrlf false
+        if: matrix.os == 'windows-latest'
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          override: true
+          profile: default
+
+      - name: Determine features
+        id: features
+        run: |
+          if ${{ matrix.os == 'windows-latest' }}; then
+            echo '::set-output name=features::--no-default-features'
+          else
+            echo '::set-output name=features::--all-features'
+          fi
+        shell: bash
+
+      - name: '`cargo clippy`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: ${{ steps.features.outputs.features }} -- -D warnings
+
+      - name: '`cargo test`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: ${{ steps.features.outputs.features }} --no-fail-fast
+
+      - name: '`cargo run --release`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: ${{ steps.features.outputs.features }} --release

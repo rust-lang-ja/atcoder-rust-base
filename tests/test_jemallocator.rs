@@ -21,7 +21,7 @@ fn do_allocate_heap() -> UnitResult {
     use jemalloc_ctl::{epoch, stats};
     use rand::prelude::*;
 
-    const SIZE: usize = 100000;
+    const SIZE: usize = 100_000;
 
     let mut rng = SmallRng::from_rng(thread_rng())?;
 
