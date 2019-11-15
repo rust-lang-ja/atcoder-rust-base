@@ -19,6 +19,8 @@ default = ["jemalloc"]
 # 多バイト長整数、分数、複素数など
 num = "=0.2.0"
 num-derive = "=0.3.0"
+# num-derive が依存するため必要
+num-traits = "=0.2.9"
 
 # 多次元配列
 ndarray = "=0.13.0"
