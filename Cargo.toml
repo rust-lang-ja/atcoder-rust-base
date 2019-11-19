@@ -88,6 +88,9 @@ itertools-num = "=0.1.3"
 # `&mut T`から`T`を『借りる』
 take_mut = "=0.2.2"
 
+# 1行で書ける`macro_rules`
+defmac = "=0.2.1"
+
 # シンプルなマクロの詰め合せ
 mac = "=0.1.1"
 
