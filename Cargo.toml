@@ -26,23 +26,23 @@ num-traits = "=0.2.9"
 ndarray = "=0.13.0"
 
 # 線形代数
-nalgebra = "=0.18.1"
+nalgebra = "=0.19.0"
 alga = "=0.9.2"
 
 # libmのRust実装
-libm = "=0.1.4"
+libm = "=0.2.0"
 
 # RNG 疑似乱数生成器 (randファミリー)
 rand = { version = "=0.7.2", features = ["small_rng"] }
 rand_chacha = "=0.2.1"
-rand_pcg = "=0.2.0"
+rand_pcg = "=0.2.1"
 rand_distr = "=0.2.2"
 
 # グラフ
 petgraph = "=0.4.13"
 
 # 幾何
-euclid = "=0.20.3"
+euclid = "=0.20.4"
 
 # 素数
 primal = "=0.2.3"
@@ -101,7 +101,7 @@ if_chain = "=1.0.0"
 maplit = "=1.0.2"
 
 # `std`のトレイトに対応するderive macro
-derive_more = "=0.99.1"
+derive_more = "=0.99.2"
 
 # メソッド`new`を生やすderive macro
 derive-new = "=0.5.8"
@@ -112,7 +112,7 @@ either = "1.5.3"
 # 標準ライブラリのVecやHashMapに対応する永続データ構造
 # 永続データ構造は関数型言語によく見られるデータ構造で、要素を更新しても、そのデータ構造の
 # 以前のバージョンにアクセスできる。（更新の度に差分が記録されていくイメージ）
-im-rc = "=13.0.0"
+im-rc = "=14.0.0"
 
 # 可変長bit set。
 fixedbitset = "=0.2.0"
