@@ -5,6 +5,9 @@ name = "atcoder-rust-base"
 version = "0.1.0"
 edition = "2018"
 
+[workspace]
+exclude = ["./dep-tests"]
+
 [[bin]]
 name = "main"
 path = "src/main.rs"
