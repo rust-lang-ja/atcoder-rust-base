@@ -1,3 +1,5 @@
 /target/
+/dep-tests/Cargo.lock
+/dep-tests/target/
 **/*.rs.bk
 **/*~

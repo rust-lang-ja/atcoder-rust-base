@@ -1,0 +1,2 @@
+[alias]
+dep-tests = ["run", "--manifest-path", "./dep-tests/Cargo.toml", "--"]

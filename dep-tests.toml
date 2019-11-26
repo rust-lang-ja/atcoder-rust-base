@@ -1,0 +1,17 @@
+exclude = [
+  "c2-chacha:0.2.3",       # よくわからない理由でビルドに失敗する
+  "derive_more:0.99.2",    # 必要なファイルがexcludeされている
+  "jemallocator:0.3.2",    # よくわからない理由でビルドに失敗する
+  "libm:0.1.4",            # `#![deny(warnings)]`
+  "mac:0.1.1",             # `#![deny(warnings)]`
+  "nom:5.0.1",             # 必要なファイルがexcludeされている
+  "num-rational:0.2.2",    # よくわからない理由でビルドに失敗する
+  "petgraph:0.4.13",       # よくわからない理由で実行時に失敗する
+  "primal:0.2.3",          # 最終リリース日が古すぎて"normalizing"が行なわれておらず、workspace membersが相対パスのまま
+  "primal-estimate:0.2.1", # 最終リリース日が古すぎて"normalizing"が行なわれておらず、workspace membersが相対パスのまま
+  "proc-macro2:1.0.6",     # よくわからない理由でビルドに失敗する
+  "rand_core:0.3.1",       # よくわからない理由でビルドに失敗する
+  # "smallvec:1.0.0",       # 成功はするが謎のエラーが表示される
+  "syn:0.15.44",           # よくわからない理由でビルドに失敗する
+  "syn:1.0.8",             # よくわからない理由でビルドに失敗する
+]
