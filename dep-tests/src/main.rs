@@ -1,12 +1,13 @@
 use cargo::core::compiler::{self, CompileMode, TargetInfo};
-use cargo::core::dependency;
+use cargo::core::dependency::{self, Dependency};
 use cargo::core::package::{Package, PackageSet};
 use cargo::core::resolver::ResolveOpts;
 use cargo::core::shell::{Shell, Verbosity};
-use cargo::core::{PackageId, PackageIdSpec, Resolve, Workspace};
-use cargo::ops::{Packages, TestOptions};
+use cargo::core::{PackageIdSpec, Resolve, Workspace};
+use cargo::ops::{CompileFilter, CompileOptions, FilterRule, LibRule, Packages, TestOptions};
 use cargo::util::command_prelude::{App, AppExt as _, AppSettings, ArgMatchesExt as _};
 use cargo::{CliError, CliResult};
+use either::Either;
 use failure::{format_err, Fail as _, Fallible};
 use itertools::Itertools as _;
 use maplit::btreeset;
@@ -14,9 +15,10 @@ use once_cell::sync::Lazy;
 use serde::Deserialize;
 use structopt::StructOpt;
 
+use std::borrow::Borrow;
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use std::env;
-use std::fmt::{Display, Write as _};
+use std::fmt::Display;
 use std::num::NonZeroUsize;
 use std::path::{Path, PathBuf};
 use std::process::ExitStatus;
@@ -65,7 +67,7 @@ struct Opt {
         value_name("SPEC"),
         number_of_values(1),
         parse(try_from_str = PackageIdSpec::parse),
-        help("**Dependency** to run test for")
+        help("Package to run test for")
     )]
     package: Vec<PackageIdSpec>,
     #[structopt(
@@ -84,8 +86,6 @@ struct Opt {
         help("How deep in the dependency chain to search")
     )]
     depth: Option<NonZeroUsize>,
-    #[structopt(long, value_name("N"), help("Skips the first N packages"))]
-    skip: Option<NonZeroUsize>,
     #[structopt(
         default_value_os({
             static DEFAULT: Lazy<PathBuf> =
@@ -110,14 +110,14 @@ impl Opt {
             &[],
         )?;
 
-        let DepTestsConfig { exclude } = DepTestsConfig::load(config)?;
+        let DepTestsConfig { exclude, filter } = DepTestsConfig::load(config)?;
 
         let ws = Workspace::new(&config.cwd().join(MANIFEST_PATH), config)?;
 
         let (packages, resolve) = cargo::ops::resolve_ws_with_opts(
             &ws,
             ResolveOpts::new(
-                false,
+                true,
                 &self.features,
                 self.all_features,
                 self.no_default_features,
@@ -125,34 +125,35 @@ impl Opt {
             &Packages::Default.to_package_id_specs(&ws)?,
         )?;
 
-        let (normal_deps, packages) = (
-            find_normal_deps(&ws, &resolve, self.depth)?,
-            filter_packages(&packages, &self.package, &exclude)?,
-        );
+        let dev_pkgs = filter_packages(&ws, &packages, &resolve, None, |_| true)?;
+        let (dev_deps_free_pkgs, target_pkgs) =
+            filter_packages(&ws, &packages, &resolve, self.depth, |d| {
+                d.kind() == dependency::Kind::Normal
+            })?
+            .iter()
+            .copied()
+            .filter(|pkg| {
+                let (id, include) = (pkg.package_id(), &self.package);
+                include.iter().any(|s| s.matches(id))
+                    || include.is_empty() && !exclude.iter().any(|s| s.matches(id))
+            })
+            .partition(|pkg| pkg.dependencies().iter().all(|d| d.is_transitive()));
 
-        let wss = setup_workspaces(config, &self.dir, &normal_deps, &packages)?;
-        for (i, (id, ws)) in wss.iter().enumerate().skip(self.skip()) {
-            let mut msg = format!("Testing `{}` ({}/{})", id, i + 1, wss.len());
-            if let Some(skip) = self.skip {
-                write!(msg, " (skipping the first {} package(s))", skip).unwrap();
-            }
-            config.shell().info(msg)?;
-            run_tests(&resolve, *id, ws)?;
-        }
+        let new_ws = setup_workspace(config, &self.dir, &dev_pkgs, &target_pkgs, &resolve)?;
 
+        run_tests(&ws, dev_deps_free_pkgs, &filter)?;
+        run_tests(&new_ws, new_ws.members(), &filter)?;
         config.shell().info("Successful!").map_err(Into::into)
-    }
-
-    fn skip(&self) -> usize {
-        self.skip.map(NonZeroUsize::get).unwrap_or_default()
     }
 }
 
-fn find_normal_deps(
-    ws: &Workspace,
+fn filter_packages<'a>(
+    ws: &'a Workspace,
+    packages: &'a PackageSet,
     resolve: &Resolve,
     depth: Option<NonZeroUsize>,
-) -> Fallible<BTreeSet<PackageId>> {
+    extra_pred: fn(&Dependency) -> bool,
+) -> Fallible<BTreeSet<&'a Package>> {
     let rustc = ws.config().load_global_rustc(Some(&ws))?;
     let host_triple = &rustc.host;
     let target_info = TargetInfo::new(
@@ -162,21 +163,21 @@ fn find_normal_deps(
         compiler::Kind::Host,
     )?;
 
-    let member = ws.current()?.package_id();
-    let mut normal_deps = btreeset!(member);
-    let mut cur = btreeset!(member);
+    let mut outcome = btreeset!(ws.current()?);
+    let mut cur = outcome.clone();
     let mut depth = depth.map(NonZeroUsize::get);
     while !cur.is_empty() && depth.map_or(true, |d| d > 0) {
         let mut next = btreeset!();
         for from in cur {
-            for (to, deps) in resolve.deps(from) {
+            for (to, deps) in resolve.deps(from.package_id()) {
+                let to = packages.get_one(to)?;
                 for dep in deps {
-                    if dep.kind() == dependency::Kind::Normal // `dep` may be a build-dependency.
-                        && dep
-                            .platform()
-                            .as_ref()
-                            .map_or(true, |p| p.matches(host_triple, target_info.cfg()))
-                        && normal_deps.insert(to)
+                    if dep
+                        .platform()
+                        .as_ref()
+                        .map_or(true, |p| p.matches(host_triple, target_info.cfg()))
+                        && extra_pred(dep)
+                        && outcome.insert(to)
                     {
                         next.insert(to);
                     }
@@ -187,116 +188,229 @@ fn find_normal_deps(
         depth = depth.map(|d| d - 1);
     }
     for member in ws.members() {
-        normal_deps.remove(&member.package_id());
+        outcome.remove(member);
     }
-    Ok(normal_deps)
+    Ok(outcome)
 }
 
-fn filter_packages<'a>(
-    packages: &'a PackageSet,
-    include: &[PackageIdSpec],
-    exclude: &HashSet<PackageIdSpec>,
-) -> Fallible<HashMap<PackageId, &'a Package>> {
-    let packages = packages.get_many(packages.package_ids())?;
-    Ok(packages
-        .into_iter()
-        .map(|p| (p.package_id(), p))
-        .filter(|&(id, _)| {
-            (include.is_empty() || include.iter().any(|s| s.matches(id)))
-                && !exclude.iter().any(|s| s.matches(id))
-        })
-        .collect::<HashMap<_, _>>())
-}
-
-fn setup_workspaces<'cfg>(
+fn setup_workspace<'cfg>(
     config: &'cfg cargo::Config,
     root: &Path,
-    normal_deps: &BTreeSet<PackageId>,
-    packages: &HashMap<PackageId, &Package>,
-) -> Fallible<BTreeMap<PackageId, Workspace<'cfg>>> {
-    let wss = normal_deps
+    pkgs_to_build: &BTreeSet<&Package>,
+    pkgs_to_test: &BTreeSet<&Package>,
+    resolve: &Resolve,
+) -> Fallible<Workspace<'cfg>> {
+    let deps = pkgs_to_build
         .iter()
-        .flat_map(|d| packages.get(d))
         .map(|dep| {
-            let src = dep.root();
-            let dst = root.join(src.file_name().unwrap_or_default());
-            let dst = cargo::util::paths::normalize_path(&if dst.is_relative() {
-                config.cwd().join(dst)
+            let path_or_version = if pkgs_to_test.contains(dep) {
+                let src = dep.root();
+                let dst = root.join(src.file_name().unwrap_or_default());
+                let dst = cargo::util::paths::normalize_path(&if dst.is_relative() {
+                    config.cwd().join(dst)
+                } else {
+                    dst
+                });
+
+                config
+                    .shell()
+                    .info(format!("Copying {} to {}", src.display(), dst.display()))?;
+
+                fs_extra::dir::copy(
+                    src,
+                    &dst,
+                    &fs_extra::dir::CopyOptions {
+                        skip_exist: true,
+                        copy_inside: true,
+                        ..fs_extra::dir::CopyOptions::new()
+                    },
+                )?;
+
+                Either::Left(format!(
+                    "./{}",
+                    dst.file_name()
+                        .unwrap_or_default()
+                        .to_str()
+                        .expect("the directory names should be <name>-<version>")
+                ))
             } else {
-                dst
-            });
-
-            config
-                .shell()
-                .info(&format!("Copying {} to {}", src.display(), dst.display()))?;
-
-            fs_extra::dir::copy(
-                src,
-                &dst,
-                &fs_extra::dir::CopyOptions {
-                    skip_exist: true,
-                    copy_inside: true,
-                    ..fs_extra::dir::CopyOptions::new()
-                },
-            )?;
-
-            let ws = Workspace::new(&dst.join("Cargo.toml"), config)?;
-            Ok((dep.package_id(), ws))
+                Either::Right(dep.package_id().version())
+            };
+            let features = resolve.features_sorted(dep.package_id());
+            Ok((dep.package_id(), (path_or_version, features)))
         })
         .collect::<Fallible<BTreeMap<_, _>>>()?;
 
-    for ws in wss.values() {
-        let src = cargo::util::paths::normalize_path(&config.cwd().join("Cargo.lock"));
-        let dst = ws.root().join("Cargo.lock");
-
-        config
-            .shell()
-            .info(&format!("Copying {} to {}", src.display(), dst.display()))?;
-
-        fs_extra::file::copy(
-            src,
-            dst,
-            &fs_extra::file::CopyOptions {
-                overwrite: true,
-                ..fs_extra::file::CopyOptions::new()
-            },
-        )?;
+    for (path_or_version, _) in deps.values() {
+        if let Either::Left(path) = path_or_version {
+            let manifest_path = root.join(path).join("Cargo.toml");
+            let manifest_path = cargo::util::paths::normalize_path(&manifest_path);
+            let mut cargo_toml =
+                cargo::util::paths::read(&manifest_path)?.parse::<toml_edit::Document>()?;
+            cargo_toml.as_table_mut().remove("profile");
+            cargo::util::paths::write(&manifest_path, cargo_toml.to_string().as_ref())?;
+            config
+                .shell()
+                .info(format!("Modified {}", manifest_path.display()))?;
+        }
     }
-    Ok(wss)
+
+    let src = cargo::util::paths::normalize_path(&config.cwd().join("Cargo.lock"));
+    let dst = root.join("Cargo.lock");
+
+    config
+        .shell()
+        .info(&format!("Copying {} to {}", src.display(), dst.display()))?;
+
+    fs_extra::file::copy(
+        src,
+        dst,
+        &fs_extra::file::CopyOptions {
+            overwrite: true,
+            ..fs_extra::file::CopyOptions::new()
+        },
+    )?;
+
+    let mut cargo_toml = r#"[package]
+name = "atcoder-rust-base-dep-tests"
+version = "0.0.0"
+edition = "2018"
+publish = false
+
+[workspace]
+members = []
+
+[patch.crates-io]
+"#
+    .parse::<toml_edit::Document>()
+    .unwrap();
+
+    cargo_toml["workspace"]["members"] = {
+        let mut workspace = toml_edit::Array::default();
+        for (path_or_version, _) in deps.values() {
+            if let Either::Left(path) = path_or_version {
+                workspace.push(&**path);
+            }
+        }
+        toml_edit::value(workspace)
+    };
+
+    for (id, (path_or_version, _)) in &deps {
+        if let Either::Left(path) = path_or_version {
+            cargo_toml["patch"]["crates-io"][&*id.name()]["path"] = toml_edit::value(&**path);
+        }
+    }
+
+    cargo_toml["dependencies"] = toml_edit::table();
+    for (i, (id, (path_or_version, features))) in deps.iter().enumerate() {
+        let dummy_extern_crate_name = format!("_{}", i);
+        let mut val = toml_edit::InlineTable::default();
+        val.get_or_insert("package", &*id.name());
+        match path_or_version {
+            Either::Left(path) => val.get_or_insert("path", &**path),
+            Either::Right(version) => val.get_or_insert("version", format!("={}", version)),
+        };
+        val.get_or_insert("default-features", false);
+        let mut val_features = toml_edit::Array::default();
+        for &feature in features {
+            val_features.push(feature);
+        }
+        val.get_or_insert("features", val_features);
+        cargo_toml["dependencies"][&dummy_extern_crate_name] = toml_edit::value(val);
+    }
+
+    let manifest_path = root.join("Cargo.toml");
+    cargo::util::paths::write(&manifest_path, cargo_toml.to_string().as_ref())?;
+    config
+        .shell()
+        .info(format!("Wrote {}", manifest_path.display()))?;
+
+    let src_dir = root.join("src");
+    cargo::util::paths::create_dir_all(&src_dir)?;
+    let src_path = src_dir.join("lib.rs");
+    cargo::util::paths::write(&src_path, b"")?;
+    config
+        .shell()
+        .info(format!("Wrote {}", src_path.display()))?;
+
+    Workspace::new(&manifest_path, config)
 }
 
-fn run_tests(resolve: &Resolve, id: PackageId, ws: &Workspace) -> CliResult {
-    // `ws.current()?.package_id().source_id()` differs to `id.source_id()`.
+fn run_tests<I: IntoIterator<Item = P>, P: Borrow<Package>>(
+    ws: &Workspace,
+    pkgs: I,
+    filter: &HashMap<PackageIdSpec, DepTestsConfigFilter>,
+) -> CliResult {
+    fn run_tests(
+        ws: &Workspace,
+        pkg: &Package,
+        modify_compile_opts: impl FnOnce(&mut CompileOptions),
+    ) -> CliResult {
+        let spec = PackageIdSpec::from_package_id(pkg.package_id()).to_string();
+        let mut compile_opts = App::new("")
+            .arg_package("")
+            .get_matches_from_safe(&["", "-p", &spec])?
+            .compile_options(ws.config(), CompileMode::Test, Some(ws))?;
+        modify_compile_opts(&mut compile_opts);
 
-    let compile_opts = {
-        let features = resolve.features(id);
-        let mut args = vec!["".to_owned(), "--no-default-features".to_owned()];
-        if !features.is_empty() {
-            args.push("--features".to_owned());
-            args.push(features.iter().join(" "));
+        let test_opts = TestOptions {
+            compile_opts,
+            no_run: false,
+            no_fail_fast: false,
+        };
+
+        if let Some(err) = cargo::ops::run_tests(&ws, &test_opts, &[])? {
+            return Err(match err.exit.as_ref().and_then(ExitStatus::code) {
+                Some(code) => {
+                    let hint = format_err!("{}", err.hint(&ws, &test_opts.compile_opts));
+                    CliError::new(err.context(hint).into(), code)
+                }
+                None => CliError::new(err.into(), 101),
+            });
         }
-        App::new("")
-            .arg_features()
-            .get_matches_from_safe(args)?
-            .compile_options(ws.config(), CompileMode::Test, Some(ws))?
-    };
-
-    let test_opts = TestOptions {
-        compile_opts,
-        no_run: false,
-        no_fail_fast: false,
-    };
-
-    match cargo::ops::run_tests(&ws, &test_opts, &[])? {
-        None => Ok(()),
-        Some(err) => Err(match err.exit.as_ref().and_then(ExitStatus::code) {
-            Some(code) => {
-                let hint = format_err!("{}", err.hint(&ws, &test_opts.compile_opts));
-                CliError::new(err.context(hint).into(), code)
-            }
-            None => CliError::new(err.into(), 101),
-        }),
+        Ok(())
     }
+
+    fn default_compile_filter() -> CompileFilter {
+        CompileFilter::new(
+            LibRule::True,
+            FilterRule::none(),
+            FilterRule::none(),
+            FilterRule::none(),
+            FilterRule::none(),
+        )
+    }
+
+    for pkg in pkgs {
+        let pkg = pkg.borrow();
+        let filter = match filter
+            .iter()
+            .filter(|(k, _)| k.matches(pkg.package_id()))
+            .map(|(_, v)| v.clone())
+            .exactly_one()
+        {
+            Ok(filter) => Some(filter),
+            Err(err) => match err.count() {
+                0 => None,
+                n => return Err(format_err!("`{}` matches {} specs", pkg, n).into()),
+            },
+        };
+
+        run_tests(ws, pkg, |mut compile_opts| {
+            compile_opts.filter = filter
+                .as_ref()
+                .map(DepTestsConfigFilter::compile_filter)
+                .unwrap_or_else(default_compile_filter);
+        })?;
+
+        if filter.map_or(true, |DepTestsConfigFilter { doc, .. }| doc) {
+            run_tests(ws, pkg, |mut compile_opts| {
+                compile_opts.build_config.mode = CompileMode::Doctest;
+                compile_opts.filter = default_compile_filter();
+            })?;
+        }
+    }
+    Ok(())
 }
 
 trait ShellExt {
@@ -324,6 +438,7 @@ impl ShellExt for Shell {
 #[derive(Deserialize, Debug)]
 struct DepTestsConfig {
     exclude: HashSet<PackageIdSpec>,
+    filter: HashMap<PackageIdSpec, DepTestsConfigFilter>,
 }
 
 impl DepTestsConfig {
@@ -333,5 +448,37 @@ impl DepTestsConfig {
         let this = toml::from_str(&toml)?;
         config.shell().info(format!("Loaded {}", path.display()))?;
         Ok(this)
+    }
+}
+
+#[derive(Deserialize, Default, Debug, Clone, PartialEq)]
+struct DepTestsConfigFilter {
+    #[serde(default)]
+    doc: bool,
+    #[serde(default)]
+    lib: bool,
+    #[serde(default)]
+    bin: BTreeSet<String>,
+    #[serde(default)]
+    example: BTreeSet<String>,
+    #[serde(default)]
+    test: BTreeSet<String>,
+    #[serde(default)]
+    bench: BTreeSet<String>,
+}
+
+impl DepTestsConfigFilter {
+    fn compile_filter(&self) -> CompileFilter {
+        CompileFilter::new(
+            if self.lib {
+                LibRule::True
+            } else {
+                LibRule::False
+            },
+            FilterRule::new(self.bin.iter().cloned().collect(), false),
+            FilterRule::new(self.test.iter().cloned().collect(), false),
+            FilterRule::new(self.example.iter().cloned().collect(), false),
+            FilterRule::new(self.bench.iter().cloned().collect(), false),
+        )
     }
 }
