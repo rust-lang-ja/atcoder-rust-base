@@ -35,56 +35,20 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --all -- --check
+          args: -- --check
 
-  dep-tests:
-    strategy:
-      fail-fast: false
-
-    name: dep-tests
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: rust-toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.38.0-x86_64-unknown-linux-gnu
-          override: true
-          profile: default
-
-      - name: '`cargo fmt --all --manifest-path ./dep-tests/Cargo.toml -- --check`'
+      - name: '`cargo fmt --manifest-path ./dep-tests/Cargo.toml -- --check`'
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --all --manifest-path ./dep-tests/Cargo.toml -- --check
-
-      - name: '`cargo clippy --manifest-path ./dep-tests/Cargo.toml -- -D warnings`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --manifest-path ./dep-tests/Cargo.toml -- -D warnings
-
-      - name: '`cargo test --no-fail-fast --manifest-path ./dep-tests/Cargo.toml`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --no-fail-fast --manifest-path ./dep-tests/Cargo.toml
-
-      - name: '`cargo dep-tests --all-features -d 1`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: dep-tests
-          args: --all-features -d 1
+          args: --manifest-path ./dep-tests/Cargo.toml -- --check
 
   build:
     strategy:
       fail-fast: false
       matrix:
         toolchain:
-          # `x86_64-pc-windows-msvc` is tier 1 **for now**.
+          # `x86_64-pc-windows-gnu` is tier 1 **for now**.
           - 1.38.0-x86_64-pc-windows-msvc
           - 1.38.0-x86_64-pc-windows-gnu
           - 1.38.0-x86_64-apple-darwin
@@ -99,28 +63,52 @@ jobs:
           - beta-x86_64-unknown-linux-gnu
         include:
           - toolchain: 1.38.0-x86_64-pc-windows-msvc
+            features: --no-default-features
+            dep_tests: true
             os: windows-latest
           - toolchain: 1.38.0-x86_64-pc-windows-gnu
+            features: --no-default-features
+            dep_tests: false
             os: windows-latest
           - toolchain: 1.38.0-x86_64-apple-darwin
+            features: --all-features
+            dep_tests: true
             os: macOS-latest
           - toolchain: 1.38.0-x86_64-unknown-linux-gnu
+            features: --all-features
+            dep_tests: true
             os: ubuntu-18.04
           - toolchain: stable-x86_64-pc-windows-msvc
+            features: --no-default-features
+            dep_tests: true
             os: windows-latest
           - toolchain: stable-x86_64-pc-windows-gnu
+            features: --no-default-features
+            dep_tests: false
             os: windows-latest
           - toolchain: stable-x86_64-apple-darwin
+            features: --all-features
+            dep_tests: true
             os: macOS-latest
           - toolchain: stable-x86_64-unknown-linux-gnu
+            features: --all-features
+            dep_tests: true
             os: ubuntu-18.04
           - toolchain: beta-x86_64-pc-windows-msvc
+            features: --no-default-features
+            dep_tests: true
             os: windows-latest
           - toolchain: beta-x86_64-pc-windows-gnu
+            features: --no-default-features
+            dep_tests: false
             os: windows-latest
           - toolchain: beta-x86_64-apple-darwin
+            features: --all-features
+            dep_tests: true
             os: macOS-latest
           - toolchain: beta-x86_64-unknown-linux-gnu
+            features: --all-features
+            dep_tests: true
             os: ubuntu-18.04
 
     name: ${{ matrix.toolchain }}
@@ -141,30 +129,41 @@ jobs:
           override: true
           profile: default
 
-      - name: Determine features
-        id: features
-        run: |
-          if ${{ matrix.os == 'windows-latest' }}; then
-            echo '::set-output name=features::--no-default-features'
-          else
-            echo '::set-output name=features::--all-features'
-          fi
-        shell: bash
-
-      - name: '`cargo clippy`'
+      - name: '`cargo clippy ${{ matrix.features }} -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: ${{ steps.features.outputs.features }} -- -D warnings
+          args: ${{ matrix.features }} -- -D warnings
 
-      - name: '`cargo test`'
+      - name: '`cargo test ${{ matrix.features }} --no-fail-fast`'
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: ${{ steps.features.outputs.features }} --no-fail-fast
+          args: ${{ matrix.features }} --no-fail-fast
 
       - name: '`cargo run --release`'
         uses: actions-rs/cargo@v1
         with:
           command: run
-          args: ${{ steps.features.outputs.features }} --release
+          args: ${{ matrix.features }} --release
+
+      - name: '`cargo clippy ${{ matrix.features }} --manifest-path ./dep-tests/Cargo.toml -- -D warnings`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: ${{ matrix.features }} --manifest-path ./dep-tests/Cargo.toml -- -D warnings
+        if: matrix.dep_tests
+
+      - name: '`cargo test ${{ matrix.features }} --manifest-path ./dep-tests/Cargo.toml --no-fail-fast`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: ${{ matrix.features }} --manifest-path ./dep-tests/Cargo.toml --no-fail-fast
+        if: matrix.dep_tests
+
+      - name: '`cargo dep-tests --all-features -d 1`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: dep-tests
+          args: --all-features -d 1
+        if: matrix.dep_tests
