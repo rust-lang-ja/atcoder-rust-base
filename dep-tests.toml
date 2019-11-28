@@ -1,17 +1,25 @@
+# See `cargo help pkgid`
+
+# **`-p`, `--package`が指定されていないとき**、記述したSPECに対応するpackageを除外する。
 exclude = [
   "c2-chacha:0.2.3",       # よくわからない理由でビルドに失敗する
   "derive_more:0.99.2",    # 必要なファイルがexcludeされている
-  "jemallocator:0.3.2",    # よくわからない理由でビルドに失敗する
   "libm:0.1.4",            # `#![deny(warnings)]`
   "mac:0.1.1",             # `#![deny(warnings)]`
   "nom:5.0.1",             # 必要なファイルがexcludeされている
   "num-rational:0.2.2",    # よくわからない理由でビルドに失敗する
-  "petgraph:0.4.13",       # よくわからない理由で実行時に失敗する
-  "primal:0.2.3",          # 最終リリース日が古すぎて"normalizing"が行なわれておらず、workspace membersが相対パスのまま
-  "primal-estimate:0.2.1", # 最終リリース日が古すぎて"normalizing"が行なわれておらず、workspace membersが相対パスのまま
+  "primal-estimate:0.2.1", # 古すぎて"normalizing"が行なわれておらず、workspace membersが相対パスのまま
+  "primal:0.2.3",          # 古すぎて"normalizing"が行なわれておらず、workspace membersが相対パスのまま
   "proc-macro2:1.0.6",     # よくわからない理由でビルドに失敗する
+  "rand:0.6.5",            # 現状同一の`name`のpackageは一つのworkspace内で共存できない
   "rand_core:0.3.1",       # よくわからない理由でビルドに失敗する
-  # "smallvec:1.0.0",       # 成功はするが謎のエラーが表示される
+  "rand_pcg:0.1.2",        # 現状同一の`name`のpackageは一つのworkspace内で共存できない
   "syn:0.15.44",           # よくわからない理由でビルドに失敗する
   "syn:1.0.8",             # よくわからない理由でビルドに失敗する
+  "smallvec:0.6.13",       # 現状同一の`name`のpackageは一つのworkspace内で共存できない
 ]
+
+# key部分でSPECを指定すると、そのSPECの対象のpackageはvalue部分で指定したtargetのみ実行する。
+[filter]
+"smallvec:1.0.0" = { lib = true }                                            # doc-testでエラーが表示され、成功はするしおそらく実害は無いが見た目がよろしくない
+"text_io:0.1.7" = { doc = true, lib = true, test = ["module", "read_str"] }  # `"tuple"`が`target/`下の実行ファイルを実行(しかもexamplesの)という行儀の悪いことをやっている
