@@ -1,0 +1,12 @@
+(
+    tests: {
+        "practice-a": (
+            name: "practice contest: A - Welcome to AtCoder",
+            word_match: Exact,
+        ),
+        "arc065-c": (
+            name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
+            word_match: Exact,
+        ),
+    }
+)
