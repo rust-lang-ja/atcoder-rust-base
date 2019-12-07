@@ -4,6 +4,7 @@
 exclude = [
   "c2-chacha:0.2.3",       # よくわからない理由でビルドに失敗する
   "derive_more:0.99.2",    # 必要なファイルがexcludeされている
+  "jemalloc-ctl:0.3.3",    # CI上で偶にSIGFPEで落ちる。テストがまずいのか根本的にまずいのか不明
   "libm:0.1.4",            # `#![deny(warnings)]`
   "mac:0.1.1",             # `#![deny(warnings)]`
   "nom:5.0.1",             # 必要なファイルがexcludeされている
@@ -14,9 +15,9 @@ exclude = [
   "rand:0.6.5",            # 現状同一の`name`のpackageは一つのworkspace内で共存できない
   "rand_core:0.3.1",       # よくわからない理由でビルドに失敗する
   "rand_pcg:0.1.2",        # 現状同一の`name`のpackageは一つのworkspace内で共存できない
+  "smallvec:0.6.13",       # 現状同一の`name`のpackageは一つのworkspace内で共存できない
   "syn:0.15.44",           # よくわからない理由でビルドに失敗する
   "syn:1.0.8",             # よくわからない理由でビルドに失敗する
-  "smallvec:0.6.13",       # 現状同一の`name`のpackageは一つのworkspace内で共存できない
 ]
 
 # key部分でSPECを指定すると、そのSPECの対象のpackageはvalue部分で指定したtargetのみ実行する。

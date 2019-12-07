@@ -1,12 +1,16 @@
 (
     tests: {
+        "apg4b-a": (
+            name: "APG4b: A - 1.00.はじめに",
+            matching: ExactWhole,
+        ),
         "practice-a": (
             name: "practice contest: A - Welcome to AtCoder",
-            word_match: Exact,
+            matching: ExactWords,
         ),
         "arc065-c": (
             name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
-            word_match: Exact,
+            matching: ExactWords,
         ),
     }
 )
