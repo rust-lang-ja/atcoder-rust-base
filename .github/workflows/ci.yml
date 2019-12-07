@@ -82,6 +82,9 @@ jobs:
           command: build
           args: --all-features --release
 
+      - name: '`chmod -R a=rX-w ./target`'
+        run: chmod -R a=rX-w ./target
+
       - name: '`cargo test-with-generated-opts`'
         uses: actions-rs/cargo@v1
         with:
