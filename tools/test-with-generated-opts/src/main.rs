@@ -14,7 +14,6 @@ use std::fs::{self, File};
 use std::io::{self, Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
-use std::str::SplitWhitespace;
 use std::time::Instant;
 
 #[derive(StructOpt, Debug)]
@@ -56,16 +55,16 @@ fn main() -> anyhow::Result<()> {
 
     let tests = tests
         .into_iter()
-        .map(|(slug, Test { name, word_match })| {
+        .map(|(slug, Test { name, matching })| {
             let src = Path::new("./examples").join(&slug).with_extension("rs");
             let testsets = Path::new("./examples/testsets").join(&slug);
             let binary = compile(&src, tempdir.path(), &slug)?;
-            Ok((name, word_match, testsets, binary))
+            Ok((name, matching, testsets, binary))
         })
         .collect::<anyhow::Result<Vec<_>>>()?;
 
-    for (name, word_match, testsets, binary) in tests {
-        test(&name, word_match, &testsets, &binary)?;
+    for (name, matching, testsets, binary) in tests {
+        test(&name, matching, &testsets, &binary)?;
     }
     Ok(())
 }
@@ -135,12 +134,7 @@ fn compile(src: &Path, tempdir: &Path, dir_name: &str) -> anyhow::Result<PathBuf
     Ok(out)
 }
 
-fn test(
-    task_name: &str,
-    word_match: WordMatch,
-    testsets: &Path,
-    binary: &Path,
-) -> anyhow::Result<()> {
+fn test(task_name: &str, matching: Matching, testsets: &Path, binary: &Path) -> anyhow::Result<()> {
     let testsets = {
         let find_files = |dir: &str| -> _ {
             fs::read_dir(testsets.join(dir))?
@@ -199,8 +193,7 @@ fn test(
         };
 
         let time = (stop - start).as_millis();
-        let (expected, actual) = (expected.split_whitespace(), actual.split_whitespace());
-        let verdict = if status.success() && word_match.accepts(expected, actual) {
+        let verdict = if status.success() && matching.accepts(&expected, &actual) {
             "AC"
         } else if status.success() {
             "WA"
@@ -223,18 +216,22 @@ struct Tests {
 #[derive(Debug, Deserialize)]
 struct Test {
     name: String,
-    word_match: WordMatch,
+    matching: Matching,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
-enum WordMatch {
-    Exact,
+enum Matching {
+    ExactWhole,
+    ExactWords,
 }
 
-impl WordMatch {
-    fn accepts(self, expected: SplitWhitespace, actual: SplitWhitespace) -> bool {
+impl Matching {
+    fn accepts(self, expected: &str, actual: &str) -> bool {
         match self {
-            WordMatch::Exact => itertools::equal(expected, actual),
+            Matching::ExactWhole => expected == actual,
+            Matching::ExactWords => {
+                itertools::equal(expected.split_whitespace(), actual.split_whitespace())
+            }
         }
     }
 }
