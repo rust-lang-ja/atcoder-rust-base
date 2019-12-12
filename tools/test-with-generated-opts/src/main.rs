@@ -179,8 +179,7 @@ fn test(task_name: &str, matching: Matching, testsets: &Path, binary: &Path) -> 
             .with_context(|| format!("Failed to execute {}", binary.display()))?;
 
         child.stdin.as_mut().unwrap().write_all(input.as_ref())?;
-        let status = child.wait()?;
-        let stop = Instant::now();
+        child.stdin.take();
         let actual = {
             let mut actual = "".to_owned();
             child
@@ -191,6 +190,8 @@ fn test(task_name: &str, matching: Matching, testsets: &Path, binary: &Path) -> 
                 .with_context(|| format!("{} outputted invalid UTF-8", binary.display()))?;
             actual
         };
+        let status = child.wait()?;
+        let stop = Instant::now();
 
         let time = (stop - start).as_millis();
         let verdict = if status.success() && matching.accepts(&expected, &actual) {
