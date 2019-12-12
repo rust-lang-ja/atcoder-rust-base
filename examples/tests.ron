@@ -12,5 +12,9 @@
             name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
             matching: ExactWords,
         ),
+        "abc120-d": (
+            name: "ABC120: D - Decayed Bridges ",
+            matching: ExactWords,
+        ),
     }
 )
