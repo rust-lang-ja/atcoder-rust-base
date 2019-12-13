@@ -12,6 +12,10 @@
             name: "ATC001: B - Union Find",
             matching: ExactWords,
         ),
+        "atc002-b": (
+            name: "ATC002: B - n^p mod m",
+            matching: ExactWords,
+        ),
         "arc065-c": (
             name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
             matching: ExactWords,
