@@ -52,6 +52,7 @@ use strsim as _;
 use superslice as _;
 use take_mut as _;
 use text_io as _;
+use union_find as _;
 use whiteread as _;
 
 #[cfg(feature = "jemalloc-ctl")]
