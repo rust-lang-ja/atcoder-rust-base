@@ -8,6 +8,10 @@
             name: "practice contest: A - Welcome to AtCoder",
             matching: ExactWords,
         ),
+        "atc001-b": (
+            name: "ATC001: B - Union Find",
+            matching: ExactWords,
+        ),
         "arc065-c": (
             name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
             matching: ExactWords,
