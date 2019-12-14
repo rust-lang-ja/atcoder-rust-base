@@ -1,4 +1,6 @@
-// https://atcoder.jp/contests/practice/tasks/practice_1
+// https://atcoder.jp/contests/atc002/tasks/atc002_b
+
+use num::BigUint;
 
 #[proconio::fastout]
 fn main() {
@@ -11,16 +13,17 @@ fn main() {
     // let mut input = input.split_whitespace();
     // defmac!(read => input.next().unwrap().parse().unwrap());
     //
-    // let (a, b, c, s): (u32, u32, u32, String) = (read!(), read!(), read!(), read!());
+    // let n: BigUint = read!();
+    // let m: BigUint = read!();
+    // let p: BigUint = read!();
 
     use proconio::input;
 
     input! {
-        a: u32,
-        b: u32,
-        c: u32,
-        s: String,
+        n: BigUint,
+        m: BigUint,
+        p: BigUint,
     }
 
-    println!("{} {}", a + b + c, s);
+    println!("{}", n.modpow(&p, &m));
 }

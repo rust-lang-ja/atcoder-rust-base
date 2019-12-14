@@ -1,7 +1,4 @@
-// https://atcoder.jp/contests/arc065/tasks/arc065_a
-
-use lazy_static::lazy_static;
-use regex::bytes::Regex;
+use petgraph::unionfind::UnionFind;
 
 #[proconio::fastout]
 fn main() {
@@ -28,17 +25,24 @@ fn main() {
     //     };
     // }
     //
-    // let s = read!(_bytes);
+    // let (n, q) = read!((usize, usize));
+    // let pabs = read!([(u8, usize, usize); q]);
 
     use proconio::input;
-    use proconio::marker::Bytes;
 
     input! {
-        s: Bytes,
+        n: usize,
+        q: usize,
+        pabs: [(u8, usize, usize); q],
     }
 
-    lazy_static! {
-        static ref R: Regex = Regex::new(r"\A(dream(er)?|eraser?)*\z").unwrap();
-    };
-    println!("{}", if R.is_match(&s) { "YES" } else { "NO" });
+    let mut uf = UnionFind::new(n);
+    for (p, a, b) in pabs {
+        if p == 1 {
+            let same = uf.find(a) == uf.find(b);
+            println!("{}", if same { "Yes" } else { "No" });
+        } else {
+            uf.union(a, b);
+        }
+    }
 }

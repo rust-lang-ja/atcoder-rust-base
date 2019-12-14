@@ -1,3 +1,6 @@
+// 手元でDropboxのテストケース（ある場合）で確認し、Gitに含めるのはそのうちサンプルのみ。
+// CI上でもサンプルだけテストする。（Dropboxから引っ張るのも面倒だし何より誰のアカウントを使うかという問題がある）
+
 (
     tests: {
         "apg4b-a": (
@@ -6,6 +9,14 @@
         ),
         "practice-a": (
             name: "practice contest: A - Welcome to AtCoder",
+            matching: ExactWords,
+        ),
+        "atc001-b": (
+            name: "ATC001: B - Union Find",
+            matching: ExactWords,
+        ),
+        "atc002-b": (
+            name: "ATC002: B - n^p mod m",
             matching: ExactWords,
         ),
         "arc065-c": (
