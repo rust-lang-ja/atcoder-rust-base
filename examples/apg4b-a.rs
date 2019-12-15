@@ -17,8 +17,9 @@ use itertools as _;
 use itertools_num as _;
 use lazy_static as _;
 use libm as _;
-use mac as _;
 use maplit as _;
+#[allow(unused_imports)]
+use matches::matches as _; // https://github.com/rust-lang/rust/issues/66518
 use modtype as _;
 use nalgebra as _;
 use ndarray as _;

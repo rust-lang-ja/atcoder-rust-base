@@ -106,8 +106,8 @@ take_mut = "=0.2.2"
 # 1行で書ける`macro_rules`
 defmac = "=0.2.1"
 
-# シンプルなマクロの詰め合せ
-mac = "=0.1.1"
+# パターンを`bool`式に
+matches = "=0.1.8"
 
 # `if`と`if let`を『まとめる』マクロ`if_chain!`
 if_chain = "=1.0.0"
