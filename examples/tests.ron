@@ -7,6 +7,10 @@
             name: "APG4b: A - 1.00.はじめに",
             matching: ExactWhole,
         ),
+        "apg4b-ex25": (
+            name: "APG4b: EX25 - 集合の操作 / 3.05",
+            matching: ExactWords,
+        ),
         "practice-a": (
             name: "practice contest: A - Welcome to AtCoder",
             matching: ExactWords,
