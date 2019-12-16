@@ -31,8 +31,12 @@
             name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
             matching: ExactWords,
         ),
+        "abc054-c": (
+            name: "ABC045: C - One-stroke Path",
+            matching: ExactWords,
+        ),
         "abc120-d": (
-            name: "ABC120: D - Decayed Bridges ",
+            name: "ABC120: D - Decayed Bridges",
             matching: ExactWords,
         ),
     }
