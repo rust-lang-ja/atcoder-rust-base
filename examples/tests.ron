@@ -35,6 +35,10 @@
             name: "ABC045: C - One-stroke Path",
             matching: ExactWords,
         ),
+        "abc084-d": (
+            name: "ABC084: D - 2017-like Number",
+            matching: ExactWords,
+        ),
         "abc120-d": (
             name: "ABC120: D - Decayed Bridges",
             matching: ExactWords,
