@@ -43,5 +43,9 @@
             name: "ABC120: D - Decayed Bridges",
             matching: ExactWords,
         ),
+        "abc142-d": (
+            name: "ABC124: D - Disjoint Set of Common Divisors",
+            matching: ExactWords,
+        ),
     }
 )
