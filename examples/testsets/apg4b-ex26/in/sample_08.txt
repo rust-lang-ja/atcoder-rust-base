@@ -1,0 +1,5 @@
+4
+vec a = [ 1 , 2 , 3 ] ;
+vec b = [ 4 , 5 , 6 ] ;
+vec c = [ 7 , 8 , 9 ] ;
+print_vec a + b + c ;

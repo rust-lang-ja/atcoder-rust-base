@@ -1,0 +1,7 @@
+6
+vec a = [ 1 , 2 ] ;
+vec b = a + [ 3 , 4 ] ;
+vec c = a - [ 5 , 6 ] ;
+print_vec a ;
+print_vec b ;
+print_vec c ;
