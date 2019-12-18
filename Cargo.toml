@@ -58,7 +58,7 @@ rand_distr = "=0.2.2"
 petgraph = "=0.4.13"
 
 # 幾何
-euclid = "=0.20.5"
+euclid = "=0.20.7"
 
 # 素数
 primal = "=0.2.3"
@@ -79,7 +79,7 @@ nom = "=5.0.1"
 aho-corasick = "=0.7.6"
 
 # string similarity metrics
-strsim = "=0.9.2"
+strsim = "=0.9.3"
 
 # staticアイテムの遅延初期化
 lazy_static = "=1.4.0"
@@ -131,7 +131,7 @@ either = "=1.5.3"
 # 標準ライブラリのVecやHashMapに対応する永続データ構造
 # 永続データ構造は関数型言語によく見られるデータ構造で、要素を更新しても、そのデータ構造の
 # 以前のバージョンにアクセスできる。（更新の度に差分が記録されていくイメージ）
-im-rc = "=14.0.0"
+im-rc = "=14.1.0"
 
 # 可変長bit set。
 fixedbitset = "=0.2.0"
