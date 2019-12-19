@@ -43,6 +43,10 @@
             name: "ABC120: D - Decayed Bridges",
             matching: ExactWords,
         ),
+        "abc129-f": (
+            name: "ABC129: F - Takahashi's Basics in Education and Learning",
+            matching: ExactWords,
+        ),
         "abc142-d": (
             name: "ABC124: D - Disjoint Set of Common Divisors",
             matching: ExactWords,
