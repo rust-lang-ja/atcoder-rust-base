@@ -1,29 +1,17 @@
 // https://atcoder.jp/contests/atc002/tasks/atc002_b
 
+use defmac::defmac;
 use num::BigUint;
 
-#[proconio::fastout]
+use std::io::{self, Read as _};
+
 fn main() {
-    // use defmac::defmac;
-    //
-    // use std::io::{self, Read as _};
-    //
-    // let mut input = "".to_owned();
-    // io::stdin().read_to_string(&mut input).unwrap();
-    // let mut input = input.split_whitespace();
-    // defmac!(read => input.next().unwrap().parse().unwrap());
-    //
-    // let n: BigUint = read!();
-    // let m: BigUint = read!();
-    // let p: BigUint = read!();
+    let mut input = "".to_owned();
+    io::stdin().read_to_string(&mut input).unwrap();
+    let mut input = input.split_whitespace();
+    defmac!(read => input.next().unwrap().parse().unwrap());
 
-    use proconio::input;
-
-    input! {
-        n: BigUint,
-        m: BigUint,
-        p: BigUint,
-    }
+    let (n, m, p): (BigUint, BigUint, BigUint) = (read!(), read!(), read!());
 
     println!("{}", n.modpow(&p, &m));
 }

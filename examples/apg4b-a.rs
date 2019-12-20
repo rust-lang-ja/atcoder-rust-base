@@ -1,3 +1,5 @@
+// https://atcoder.jp/contests/APG4b/tasks/APG4b_a
+
 use aho_corasick as _;
 use alga as _;
 use approx as _;

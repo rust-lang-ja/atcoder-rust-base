@@ -2,55 +2,55 @@
 
 use union_find::{QuickFindUf, UnionBySize, UnionFind as _};
 
+use std::io::{self, Read as _};
+
+// `proconio::fastout` does not accept `macro_rules!` until Rust 1.40.
+macro_rules! macro_rules_hack {
+    ($name:ident { $($tt:tt)* }) => {
+        macro_rules! $name {
+            $($tt)*
+        }
+    };
+}
+
 #[proconio::fastout]
 fn main() {
-    // use std::io::{self, Read as _};
-    //
-    // let mut input = "".to_owned();
-    // io::stdin().read_to_string(&mut input).unwrap();
-    // let mut input = input.split_whitespace();
-    // macro_rules! read {
-    //     ([$t:tt; $n:expr]) => {
-    //         (0..$n).map(|_| read!($t)).collect::<Vec<_>>()
-    //     };
-    //     (($($t:tt),+)) => {
-    //         ($(read!($t)),*)
-    //     };
-    //     (_1based) => {
-    //         read!(usize) - 1
-    //     };
-    //     (_bytes) => {
-    //         read!(String).into_bytes()
-    //     };
-    //     ($ty:ty) => {
-    //         input.next().unwrap().parse::<$ty>().unwrap()
-    //     };
-    // }
-    //
-    // let (n, m) = (read!((usize, usize)));
-    // let abs = read!([(_1based, _1based); m]);
+    let mut input = "".to_owned();
+    io::stdin().read_to_string(&mut input).unwrap();
+    let mut input = input.split_whitespace();
+    macro_rules_hack!(read {
+        ([$tt:tt; $n:expr]) => {
+            (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
+        };
+        (($($tt:tt),+)) => {
+            ($(read!($tt)),*)
+        };
+        (_1based) => {
+            read!(usize) - 1
+        };
+        (_bytes) => {
+            read!(String).into_bytes()
+        };
+        ($ty:ty) => {
+            input.next().unwrap().parse::<$ty>().unwrap()
+        };
+    });
 
-    use proconio::input;
-    use proconio::marker::Usize1;
+    let (n, m) = read!((usize, usize));
+    let abs = read!([(_1based, _1based); m]);
 
-    input! {
-        n: usize,
-        m: usize,
-        abs: [(Usize1, Usize1); m],
-    }
-
-    let mut u = QuickFindUf::<UnionBySize>::new(n);
+    let mut uf = QuickFindUf::<UnionBySize>::new(n);
     let mut k = n * (n - 1) / 2;
-    let mut r = vec![k];
-    r.extend(abs.into_iter().rev().map(|(a, b)| {
-        let p = u.get(a).size() * u.get(b).size();
-        if u.union(a, b) {
+    let mut ans_rev = vec![k];
+    ans_rev.extend(abs.into_iter().rev().map(|(a, b)| {
+        let p = uf.get(a).size() * uf.get(b).size();
+        if uf.union(a, b) {
             k -= p;
         }
         k
     }));
-    assert_eq!(r.pop(), Some(0));
-    for r in r.into_iter().rev() {
-        println!("{}", r);
+    assert_eq!(ans_rev.pop(), Some(0));
+    for x in ans_rev.into_iter().rev() {
+        println!("{}", x);
     }
 }

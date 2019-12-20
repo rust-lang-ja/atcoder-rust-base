@@ -3,40 +3,42 @@
 use itertools_num::ItertoolsNum as _;
 use primal::Sieve;
 
+use std::io::{self, Read as _};
+
+// `proconio::fastout` does not accept `macro_rules!` until Rust 1.40.
+macro_rules! macro_rules_hack {
+    ($name:ident { $($tt:tt)* }) => {
+        macro_rules! $name {
+            $($tt)*
+        }
+    };
+}
+
 #[proconio::fastout]
 fn main() {
-    // use std::io::{self, Read as _};
-    //
-    // let mut input = "".to_owned();
-    // io::stdin().read_to_string(&mut input).unwrap();
-    // let mut input = input.split_whitespace();
-    // macro_rules! read {
-    //     ([$t:tt; $n:expr]) => {
-    //         (0..$n).map(|_| read!($t)).collect::<Vec<_>>()
-    //     };
-    //     (($($t:tt),+)) => {
-    //         ($(read!($t)),*)
-    //     };
-    //     (_1based) => {
-    //         read!(usize) - 1
-    //     };
-    //     (_bytes) => {
-    //         read!(String).into_bytes()
-    //     };
-    //     ($ty:ty) => {
-    //         input.next().unwrap().parse::<$ty>().unwrap()
-    //     };
-    // }
-    //
-    // let q = read!(usize);
-    // let lrs = read!([(usize, usize); q]);
+    let mut input = "".to_owned();
+    io::stdin().read_to_string(&mut input).unwrap();
+    let mut input = input.split_whitespace();
+    macro_rules_hack!(read {
+        ([$tt:tt; $n:expr]) => {
+            (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
+        };
+        (($($tt:tt),+)) => {
+            ($(read!($tt)),*)
+        };
+        (_1based) => {
+            read!(usize) - 1
+        };
+        (_bytes) => {
+            read!(String).into_bytes()
+        };
+        ($ty:ty) => {
+            input.next().unwrap().parse::<$ty>().unwrap()
+        };
+    });
 
-    use proconio::input;
-
-    input! {
-        q: usize,
-        lrs: [(usize, usize); q],
-    }
+    let q = read!(usize);
+    let lrs = read!([(usize, usize); q]);
 
     // サンプルケースでしか試してないので嘘かもしれない。
 

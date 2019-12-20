@@ -1,5 +1,6 @@
 // https://atcoder.jp/contests/abc129/tasks/abc129_f
 
+use defmac::defmac;
 use derive_more::Display;
 use ndarray::{array, Array2, LinalgScalar};
 use num::{PrimInt, Unsigned};
@@ -7,42 +8,16 @@ use num_derive::{One, Zero};
 
 use std::cell::Cell;
 use std::cmp;
+use std::io::{self, Read as _};
 use std::ops::{Add, Div, Mul, Sub};
 
 fn main() {
-    // use std::io::{self, Read as _};
-    //
-    // let mut input = "".to_owned();
-    // io::stdin().read_to_string(&mut input).unwrap();
-    // let mut input = input.split_whitespace();
-    // macro_rules! read {
-    //     ([$t:tt; $n:expr]) => {
-    //         (0..$n).map(|_| read!($t)).collect::<Vec<_>>()
-    //     };
-    //     (($($t:tt),+)) => {
-    //         ($(read!($t)),*)
-    //     };
-    //     (_1based) => {
-    //         read!(usize) - 1
-    //     };
-    //     (_bytes) => {
-    //         read!(String).into_bytes()
-    //     };
-    //     ($ty:ty) => {
-    //         input.next().unwrap().parse::<$ty>().unwrap()
-    //     };
-    // }
-    //
-    // let (l, a, b, m) = read!((u64, u64, u64, u64));
+    let mut input = "".to_owned();
+    io::stdin().read_to_string(&mut input).unwrap();
+    let mut input = input.split_whitespace();
+    defmac!(read => input.next().unwrap().parse().unwrap());
 
-    use proconio::input;
-
-    input! {
-        l: u64,
-        a: u64,
-        b: u64,
-        m: u64,
-    }
+    let (l, a, b, m): (u64, u64, u64, u64) = (read!(), read!(), read!(), read!());
 
     MOD.with(|cell| cell.set(m));
 
