@@ -1,70 +1,87 @@
 # 手元でDropboxのテストケース（ある場合）で確認し、サンプルに含まれていないやつが大きいときはそれらをGitに入れない。
 # その場合CI上でもサンプルだけテストする。（Dropboxから引っ張るのも面倒だし何より誰のアカウントを使うかという問題がある）
 
-[tests.abc054-c]
+[examples.abc054-c]
 name = "ABC054: C - One-stroke Path"
+url = "https://atcoder.jp/contests/abc054/tasks/abc054_c"
 matching = "Words"
 
-[tests.abc057-b]
+[examples.abc057-b]
 name = "ABC057: B - Checkpoints"
+url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 
-[tests.abc084-d]
+[examples.abc084-d]
 name = "ABC084: D - 2017-like Number"
+url = "https://atcoder.jp/contests/abc084/tasks/abc084_d"
 matching = "Words"
 
-[tests.abc118-b]
+[examples.abc118-b]
 name = "ABC118: B - Foods Loved by Everyone"
+url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
 
-[tests.abc120-d]
+[examples.abc120-d]
 name = "ABC120: D - Decayed Bridges"
+url = "https://atcoder.jp/contests/abc120/tasks/abc120_d"
 matching = "Words"
 
-[tests.abc121-b]
+[examples.abc121-b]
 name = "ABC121: B - Can you solve this?"
+url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 
-[tests.abc129-f]
+[examples.abc129-f]
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
+url = "https://atcoder.jp/contests/abc129/tasks/abc129_f"
 matching = "Words"
 
-[tests.abc142-d]
+[examples.abc142-d]
 name = "ABC142: D - Disjoint Set of Common Divisors"
+url = "https://atcoder.jp/contests/abc142/tasks/abc142_d"
 matching = "Words"
 
-[tests.abc144-d]
+[examples.abc144-d]
 name = "ABC144: D - Water Bottle"
+url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 
-[tests.apg4b-a]
+[examples.apg4b-a]
 name = "APG4b: A - 1.00.はじめに"
+url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_a"
 matching = "Exact"
 
-[tests.apg4b-ex25]
+[examples.apg4b-ex25]
 name = "APG4b: EX25 - 集合の操作 / 3.05"
+url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bx"
 matching = "Words"
 
-[tests.apg4b-ex26]
+[examples.apg4b-ex26]
 name = "APG4b: EX26 - 電卓を作ろう3 / 3.06"
+url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bw"
 matching = "Exact"
 
-[tests.arc065-c]
+[examples.arc065-c]
 name = "ABC049 / ARC065: C - 白昼夢 / Daydream"
+url = "https://atcoder.jp/contests/arc065/tasks/arc065_a"
 matching = "Words"
 
-[tests.arc084-c]
+[examples.arc084-c]
 name = "ABC077 / ARC084: C - Snuke Festival"
+url = "https://atcoder.jp/contests/arc084/tasks/arc084_a"
 matching = "Words"
 
-[tests.atc001-b]
+[examples.atc001-b]
 name = "ATC001: B - Union Find"
+url = "https://atcoder.jp/contests/atc001/tasks/unionfind_a"
 matching = "Words"
 
-[tests.atc002-b]
+[examples.atc002-b]
 name = "ATC002: B - n^p mod m"
+url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
 
-[tests.practice-a]
+[examples.practice-a]
 name = "practice contest: A - Welcome to AtCoder"
+url = "https://atcoder.jp/contests/practice/tasks/practice_1"
 matching = "Words"

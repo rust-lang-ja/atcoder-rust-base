@@ -54,25 +54,34 @@ fn main() -> anyhow::Result<()> {
         .filter_module("test_with_generated_opts", LevelFilter::Info)
         .init();
 
-    let Tests { tests } = fs::read_to_string(&config)
+    let Config { examples } = fs::read_to_string(&config)
         .map_err(anyhow::Error::from)
         .and_then(|s| toml::from_str(&s).map_err(Into::into))
         .with_context(|| format!("Failed to read {}", config.display()))?;
 
     let tempdir = TempDir::new("atcoder-rust-base-test-with-generated-opts")?;
 
-    let tests = tests
+    let tests = examples
         .into_iter()
-        .map(|(slug, Test { name, matching })| {
-            let src = Path::new("./examples").join(&slug).with_extension("rs");
-            let testsets = Path::new("./examples/testsets").join(&slug);
-            let binary = compile(&src, tempdir.path(), &slug)?;
-            Ok((name, matching, testsets, binary))
-        })
+        .map(
+            |(
+                slug,
+                Example {
+                    name,
+                    url,
+                    matching,
+                },
+            )| {
+                let src = Path::new("./examples").join(&slug).with_extension("rs");
+                let testsets = Path::new("./examples/testsets").join(&slug);
+                let binary = compile(&src, tempdir.path(), &slug)?;
+                Ok((name, url, matching, testsets, binary))
+            },
+        )
         .collect::<anyhow::Result<Vec<_>>>()?;
 
-    for (name, matching, testsets, binary) in tests {
-        test(&name, matching, &testsets, &binary)?;
+    for (name, url, matching, testsets, binary) in tests {
+        test(&name, &url, matching, &testsets, &binary)?;
     }
     Ok(())
 }
@@ -142,20 +151,31 @@ fn compile(src: &Path, tempdir: &Path, dir_name: &str) -> anyhow::Result<PathBuf
     Ok(out)
 }
 
-fn test(task_name: &str, matching: Matching, testsets: &Path, binary: &Path) -> anyhow::Result<()> {
+fn test(
+    task_name: &str,
+    url: &str,
+    matching: Matching,
+    testsets: &Path,
+    binary: &Path,
+) -> anyhow::Result<()> {
     let testsets = {
-        let find_files = |dir: &str| -> _ {
-            fs::read_dir(testsets.join(dir))?
-                .map(|entry| {
-                    let path = entry?.path();
-                    let name = path
-                        .file_stem()
-                        .unwrap_or_default()
-                        .to_string_lossy()
-                        .into_owned();
-                    Ok((name, path))
+        let find_files = |dir_file_name: &str| -> _ {
+            let dir = testsets.join(dir_file_name);
+            fs::read_dir(&dir)
+                .and_then(|read_dir| {
+                    read_dir
+                        .map(|entry| {
+                            let path = entry?.path();
+                            let name = path
+                                .file_stem()
+                                .unwrap_or_default()
+                                .to_string_lossy()
+                                .into_owned();
+                            Ok((name, path))
+                        })
+                        .collect::<io::Result<HashMap<_, _>>>()
                 })
-                .collect::<io::Result<HashMap<_, _>>>()
+                .with_context(|| format!("Failed to read {}", dir.display()))
         };
 
         let (ins, outs) = (find_files("in")?, find_files("out")?);
@@ -168,7 +188,9 @@ fn test(task_name: &str, matching: Matching, testsets: &Path, binary: &Path) -> 
             .collect::<BTreeMap<_, _>>()
     };
 
-    info!("Testing {} for {:?}", binary.display(), task_name);
+    info!("Testing {}", binary.display());
+    info!("  Name: {:?}", task_name);
+    info!("  URL: {}", url);
 
     for (test_name, (path_in, path_out)) in testsets {
         fn read_to_string(path: &Path) -> anyhow::Result<String> {
@@ -218,13 +240,14 @@ fn test(task_name: &str, matching: Matching, testsets: &Path, binary: &Path) -> 
 }
 
 #[derive(Debug, Deserialize)]
-struct Tests {
-    tests: IndexMap<String, Test>,
+struct Config {
+    examples: IndexMap<String, Example>,
 }
 
 #[derive(Debug, Deserialize)]
-struct Test {
+struct Example {
     name: String,
+    url: String,
     matching: Matching,
 }
 
