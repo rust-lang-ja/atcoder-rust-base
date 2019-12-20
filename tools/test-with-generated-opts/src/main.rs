@@ -9,20 +9,26 @@ use structopt::StructOpt;
 use tempdir::TempDir;
 
 use std::collections::{BTreeMap, HashMap};
-use std::env;
-use std::f64;
 use std::ffi::{OsStr, OsString};
-use std::fs::{self, File};
 use std::io::{self, Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 use std::time::Instant;
+use std::{env, f64, fs};
 
 #[derive(StructOpt, Debug)]
-struct Opt {}
+struct Opt {
+    #[structopt(
+        long,
+        value_name("PATH"),
+        default_value("./test-with-generated-opts.toml"),
+        help("Path to the config")
+    )]
+    config: PathBuf,
+}
 
 fn main() -> anyhow::Result<()> {
-    Opt::from_args();
+    let Opt { config } = Opt::from_args();
 
     env_logger::builder()
         .format(|buf, record| {
@@ -48,10 +54,10 @@ fn main() -> anyhow::Result<()> {
         .filter_module("test_with_generated_opts", LevelFilter::Info)
         .init();
 
-    let Tests { tests } = File::open("./examples/tests.ron")
+    let Tests { tests } = fs::read_to_string(&config)
         .map_err(anyhow::Error::from)
-        .and_then(|h| ron::de::from_reader(h).map_err(Into::into))
-        .with_context(|| "Failed to read ./examples/tests.ron")?;
+        .and_then(|s| toml::from_str(&s).map_err(Into::into))
+        .with_context(|| format!("Failed to read {}", config.display()))?;
 
     let tempdir = TempDir::new("atcoder-rust-base-test-with-generated-opts")?;
 

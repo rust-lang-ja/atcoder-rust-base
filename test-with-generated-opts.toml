@@ -1,0 +1,70 @@
+# 手元でDropboxのテストケース（ある場合）で確認し、サンプルに含まれていないやつが大きいときはそれらをGitに入れない。
+# その場合CI上でもサンプルだけテストする。（Dropboxから引っ張るのも面倒だし何より誰のアカウントを使うかという問題がある）
+
+[tests.abc054-c]
+name = "ABC054: C - One-stroke Path"
+matching = "Words"
+
+[tests.abc057-b]
+name = "ABC057: B - Checkpoints"
+matching = "Words"
+
+[tests.abc084-d]
+name = "ABC084: D - 2017-like Number"
+matching = "Words"
+
+[tests.abc118-b]
+name = "ABC118: B - Foods Loved by Everyone"
+matching = "Words"
+
+[tests.abc120-d]
+name = "ABC120: D - Decayed Bridges"
+matching = "Words"
+
+[tests.abc121-b]
+name = "ABC121: B - Can you solve this?"
+matching = "Words"
+
+[tests.abc129-f]
+name = "ABC129: F - Takahashi's Basics in Education and Learning"
+matching = "Words"
+
+[tests.abc142-d]
+name = "ABC142: D - Disjoint Set of Common Divisors"
+matching = "Words"
+
+[tests.abc144-d]
+name = "ABC144: D - Water Bottle"
+matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
+
+[tests.apg4b-a]
+name = "APG4b: A - 1.00.はじめに"
+matching = "Exact"
+
+[tests.apg4b-ex25]
+name = "APG4b: EX25 - 集合の操作 / 3.05"
+matching = "Words"
+
+[tests.apg4b-ex26]
+name = "APG4b: EX26 - 電卓を作ろう3 / 3.06"
+matching = "Exact"
+
+[tests.arc065-c]
+name = "ABC049 / ARC065: C - 白昼夢 / Daydream"
+matching = "Words"
+
+[tests.arc084-c]
+name = "ABC077 / ARC084: C - Snuke Festival"
+matching = "Words"
+
+[tests.atc001-b]
+name = "ATC001: B - Union Find"
+matching = "Words"
+
+[tests.atc002-b]
+name = "ATC002: B - n^p mod m"
+matching = "Words"
+
+[tests.practice-a]
+name = "practice contest: A - Welcome to AtCoder"
+matching = "Words"
