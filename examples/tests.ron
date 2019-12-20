@@ -32,7 +32,11 @@
             matching: Words,
         ),
         "abc054-c": (
-            name: "ABC045: C - One-stroke Path",
+            name: "ABC054: C - One-stroke Path",
+            matching: Words,
+        ),
+        "abc057-b": (
+            name: "ABC057: B - Checkpoints",
             matching: Words,
         ),
         "arc084-c": (
