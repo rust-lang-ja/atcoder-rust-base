@@ -80,8 +80,3 @@ matching = "Words"
 name = "ATC002: B - n^p mod m"
 url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
-
-[examples.practice-a]
-name = "practice contest: A - Welcome to AtCoder"
-url = "https://atcoder.jp/contests/practice/tasks/practice_1"
-matching = "Words"
