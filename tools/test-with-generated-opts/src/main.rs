@@ -1,4 +1,5 @@
 use anyhow::{anyhow, Context as _};
+use approx::{abs_diff_eq, relative_eq};
 use env_logger::fmt::Color;
 use indexmap::IndexMap;
 use itertools::Itertools as _;
@@ -9,6 +10,7 @@ use tempdir::TempDir;
 
 use std::collections::{BTreeMap, HashMap};
 use std::env;
+use std::f64;
 use std::ffi::{OsStr, OsString};
 use std::fs::{self, File};
 use std::io::{self, Read as _, Write as _};
@@ -222,17 +224,42 @@ struct Test {
 
 #[derive(Debug, Clone, Copy, Deserialize)]
 enum Matching {
-    ExactWhole,
-    ExactWords,
+    Exact,
+    Words,
+    FloatOr {
+        #[serde(default = "nan")]
+        abs: f64,
+        #[serde(default = "nan")]
+        rel: f64,
+    },
+}
+
+const fn nan() -> f64 {
+    f64::NAN
 }
 
 impl Matching {
     fn accepts(self, expected: &str, actual: &str) -> bool {
         match self {
-            Matching::ExactWhole => expected == actual,
-            Matching::ExactWords => {
+            Matching::Exact => expected == actual,
+            Matching::Words => {
                 itertools::equal(expected.split_whitespace(), actual.split_whitespace())
             }
+            Matching::FloatOr { abs, rel } => itertools::diff_with(
+                expected.split_whitespace(),
+                actual.split_whitespace(),
+                |expected, actual| {
+                    if let (Ok(expected), Ok(actual)) =
+                        (expected.parse::<f64>(), actual.parse::<f64>())
+                    {
+                        abs_diff_eq!(expected, actual, epsilon = abs)
+                            || relative_eq!(expected, actual, max_relative = rel)
+                    } else {
+                        expected == actual
+                    }
+                },
+            )
+            .is_none(),
         }
     }
 }

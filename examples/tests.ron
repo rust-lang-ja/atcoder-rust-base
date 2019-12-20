@@ -1,59 +1,63 @@
-// 手元でDropboxのテストケース（ある場合）で確認し、Gitに含めるのはそのうちサンプルのみ。
-// CI上でもサンプルだけテストする。（Dropboxから引っ張るのも面倒だし何より誰のアカウントを使うかという問題がある）
+// 手元でDropboxのテストケース（ある場合）で確認し、サンプルに含まれていないやつが大きいときはそれらをGitに入れない。
+// その場合CI上でもサンプルだけテストする。（Dropboxから引っ張るのも面倒だし何より誰のアカウントを使うかという問題がある）
 
 (
     tests: {
         "apg4b-a": (
             name: "APG4b: A - 1.00.はじめに",
-            matching: ExactWhole,
+            matching: Exact,
         ),
         "apg4b-ex25": (
             name: "APG4b: EX25 - 集合の操作 / 3.05",
-            matching: ExactWords,
+            matching: Words,
         ),
         "apg4b-ex26": (
             name: "APG4b: EX26 - 電卓を作ろう3 / 3.06",
-            matching: ExactWords,
+            matching: Exact,
         ),
         "practice-a": (
             name: "practice contest: A - Welcome to AtCoder",
-            matching: ExactWords,
+            matching: Words,
         ),
         "atc001-b": (
             name: "ATC001: B - Union Find",
-            matching: ExactWords,
+            matching: Words,
         ),
         "atc002-b": (
             name: "ATC002: B - n^p mod m",
-            matching: ExactWords,
+            matching: Words,
         ),
         "arc065-c": (
             name: "ABC049 / ARC065: C - 白昼夢 / Daydream",
-            matching: ExactWords,
+            matching: Words,
         ),
         "abc054-c": (
             name: "ABC045: C - One-stroke Path",
-            matching: ExactWords,
+            matching: Words,
         ),
         "arc084-c": (
             name: "ABC077 / ARC084: C - Snuke Festival",
-            matching: ExactWords,
+            matching: Words,
         ),
         "abc084-d": (
             name: "ABC084: D - 2017-like Number",
-            matching: ExactWords,
+            matching: Words,
         ),
         "abc120-d": (
             name: "ABC120: D - Decayed Bridges",
-            matching: ExactWords,
+            matching: Words,
         ),
         "abc129-f": (
             name: "ABC129: F - Takahashi's Basics in Education and Learning",
-            matching: ExactWords,
+            matching: Words,
         ),
         "abc142-d": (
-            name: "ABC124: D - Disjoint Set of Common Divisors",
-            matching: ExactWords,
+            name: "ABC142: D - Disjoint Set of Common Divisors",
+            matching: Words,
+        ),
+        "abc144-d": (
+            name: "ABC144: D - Water Bottle",
+            matching: FloatOr(abs: 1e-6, rel: 1e-6),
         ),
     }
 )
