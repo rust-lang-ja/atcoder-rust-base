@@ -14,7 +14,7 @@ jobs:
         # Breaking changes like this might be mixed into the future stable versions.
         # https://github.com/rust-lang/rustfmt/pull/3632
         channel:
-          - 1.38.0
+          - 1.39.0
           - stable
 
     name: Rustfmt (${{ matrix.channel }})
@@ -60,7 +60,7 @@ jobs:
       - name: rust-toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.38.0-x86_64-unknown-linux-gnu
+          toolchain: 1.39.0-x86_64-unknown-linux-gnu
           default: true
           profile: default
 
@@ -96,10 +96,10 @@ jobs:
       matrix:
         toolchain:
           # `x86_64-pc-windows-gnu` is tier 1 **for now**.
-          - 1.38.0-x86_64-pc-windows-msvc
-          - 1.38.0-x86_64-pc-windows-gnu
-          - 1.38.0-x86_64-apple-darwin
-          - 1.38.0-x86_64-unknown-linux-gnu
+          - 1.39.0-x86_64-pc-windows-msvc
+          - 1.39.0-x86_64-pc-windows-gnu
+          - 1.39.0-x86_64-apple-darwin
+          - 1.39.0-x86_64-unknown-linux-gnu
           - stable-x86_64-pc-windows-msvc
           - stable-x86_64-pc-windows-gnu
           - stable-x86_64-apple-darwin
@@ -109,19 +109,19 @@ jobs:
           - beta-x86_64-apple-darwin
           - beta-x86_64-unknown-linux-gnu
         include:
-          - toolchain: 1.38.0-x86_64-pc-windows-msvc
+          - toolchain: 1.39.0-x86_64-pc-windows-msvc
             features: --no-default-features
             dep_tests: true
             os: windows-latest
-          - toolchain: 1.38.0-x86_64-pc-windows-gnu
+          - toolchain: 1.39.0-x86_64-pc-windows-gnu
             features: --no-default-features
             dep_tests: false
             os: windows-latest
-          - toolchain: 1.38.0-x86_64-apple-darwin
+          - toolchain: 1.39.0-x86_64-apple-darwin
             features: --all-features
             dep_tests: true
             os: macOS-latest
-          - toolchain: 1.38.0-x86_64-unknown-linux-gnu
+          - toolchain: 1.39.0-x86_64-unknown-linux-gnu
             features: --all-features
             dep_tests: true
             os: ubuntu-18.04
