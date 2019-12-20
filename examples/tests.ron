@@ -47,6 +47,10 @@
             name: "ABC084: D - 2017-like Number",
             matching: Words,
         ),
+        "abc118-b": (
+            name: "ABC118: B - Foods Loved by Everyone",
+            matching: Words,
+        ),
         "abc120-d": (
             name: "ABC120: D - Decayed Bridges",
             matching: Words,
