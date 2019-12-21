@@ -1,5 +1,7 @@
-# 手元でDropboxのテストケース（ある場合）で確認し、サンプルに含まれていないやつが大きいときはそれらをGitに入れない。
-# その場合CI上でもサンプルだけテストする。（Dropboxから引っ張るのも面倒だし何より誰のアカウントを使うかという問題がある）
+# Dropboxからのダウンロードは行なわない。（面倒なのと誰のアカウントを使うかという問題がある）
+
+bin = "./target/test-with-generated-opts/bin/{}"
+testcases = "./target/test-with-generated-opts/testcases/{}"
 
 [examples.abc054-c]
 name = "ABC054: C - One-stroke Path"
@@ -50,6 +52,7 @@ matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 name = "APG4b: A - 1.00.はじめに"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_a"
 matching = "Exact"
+alt_testcases = [{ in = "", out = "Hello, world!\n" }]
 
 [examples.apg4b-ex25]
 name = "APG4b: EX25 - 集合の操作 / 3.05"
