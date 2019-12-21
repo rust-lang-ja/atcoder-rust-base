@@ -153,7 +153,7 @@ modtype = "=0.7.0"
 rustc-hash = "=1.0.1"
 
 # 固定配列上のベクタ。ヒープ領域でなくスタック領域にアロケートされるので高速かもしれない
-smallvec = "=1.0.0"
+smallvec = "=1.1.0"
 
 # 代替ヒープアロケータ。条件によってはシステムアロケータより速いことも
 [target.'cfg(not(windows))'.dependencies]
