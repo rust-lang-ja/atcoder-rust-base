@@ -83,3 +83,8 @@ matching = "Words"
 name = "ATC002: B - n^p mod m"
 url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
+
+[examples.sumitrust2019-c]
+name = "Sumitomo Mitsui Trust Bank Programming Contest 2019: C - 100 to 105"
+url = "https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c"
+matching = "Words"
