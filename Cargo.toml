@@ -55,7 +55,7 @@ rand_pcg = "=0.2.1"
 rand_distr = "=0.2.2"
 
 # グラフ
-petgraph = "=0.4.13"
+petgraph = "=0.5.0"
 
 # 幾何
 euclid = "=0.20.7"
