@@ -25,7 +25,7 @@ default = ["jemalloc"]
 
 # 多バイト長整数、分数、複素数など
 num = "=0.2.0"
-num-bigint = "=0.2.3"
+num-bigint = "=0.2.4"
 num-complex = "=0.2.3"
 num-integer = "=0.1.41"
 num-iter = "=0.1.39"
