@@ -1,0 +1,102 @@
+name: Update
+
+on:
+  schedule:
+    # The scheduled jobs run only on `master`. Then we checkout `ja-all-enable`.
+    # <https://github.community/t5/GitHub-Actions/Scheduled-builds-of-non-default-branch/td-p/32270>
+    - cron: '0 0 * * *'
+  push:
+    branches:
+      - master
+      - ja-all-enabled
+
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ja-all-enabled
+
+      - name: setup-python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8.0
+
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable-x86_64-unknown-linux-gnu
+          default: true
+          profile: minimal
+
+      - name: '`cargo install --debug --bin cargo-add cargo-edit`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: --debug --bin cargo-add cargo-edit
+
+      - name: '`cargo install --debug cargo-outdated`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: --debug cargo-outdated
+
+      - name: Upgrade the dependencies
+        id: upgrade
+        run: |
+          import json
+          import subprocess
+          from collections import defaultdict
+
+          cargo_outdated = json.loads(subprocess.run(
+              ['cargo', 'outdated', '--format', 'json', '-d', '1'],
+              stdout=subprocess.PIPE, check=True,
+          ).stdout.decode('utf8'))
+
+          crates = defaultdict(list)
+          body = '<ul>'
+
+          for dependency in cargo_outdated['dependencies']:
+              if dependency['kind'] != 'Normal':
+                  raise NotImplemented()
+              crates[dependency['platform']].append(
+                  (dependency['name'], dependency['latest']),
+              )
+              body += f'<li>' \
+                      f'<a href="https://crates.io/crates/{dependency["name"]}">' \
+                      f'{dependency["name"]}' \
+                      f'</a> ' \
+                      f'v{dependency["project"]} → v{dependency["latest"]}' \
+                      f'</li>'
+          body += '</ul>'
+          if body == '<ul></ul>':
+              body = 'Only dependencies of dependencies.'
+
+          for target, crates in crates.items():
+              args = ['cargo', 'add']
+              if target:
+                  args.extend(['--target', target])
+              args.extend(f'{name}@={ver}' for name, ver in crates)
+              subprocess.run(args, check=True)
+
+          print(f'::set-output name=body::{body}')
+        shell: python3 {0}
+
+      - name: '`cargo update`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: update
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: '[bot] Update the crates'
+          title: '[bot] Update the crates'
+          body: ${{ steps.upgrade.outputs.body }}
+          branch: ja-all-enabled-update-the-crates
+          base: ja-all-enabled
