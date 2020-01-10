@@ -15,8 +15,6 @@ fn main() {
 
     let (a, b): (usize, usize) = (read!(), read!());
 
-    // サンプルケースでしか試してないので嘘かもしれない。
-
     let sieve = Sieve::new(num_integer::sqrt(max(a, b)));
     let bases = |k| -> HashSet<_> {
         sieve

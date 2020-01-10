@@ -40,8 +40,6 @@ fn main() {
     let q = read!(usize);
     let lrs = read!([(usize, usize); q]);
 
-    // サンプルケースでしか試してないので嘘かもしれない。
-
     let hi = lrs.iter().map(|&(_, r)| r).max().unwrap();
     let sieve = Sieve::new(hi);
     let nums = (0..=hi)
