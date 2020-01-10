@@ -22,7 +22,8 @@ fn main() {
     MOD.with(|cell| cell.set(m));
 
     let count = |d| -> _ {
-        let count = |sup: u64| cmp::min(sup.saturating_sub(a + 1) / b + u64::from(b < sup), l);
+        let count =
+            |above: u64| cmp::min(above.saturating_sub(a + 1) / b + u64::from(b < above), l);
         count(10u64.pow(d)) - count(10u64.pow(d - 1))
     };
 
@@ -65,12 +66,8 @@ thread_local! {
 struct Z(u64);
 
 impl Z {
-    fn checked(mut val: u64) -> Self {
-        let modulus = MOD.with(Cell::get);
-        if val >= modulus {
-            val %= modulus;
-        }
-        Self(val)
+    fn checked(val: u64) -> Self {
+        Self(val % MOD.with(Cell::get))
     }
 }
 
