@@ -48,6 +48,11 @@ name = "ABC144: D - Water Bottle"
 url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 
+[examples.abc150-d]
+name = "ABC150: D - Semi Common Multiple"
+url = "https://atcoder.jp/contests/abc150/tasks/abc150_d"
+matching = "Words"
+
 [examples.apg4b-a]
 name = "APG4b: A - 1.00.はじめに"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_a"
