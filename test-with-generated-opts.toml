@@ -19,7 +19,7 @@ meta = { using = ["text_io"] }
 name = "ABC084: D - 2017-like Number"
 url = "https://atcoder.jp/contests/abc084/tasks/abc084_d"
 matching = "Words"
-meta = { using = ["itertools-num", "primal", "proconio"] }
+meta = { using = ["itertools-num", "primal"] }
 
 [examples.abc118-b]
 name = "ABC118: B - Foods Loved by Everyone"
@@ -31,7 +31,7 @@ meta = { using = ["whiteread"] }
 name = "ABC120: D - Decayed Bridges"
 url = "https://atcoder.jp/contests/abc120/tasks/abc120_d"
 matching = "Words"
-meta = { using = ["proconio", "union-find"] }
+meta = { using = ["union-find"] }
 
 [examples.abc121-b]
 name = "ABC121: B - Can you solve this?"
@@ -104,7 +104,7 @@ meta = { using = ["superslice"] }
 name = "ATC001: B - Union Find"
 url = "https://atcoder.jp/contests/atc001/tasks/unionfind_a"
 matching = "Words"
-meta = { using = ["petgraph", "proconio"] }
+meta = { using = ["petgraph"] }
 
 [examples.atc002-b]
 name = "ATC002: B - n^p mod m"
