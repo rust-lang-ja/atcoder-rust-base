@@ -38,6 +38,11 @@ name = "ABC129: F - Takahashi's Basics in Education and Learning"
 url = "https://atcoder.jp/contests/abc129/tasks/abc129_f"
 matching = "Words"
 
+[examples.abc141-c]
+name = "ABC141: C - Attack Survival"
+url = "https://atcoder.jp/contests/abc141/tasks/abc141_c"
+matching = "Words"
+
 [examples.abc142-d]
 name = "ABC142: D - Disjoint Set of Common Divisors"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_d"
