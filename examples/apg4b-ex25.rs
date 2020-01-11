@@ -15,15 +15,6 @@ fn main() {
         ([$tt:tt; $n:expr]) => {
             (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
         };
-        (($($tt:tt),+)) => {
-            ($(read!($tt)),*)
-        };
-        (_1based) => {
-            read!(usize) - 1
-        };
-        (_bytes) => {
-            read!(String).into_bytes()
-        };
         ($ty:ty) => {
             input.next().unwrap().parse::<$ty>().unwrap()
         };
