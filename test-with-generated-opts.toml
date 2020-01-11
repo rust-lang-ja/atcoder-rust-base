@@ -9,11 +9,29 @@ url = "https://atcoder.jp/contests/abc054/tasks/abc054_c"
 matching = "Words"
 meta = { using = ["permutohedron", "petgraph"] }
 
-[examples.abc057-b]
+[examples.abc057-b-naive]
+name = "ABC057: B - Checkpoints"
+url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
+matching = "Words"
+meta = { using = [] } # 下3つと比較するため
+
+[examples.abc057-b-proconio]
+name = "ABC057: B - Checkpoints"
+url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
+matching = "Words"
+meta = { using = ["proconio"] }
+
+[examples.abc057-b-text-io]
 name = "ABC057: B - Checkpoints"
 url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 meta = { using = ["text_io"] }
+
+[examples.abc057-b-whiteread]
+name = "ABC057: B - Checkpoints"
+url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
+matching = "Words"
+meta = { using = ["whiteread"] }
 
 [examples.abc084-d]
 name = "ABC084: D - 2017-like Number"
@@ -21,7 +39,25 @@ url = "https://atcoder.jp/contests/abc084/tasks/abc084_d"
 matching = "Words"
 meta = { using = ["itertools-num", "primal"] }
 
-[examples.abc118-b]
+[examples.abc118-b-naive]
+name = "ABC118: B - Foods Loved by Everyone"
+url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
+matching = "Words"
+meta = { using = [] } # 下3つと比較するため
+
+[examples.abc118-b-proconio]
+name = "ABC118: B - Foods Loved by Everyone"
+url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
+matching = "Words"
+meta = { using = ["proconio"] }
+
+[examples.abc118-b-text-io]
+name = "ABC118: B - Foods Loved by Everyone"
+url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
+matching = "Words"
+meta = { using = ["text-io"] }
+
+[examples.abc118-b-whiteread]
 name = "ABC118: B - Foods Loved by Everyone"
 url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
@@ -33,11 +69,29 @@ url = "https://atcoder.jp/contests/abc120/tasks/abc120_d"
 matching = "Words"
 meta = { using = ["union-find"] }
 
-[examples.abc121-b]
+[examples.abc121-b-naive]
+name = "ABC121: B - Can you solve this?"
+url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
+matching = "Words"
+meta = { using = [] } # 下3つと比較するため
+
+[examples.abc121-b-proconio]
 name = "ABC121: B - Can you solve this?"
 url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = ["proconio"] }
+
+[examples.abc121-b-text-io]
+name = "ABC121: B - Can you solve this?"
+url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
+matching = "Words"
+meta = { using = ["text_io"] }
+
+[examples.abc121-b-whiteread]
+name = "ABC121: B - Can you solve this?"
+url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
+matching = "Words"
+meta = { using = ["whiteread"] }
 
 [examples.abc129-f]
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
