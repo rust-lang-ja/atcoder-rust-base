@@ -123,6 +123,12 @@ url = "https://atcoder.jp/contests/abc150/tasks/abc150_d"
 matching = "Words"
 meta = { using = ["itertools", "num"] }
 
+[examples.abc151-d]
+name = "ABC151: D - Maze Master"
+url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
+matching = "Words"
+meta = { using = ["ndarray", "smallvec"] }
+
 [examples.apg4b-a]
 name = "APG4b: A - 1.00.はじめに"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_a"
