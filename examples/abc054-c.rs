@@ -1,7 +1,6 @@
 // https://atcoder.jp/contests/abc054/tasks/abc054_c
 
-use petgraph::csr::Csr;
-use petgraph::Undirected;
+use petgraph::matrix_graph::UnMatrix;
 
 use std::io::{self, Read as _};
 
@@ -27,14 +26,11 @@ fn main() {
     let (n, m) = read!((usize, usize));
     let abs = read!([(_1based, _1based); m]);
 
-    let mut graph = Csr::<(), (), Undirected, usize>::with_nodes(n);
-    for (a, b) in abs {
-        graph.add_edge(a, b, ());
-    }
+    let graph = UnMatrix::<(), (), Option<()>, usize>::from_edges(abs);
     let mut ans = 0;
-    let mut nodes = (0..n).collect::<Vec<_>>();
+    let mut nodes = (0..n).map(Into::into).collect::<Vec<_>>();
     permutohedron::heap_recursive(&mut nodes, |nodes| {
-        if nodes[0] == 0 && nodes.windows(2).all(|w| graph.contains_edge(w[0], w[1])) {
+        if nodes[0] == 0.into() && nodes.windows(2).all(|w| graph.has_edge(w[0], w[1])) {
             ans += 1;
         }
     });

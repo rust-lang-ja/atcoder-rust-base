@@ -27,12 +27,12 @@ fn main() {
         count(10u64.pow(d)) - count(10u64.pow(d - 1))
     };
 
-    let ans = (1..=18).fold(array![[Z(0), Z::checked(a), Z(1)]], |acc, d| {
+    let ans = (1..=18).fold(array![[Z::new(0), Z::new(a), Z::new(1)]], |acc, d| {
         acc.dot(
             &array![
-                [Z::checked(10u64.pow(d)), Z(0), Z(0)],
-                [Z(1), Z(1), Z(0)],
-                [Z(0), Z::checked(b), Z(1)],
+                [Z::new(10u64.pow(d)), Z::new(0), Z::new(0)],
+                [Z::new(1), Z::new(1), Z::new(0)],
+                [Z::new(0), Z::new(b), Z::new(1)],
             ]
             .matrix_power(count(d)),
         )
@@ -66,7 +66,7 @@ thread_local! {
 struct Z(u64);
 
 impl Z {
-    fn checked(val: u64) -> Self {
+    fn new(val: u64) -> Self {
         Self(val % MOD.with(Cell::get))
     }
 }
@@ -75,7 +75,7 @@ impl Add for Z {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self {
-        Self::checked(self.0 + rhs.0)
+        Self::new(self.0 + rhs.0)
     }
 }
 
@@ -91,7 +91,7 @@ impl Mul for Z {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self {
-        Self::checked(self.0 * rhs.0)
+        Self::new(self.0 * rhs.0)
     }
 }
 
