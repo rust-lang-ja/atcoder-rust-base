@@ -12,9 +12,6 @@ fn main() {
     io::stdin().read_to_string(&mut input).unwrap();
     let mut input = input.split_whitespace();
     macro_rules! read {
-        (($($tt:tt),+)) => {
-            ($(read!($tt)),*)
-        };
         (_maze<$c:literal, ($h:expr, $w:expr)>) => {
             Array::from_shape_vec(
                 ($h, $w),
@@ -26,9 +23,10 @@ fn main() {
             )
             .unwrap()
         };
-        ($ty:ty) => {
-            input.next().unwrap().parse::<$ty>().unwrap()
-        };
+        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
+        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
+        (($($tt:tt),+))     => { ($(read!($tt)),*) };
+        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
     }
 
     let (h, w) = read!((usize, usize));

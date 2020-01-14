@@ -9,10 +9,12 @@ fn main() {
     let mut input = "".to_owned();
     io::stdin().read_to_string(&mut input).unwrap();
     let mut input = input.split_whitespace();
-    #[rustfmt::skip]
     macro_rules! read {
-        (_bytes) => { read!(String).into_bytes() };
-        ($ty:ty) => { input.next().unwrap().parse::<$ty>().unwrap() };
+        (_bytes)            => { read!(String).into_bytes() };
+        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
+        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
+        (($($tt:tt),+))     => { ($(read!($tt)),*) };
+        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
     }
 
     let s = read!(_bytes);
