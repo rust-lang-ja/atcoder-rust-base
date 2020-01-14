@@ -4,13 +4,11 @@ use ndarray::Array;
 use smallvec::{smallvec, SmallVec};
 
 use std::collections::VecDeque;
-use std::io::{self, Read as _};
+use std::io::{self, Read};
 use std::iter;
 
 fn main() {
-    let mut input = "".to_owned();
-    io::stdin().read_to_string(&mut input).unwrap();
-    let mut input = input.split_whitespace();
+    let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
         (_maze<$c:literal, ($h:expr, $w:expr)>) => {
             Array::from_shape_vec(
@@ -71,4 +69,10 @@ fn main() {
         .max()
         .unwrap();
     println!("{}", ans);
+}
+
+fn read_to_static(mut source: impl Read) -> &'static str {
+    let mut input = "".to_owned();
+    source.read_to_string(&mut input).unwrap();
+    Box::leak(input.into_boxed_str())
 }

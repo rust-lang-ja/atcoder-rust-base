@@ -5,14 +5,12 @@ use maplit::hashmap;
 use matches::matches;
 
 use std::collections::HashMap;
-use std::io::{self, Read as _};
+use std::io::{self, Read};
 use std::str::FromStr;
 
 fn main() {
-    let mut input = "".to_owned();
-    io::stdin().read_to_string(&mut input).unwrap();
     let mut env = hashmap!();
-    for line in input.lines().skip(1) {
+    for line in read_to_static(io::stdin()).lines().skip(1) {
         line.parse::<Stmt>().unwrap().eval(&mut env);
     }
 }
@@ -232,4 +230,10 @@ impl VecExpr {
             }
         }
     }
+}
+
+fn read_to_static(mut source: impl Read) -> &'static str {
+    let mut input = "".to_owned();
+    source.read_to_string(&mut input).unwrap();
+    Box::leak(input.into_boxed_str())
 }

@@ -2,12 +2,10 @@
 
 use union_find::{QuickFindUf, UnionBySize, UnionFind as _};
 
-use std::io::{self, BufWriter, Read as _, StdoutLock, Write as _};
+use std::io::{self, BufWriter, Read, StdoutLock, Write as _};
 
 fn main() {
-    let mut input = "".to_owned();
-    io::stdin().read_to_string(&mut input).unwrap();
-    let mut input = input.split_whitespace();
+    let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
         (_1based)           => { read!(usize) - 1 };
         ([$tt:tt])          => { read!([$tt; read!(usize)]) };
@@ -39,6 +37,12 @@ fn main() {
             println!("{}", x);
         }
     });
+}
+
+fn read_to_static(mut source: impl Read) -> &'static str {
+    let mut input = "".to_owned();
+    source.read_to_string(&mut input).unwrap();
+    Box::leak(input.into_boxed_str())
 }
 
 fn buf_print(f: impl FnOnce(&mut BufWriter<StdoutLock>)) {

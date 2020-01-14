@@ -2,12 +2,10 @@
 
 use superslice::Ext as _;
 
-use std::io::{self, Read as _};
+use std::io::{self, Read};
 
 fn main() {
-    let mut input = "".to_owned();
-    io::stdin().read_to_string(&mut input).unwrap();
-    let mut input = input.split_whitespace();
+    let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
         ([$tt:tt])          => { read!([$tt; read!(usize)]) };
         ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
@@ -25,4 +23,10 @@ fn main() {
         .map(|b| a.lower_bound(&b) * (n - c.upper_bound(&b)))
         .sum::<usize>();
     println!("{}", ans);
+}
+
+fn read_to_static(mut source: impl Read) -> &'static str {
+    let mut input = "".to_owned();
+    source.read_to_string(&mut input).unwrap();
+    Box::leak(input.into_boxed_str())
 }

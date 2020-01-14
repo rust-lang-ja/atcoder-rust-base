@@ -3,13 +3,11 @@
 use fixedbitset::FixedBitSet;
 use itertools::Itertools as _;
 
-use std::io::{self, Read as _};
+use std::io::{self, Read};
 
 #[allow(clippy::many_single_char_names)]
 fn main() {
-    let mut input = "".to_owned();
-    io::stdin().read_to_string(&mut input).unwrap();
-    let mut input = input.split_whitespace();
+    let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
         ([$tt:tt])          => { read!([$tt; read!(usize)]) };
         ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
@@ -52,7 +50,6 @@ fn symmetric_diff(a: &FixedBitSet, b: &FixedBitSet) -> FixedBitSet {
 }
 
 fn subtract(mut a: FixedBitSet, x: usize) -> FixedBitSet {
-    // > xは存在することが保証される。
     a.set(x, false);
     a
 }
@@ -63,4 +60,10 @@ fn increment(a: &FixedBitSet) -> FixedBitSet {
 
 fn decrement(a: &FixedBitSet) -> FixedBitSet {
     a.ones().map(|x| (x + 49) % 50).collect()
+}
+
+fn read_to_static(mut source: impl Read) -> &'static str {
+    let mut input = "".to_owned();
+    source.read_to_string(&mut input).unwrap();
+    Box::leak(input.into_boxed_str())
 }

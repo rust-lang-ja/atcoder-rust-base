@@ -8,13 +8,11 @@ use num_derive::{One, Zero};
 
 use std::cell::Cell;
 use std::cmp;
-use std::io::{self, Read as _};
+use std::io::{self, Read};
 use std::ops::{Add, Div, Mul, Sub};
 
 fn main() {
-    let mut input = "".to_owned();
-    io::stdin().read_to_string(&mut input).unwrap();
-    let mut input = input.split_whitespace();
+    let mut input = read_to_static(io::stdin()).split_whitespace();
     defmac!(read => input.next().unwrap().parse().unwrap());
 
     let (l, a, b, m): (u64, u64, u64, u64) = (read!(), read!(), read!(), read!());
@@ -101,4 +99,10 @@ impl Div for Z {
     fn div(self, _: Self) -> Self {
         unreachable!("should not be performed")
     }
+}
+
+fn read_to_static(mut source: impl Read) -> &'static str {
+    let mut input = "".to_owned();
+    source.read_to_string(&mut input).unwrap();
+    Box::leak(input.into_boxed_str())
 }
