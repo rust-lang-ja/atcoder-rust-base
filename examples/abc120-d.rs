@@ -9,31 +9,24 @@ fn main() {
     io::stdin().read_to_string(&mut input).unwrap();
     let mut input = input.split_whitespace();
     macro_rules! read {
-        ([$tt:tt; $n:expr]) => {
-            (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
-        };
-        (($($tt:tt),+)) => {
-            ($(read!($tt)),*)
-        };
-        (_1based) => {
-            read!(usize) - 1
-        };
-        ($ty:ty) => {
-            input.next().unwrap().parse::<$ty>().unwrap()
-        };
+        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
+        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
+        (($($tt:tt),+))     => { ($(read!($tt)),*) };
+        (_1based)           => { read!(usize) - 1 };
+        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
     }
 
-    let (n, m) = read!((usize, usize));
-    let abs = read!([(_1based, _1based); m]);
+    let n = read!(usize);
+    let abs = read!([(_1based, _1based)]);
 
     let max = n * (n - 1) / 2;
     let mut uf = QuickFindUf::<UnionBySize>::new(n);
     let mut ans_rev = vec![max];
 
     ans_rev.extend(abs.into_iter().rev().scan(max, |cur, (a, b)| {
-        let p = uf.get(a).size() * uf.get(b).size();
+        let prod = uf.get(a).size() * uf.get(b).size();
         if uf.union(a, b) {
-            *cur -= p;
+            *cur -= prod;
         }
         Some(*cur)
     }));

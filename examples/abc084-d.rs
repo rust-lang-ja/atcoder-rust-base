@@ -10,19 +10,13 @@ fn main() {
     io::stdin().read_to_string(&mut input).unwrap();
     let mut input = input.split_whitespace();
     macro_rules! read {
-        ([$tt:tt; $n:expr]) => {
-            (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
-        };
-        (($($tt:tt),+)) => {
-            ($(read!($tt)),*)
-        };
-        ($ty:ty) => {
-            input.next().unwrap().parse::<$ty>().unwrap()
-        };
+        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
+        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
+        (($($tt:tt),+))     => { ($(read!($tt)),*) };
+        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
     }
 
-    let q = read!(usize);
-    let lrs = read!([(usize, usize); q]);
+    let lrs = read!([(usize, usize)]);
 
     let max = lrs.iter().map(|&(_, r)| r).max().unwrap();
     let sieve = Sieve::new(max);

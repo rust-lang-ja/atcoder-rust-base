@@ -7,15 +7,9 @@ fn main() {
     io::stdin().read_to_string(&mut input).unwrap();
     let mut input = input.split_whitespace();
     macro_rules! read {
-        ([$tt:tt; $n:expr]) => {
-            (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
-        };
-        (($($tt:tt),+)) => {
-            ($(read!($tt)),*)
-        };
-        ($ty:ty) => {
-            input.next().unwrap().parse::<$ty>().unwrap()
-        };
+        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
+        (($($tt:tt),+))     => { ($(read!($tt)),*) };
+        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
     }
 
     let (n, m) = read!((usize, usize));

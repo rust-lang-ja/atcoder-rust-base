@@ -1,29 +1,24 @@
 // https://atcoder.jp/contests/APG4b/tasks/APG4b_bx
 
-#![allow(clippy::many_single_char_names)]
-
 use fixedbitset::FixedBitSet;
 use itertools::Itertools as _;
 
 use std::io::{self, Read as _};
 
+#[allow(clippy::many_single_char_names)]
 fn main() {
     let mut input = "".to_owned();
     io::stdin().read_to_string(&mut input).unwrap();
     let mut input = input.split_whitespace();
+    #[rustfmt::skip]
     macro_rules! read {
-        ([$tt:tt; $n:expr]) => {
-            (0..$n).map(|_| read!($tt)).collect::<Vec<_>>()
-        };
-        ($ty:ty) => {
-            input.next().unwrap().parse::<$ty>().unwrap()
-        };
+        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
+        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
+        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
     }
 
-    let n = read!(usize);
-    let a = read!([usize; n]);
-    let m = read!(usize);
-    let b = read!([usize; m]);
+    let a = read!([usize]);
+    let b = read!([usize]);
     let arg0 = read!(String);
     let args = read!([usize; if arg0 == "subtract" { 1 } else { 0 }]);
 

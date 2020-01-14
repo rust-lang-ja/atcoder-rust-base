@@ -8,8 +8,14 @@ use std::io::{self, Read as _};
 fn main() {
     let mut input = "".to_owned();
     io::stdin().read_to_string(&mut input).unwrap();
+    let mut input = input.split_whitespace();
+    #[rustfmt::skip]
+    macro_rules! read {
+        (_bytes) => { read!(String).into_bytes() };
+        ($ty:ty) => { input.next().unwrap().parse::<$ty>().unwrap() };
+    }
 
-    let s = input.trim_end().as_bytes().to_owned();
+    let s = read!(_bytes);
 
     lazy_static! {
         static ref R: Regex = Regex::new(r"\A(dream(er)?|eraser?)*\z").unwrap();
