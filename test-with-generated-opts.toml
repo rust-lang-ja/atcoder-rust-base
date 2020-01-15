@@ -105,6 +105,12 @@ url = "https://atcoder.jp/contests/abc141/tasks/abc141_c"
 matching = "Words"
 meta = { using = ["proconio"] }
 
+[examples.abc142-c]
+name = "ABC142: C - Go to School"
+url = "https://atcoder.jp/contests/abc142/tasks/abc142_c"
+matching = "Words"
+meta = { using = ["itertools", "superslice"] }
+
 [examples.abc142-d]
 name = "ABC142: D - Disjoint Set of Common Divisors"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_d"
