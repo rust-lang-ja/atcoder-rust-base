@@ -21,10 +21,10 @@ fn main() {
             )
             .unwrap()
         };
-        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
-        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
-        (($($tt:tt),+))     => { ($(read!($tt)),*) };
-        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
+        ([$tt:tt]) => (read!([$tt; read!(usize)]));
+        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
+        (($($tt:tt),+)) => (($(read!($tt)),*));
+        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
     }
 
     let (h, w) = read!((usize, usize));

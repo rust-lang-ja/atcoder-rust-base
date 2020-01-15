@@ -7,11 +7,13 @@ use std::io::{self, Read};
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
-        (_1based)           => { read!(usize) - 1 };
-        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
-        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
-        (($($tt:tt),+))     => { ($(read!($tt)),*) };
-        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
+        (_1based) => {
+            read!(usize) - 1
+        };
+        ([$tt:tt]) => (read!([$tt; read!(usize)]));
+        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
+        (($($tt:tt),+)) => (($(read!($tt)),*));
+        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
     }
 
     let n = read!(usize);

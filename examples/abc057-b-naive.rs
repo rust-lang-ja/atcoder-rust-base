@@ -5,10 +5,10 @@ use std::io::{self, Read};
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
-        ([$tt:tt])          => { read!([$tt; read!(usize)]) };
-        ([$tt:tt; $n:expr]) => { (0..$n).map(|_| read!($tt)).collect::<Vec<_>>() };
-        (($($tt:tt),+))     => { ($(read!($tt)),*) };
-        ($ty:ty)            => { input.next().unwrap().parse::<$ty>().unwrap() };
+        ([$tt:tt]) => (read!([$tt; read!(usize)]));
+        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
+        (($($tt:tt),+)) => (($(read!($tt)),*));
+        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
     }
 
     let (n, m) = read!((usize, usize));
