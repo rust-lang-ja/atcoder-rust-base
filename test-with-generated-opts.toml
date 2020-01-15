@@ -172,6 +172,34 @@ url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
 meta = { using = ["num"] }
 
+[examples.practice-a-naive]
+name = "practice contest: A - Welcome to AtCoder"
+url = "https://atcoder.jp/contests/practice/tasks/practice_1"
+matching = "Exact"
+alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\nmyonmyon", out = "456 myonmyon\n" }]
+meta = { using = [] } # 下3つと比較するため
+
+[examples.practice-a-proconio]
+name = "practice contest: A - Welcome to AtCoder"
+url = "https://atcoder.jp/contests/practice/tasks/practice_1"
+matching = "Exact"
+alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\nmyonmyon", out = "456 myonmyon\n" }]
+meta = { using = ["proconio"] }
+
+[examples.practice-a-text-io]
+name = "practice contest: A - Welcome to AtCoder"
+url = "https://atcoder.jp/contests/practice/tasks/practice_1"
+matching = "Exact"
+alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\nmyonmyon", out = "456 myonmyon\n" }]
+meta = { using = ["text-io"] }
+
+[examples.practice-a-whiteread]
+name = "practice contest: A - Welcome to AtCoder"
+url = "https://atcoder.jp/contests/practice/tasks/practice_1"
+matching = "Exact"
+alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\nmyonmyon", out = "456 myonmyon\n" }]
+meta = { using = ["whiteread"] }
+
 [examples.sumitrust2019-c]
 name = "Sumitomo Mitsui Trust Bank Programming Contest 2019: C - 100 to 105"
 url = "https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c"
