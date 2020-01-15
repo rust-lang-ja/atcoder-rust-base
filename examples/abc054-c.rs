@@ -1,6 +1,7 @@
 // https://atcoder.jp/contests/abc054/tasks/abc054_c
 
-use petgraph::matrix_graph::UnMatrix;
+use itertools::Itertools as _;
+use petgraph::graph::UnGraph;
 
 use std::io::{self, Read};
 
@@ -19,14 +20,12 @@ fn main() {
     let n = read!(usize);
     let abs = read!([({ Usize1 }, { Usize1 })]);
 
-    let graph = UnMatrix::<(), (), Option<()>, usize>::from_edges(abs);
-    let mut ans = 0;
-    let mut nodes = (0..n).map(Into::into).collect::<Vec<_>>();
-    permutohedron::heap_recursive(&mut nodes, |nodes| {
-        if nodes[0] == 0.into() && nodes.windows(2).all(|w| graph.has_edge(w[0], w[1])) {
-            ans += 1;
-        }
-    });
+    let graph = UnGraph::<(), (), usize>::from_edges(abs);
+    let ans = graph
+        .node_indices()
+        .permutations(n)
+        .filter(|p| p[0].index() == 0 && p.windows(2).all(|w| graph.contains_edge(w[0], w[1])))
+        .count();
     println!("{}", ans);
 }
 

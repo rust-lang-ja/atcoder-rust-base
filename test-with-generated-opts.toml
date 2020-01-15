@@ -7,7 +7,7 @@ testcases = "./target/test-with-generated-opts/testcases/{}"
 name = "ABC054: C - One-stroke Path"
 url = "https://atcoder.jp/contests/abc054/tasks/abc054_c"
 matching = "Words"
-meta = { using = ["permutohedron", "petgraph"] }
+meta = { using = ["itertools", "petgraph"] }
 
 [examples.abc057-b-naive]
 name = "ABC057: B - Checkpoints"
