@@ -97,7 +97,7 @@ meta = { using = ["whiteread"] }
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
 url = "https://atcoder.jp/contests/abc129/tasks/abc129_f"
 matching = "Words"
-meta = { using = ["defmac", "derive_more", "ndarray", "num", "num-derive"] }
+meta = { using = ["derive_more", "ndarray", "num", "num-derive"] }
 
 [examples.abc141-c]
 name = "ABC141: C - Attack Survival"
@@ -109,13 +109,13 @@ meta = { using = ["proconio"] }
 name = "ABC142: D - Disjoint Set of Common Divisors"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_d"
 matching = "Words"
-meta = { using = ["defmac", "num-integer", "primal"] }
+meta = { using = ["num-integer", "primal"] }
 
 [examples.abc144-d]
 name = "ABC144: D - Water Bottle"
 url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
-meta = { using = ["defmac", "libm"] }
+meta = { using = ["libm"] }
 
 [examples.abc150-d]
 name = "ABC150: D - Semi Common Multiple"
@@ -170,10 +170,10 @@ meta = { using = ["petgraph"] }
 name = "ATC002: B - n^p mod m"
 url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
-meta = { using = ["defmac", "num"] }
+meta = { using = ["num"] }
 
 [examples.sumitrust2019-c]
 name = "Sumitomo Mitsui Trust Bank Programming Contest 2019: C - 100 to 105"
 url = "https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c"
 matching = "Words"
-meta = { using = ["defmac", "fixedbitset"] }
+meta = { using = ["fixedbitset"] }

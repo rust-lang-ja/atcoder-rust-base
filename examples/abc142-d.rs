@@ -1,6 +1,5 @@
 // https://atcoder.jp/contests/abc142/tasks/abc142_d
 
-use defmac::defmac;
 use primal::Sieve;
 
 use std::cmp::max;
@@ -9,7 +8,7 @@ use std::io::{self, Read};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
-    defmac!(read => input.next().unwrap().parse().unwrap());
+    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
 
     let (a, b): (usize, usize) = (read!(), read!());
 

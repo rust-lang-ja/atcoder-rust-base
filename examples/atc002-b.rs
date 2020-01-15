@@ -1,13 +1,12 @@
 // https://atcoder.jp/contests/atc002/tasks/atc002_b
 
-use defmac::defmac;
 use num::BigUint;
 
 use std::io::{self, Read};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
-    defmac!(read => input.next().unwrap().parse().unwrap());
+    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
 
     let (n, m, p): (BigUint, BigUint, BigUint) = (read!(), read!(), read!());
 

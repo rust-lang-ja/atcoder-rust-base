@@ -1,13 +1,12 @@
 // https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c
 
-use defmac::defmac;
 use fixedbitset::FixedBitSet;
 
 use std::io::{self, Read};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
-    defmac!(read => input.next().unwrap().parse().unwrap());
+    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
 
     let x: usize = read!();
 

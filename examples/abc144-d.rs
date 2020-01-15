@@ -1,13 +1,11 @@
 // https://atcoder.jp/contests/abc144/tasks/abc144_d
 
-use defmac::defmac;
-
 use std::f64::consts::PI;
 use std::io::{self, Read};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
-    defmac!(read => input.next().unwrap().parse().unwrap());
+    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
 
     let (a, b, x): (f64, f64, f64) = (read!(), read!(), read!());
 

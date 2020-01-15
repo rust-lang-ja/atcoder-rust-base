@@ -1,6 +1,5 @@
 // https://atcoder.jp/contests/abc129/tasks/abc129_f
 
-use defmac::defmac;
 use derive_more::Display;
 use ndarray::{array, Array2, LinalgScalar};
 use num::{PrimInt, Unsigned};
@@ -13,7 +12,7 @@ use std::ops::{Add, Div, Mul, Sub};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
-    defmac!(read => input.next().unwrap().parse().unwrap());
+    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
 
     let (l, a, b, m): (u64, u64, u64, u64) = (read!(), read!(), read!(), read!());
 
