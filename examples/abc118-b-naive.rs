@@ -6,17 +6,17 @@ use std::ops::{BitAnd, BitOr};
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
-        (_1based) => {
-            read!(usize) - 1
-        };
         ([$tt:tt]) => (read!([$tt; read!(usize)]));
         ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
         (($($tt:tt),+)) => (($(read!($tt)),*));
         ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
+        ({ Usize1 }) => {
+            read!(usize) - 1
+        };
     }
 
     let (n, _) = read!((usize, usize));
-    let a = read!([[_1based]; n]);
+    let a = read!([[{ Usize1 }]; n]);
 
     let ans = a
         .into_iter()

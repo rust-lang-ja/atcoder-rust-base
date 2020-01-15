@@ -7,17 +7,17 @@ use std::io::{self, BufWriter, Read, StdoutLock, Write as _};
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
-        (_1based) => {
-            read!(usize) - 1
-        };
         ([$tt:tt]) => (read!([$tt; read!(usize)]));
         ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
         (($($tt:tt),+)) => (($(read!($tt)),*));
         ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
+        ({ Usize1 }) => {
+            read!(usize) - 1
+        };
     }
 
     let n = read!(usize);
-    let abs = read!([(_1based, _1based)]);
+    let abs = read!([({ Usize1 }, { Usize1 })]);
 
     let max = n * (n - 1) / 2;
     let mut uf = QuickFindUf::<UnionBySize>::new(n);

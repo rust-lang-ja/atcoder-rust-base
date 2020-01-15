@@ -10,7 +10,11 @@ use std::iter;
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
-        (_maze<$c:literal, ($h:expr, $w:expr)>) => {
+        ([$tt:tt]) => (read!([$tt; read!(usize)]));
+        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
+        (($($tt:tt),+)) => (($(read!($tt)),*));
+        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
+        ({ Maze<$c:literal, ($h:expr, $w:expr)> }) => {
             Array::from_shape_vec(
                 ($h, $w),
                 (0..$h)
@@ -21,14 +25,10 @@ fn main() {
             )
             .unwrap()
         };
-        ([$tt:tt]) => (read!([$tt; read!(usize)]));
-        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
-        (($($tt:tt),+)) => (($(read!($tt)),*));
-        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
     }
 
     let (h, w) = read!((usize, usize));
-    let maze = read!(_maze<b'.', (h, w)>);
+    let maze = read!({ Maze<b'.', (h, w)> });
 
     let neighbors = Array::from_shape_fn((h, w), |(i, j)| -> SmallVec<[_; 4]> {
         let mut neighbors = smallvec![];

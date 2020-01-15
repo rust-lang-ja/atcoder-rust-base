@@ -8,16 +8,16 @@ use std::io::{self, Read};
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
     macro_rules! read {
-        (_bytes) => {
-            read!(String).into_bytes()
-        };
         ([$tt:tt]) => (read!([$tt; read!(usize)]));
         ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
         (($($tt:tt),+)) => (($(read!($tt)),*));
         ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
+        ({ Bytes }) => {
+            read!(String).into_bytes()
+        };
     }
 
-    let s = read!(_bytes);
+    let s = read!({ Bytes });
 
     lazy_static! {
         static ref R: Regex = Regex::new(r"\A(dream(er)?|eraser?)*\z").unwrap();
