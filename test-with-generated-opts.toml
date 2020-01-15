@@ -139,7 +139,7 @@ meta = { using = ["itertools", "num"] }
 name = "ABC151: D - Maze Master"
 url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
 matching = "Words"
-meta = { using = ["ndarray", "smallvec"] }
+meta = { using = ["itertools", "ndarray", "smallvec"] }
 
 [examples.apg4b-a]
 name = "APG4b: A - 1.00.はじめに"

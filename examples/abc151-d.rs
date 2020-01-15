@@ -1,11 +1,10 @@
 // https://atcoder.jp/contests/abc151/tasks/abc151_d
 
 use ndarray::Array;
-use smallvec::{smallvec, SmallVec};
+use smallvec::SmallVec;
 
-use std::collections::VecDeque;
 use std::io::{self, Read};
-use std::iter;
+use std::{iter, mem};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
@@ -17,28 +16,28 @@ fn main() {
         ({ Maze<$c:literal, ($h:expr, $w:expr)> }) => {
             Array::from_shape_vec(
                 ($h, $w),
-                (0..$h)
-                    .fold(vec![], |mut acc, _| {
-                        acc.extend(input.next().unwrap().bytes().map(|c| c == $c));
-                        acc
-                    }),
+                itertools::concat((0..$h).map(|_| read!({ Row<$c> }))),
             )
             .unwrap()
+        };
+        ({ Row<$c:literal> }) => {
+            read!({ Bytes }).into_iter().map(|c| c == $c).collect::<Vec<_>>()
+        };
+        ({ Bytes }) => {
+            read!(String).into_bytes()
         };
     }
 
     let (h, w) = read!((usize, usize));
     let maze = read!({ Maze<b'.', (h, w)> });
 
-    let neighbors = Array::from_shape_fn((h, w), |(i, j)| -> SmallVec<[_; 4]> {
-        let mut neighbors = smallvec![];
-        macro_rules! push {
-            (if $cond:expr => $pos:expr) => {
-                if $cond && maze[$pos] {
-                    neighbors.push($pos);
-                }
-            };
-        }
+    let neighbors = Array::from_shape_fn((h, w), |(i, j)| {
+        let mut neighbors = SmallVec::<[_; 4]>::new();
+        macro_rules! push((if $cond:expr => $pos:expr) => {
+            if $cond && maze[$pos] {
+                neighbors.push($pos);
+            }
+        });
         push!(if 0 < i     => (i - 1, j));
         push!(if i < h - 1 => (i + 1, j));
         push!(if 0 < j     => (i, j - 1));
@@ -50,21 +49,21 @@ fn main() {
         .flat_map(|i| (0..w).map(move |j| (i, j)))
         .filter(|&p| maze[p])
         .map(|start| {
-            let mut longest = 0;
-            let mut queue = iter::once((start, 0)).collect::<VecDeque<_>>();
+            let mut queue = vec![start];
             let mut unvisited = maze.clone();
             unvisited[start] = false;
 
-            while let Some((pos, dist)) = queue.pop_front() {
-                for &neighbor in &neighbors[pos] {
-                    if unvisited[neighbor] {
-                        unvisited[neighbor] = false;
-                        longest = dist + 1;
-                        queue.push_back((neighbor, longest));
-                    }
-                }
-            }
-            longest
+            iter::repeat(())
+                .take_while(|_| {
+                    queue = queue
+                        .iter()
+                        .flat_map(|&p| &neighbors[p])
+                        .copied()
+                        .filter(|&p| mem::replace(&mut unvisited[p], false))
+                        .collect();
+                    !queue.is_empty()
+                })
+                .count()
         })
         .max()
         .unwrap();
