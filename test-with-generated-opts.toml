@@ -33,6 +33,12 @@ url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
 
+[examples.abc073-d]
+name = "ABC073: D - joisino's travel"
+url = "https://atcoder.jp/contests/abc073/tasks/abc073_d"
+matching = "Words"
+meta = { using = ["itertools", "petgraph"] }
+
 [examples.abc084-d]
 name = "ABC084: D - 2017-like Number"
 url = "https://atcoder.jp/contests/abc084/tasks/abc084_d"
