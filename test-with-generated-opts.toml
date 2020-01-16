@@ -212,6 +212,26 @@ matching = "Exact"
 alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\nmyonmyon", out = "456 myonmyon\n" }]
 meta = { using = ["whiteread"] }
 
+# [examples.practice-b-naive]
+# name = "practice contest: B - Interactive Sorting"
+# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+# meta = { using = ["itertools"] }
+#
+# [examples.practice-b-proconio]
+# name = "practice contest: B - Interactive Sorting"
+# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+# meta = { using = ["itertools", "proconio"] }
+#
+# [examples.practice-b-text-io]
+# name = "practice contest: B - Interactive Sorting"
+# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+# meta = { using = ["itertools", "text-io"] }
+#
+# [examples.practice-b-whiteread]
+# name = "practice contest: B - Interactive Sorting"
+# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+# meta = { using = ["itertools", "whiteread"] }
+
 [examples.sumitrust2019-c]
 name = "Sumitomo Mitsui Trust Bank Programming Contest 2019: C - 100 to 105"
 url = "https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c"
