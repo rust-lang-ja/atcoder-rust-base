@@ -1,9 +1,12 @@
 use anyhow::{anyhow, ensure, Context as _};
 use approx::{abs_diff_eq, relative_eq};
+use either::Either;
 use env_logger::fmt::Color;
+use fallible_iterator::FallibleIterator as _;
 use indexmap::IndexMap;
 use itertools::Itertools as _;
 use log::{info, Level, LevelFilter};
+use maplit::hashmap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use scraper::{Html, Selector};
@@ -12,9 +15,10 @@ use serde::{Deserialize, Deserializer};
 use structopt::StructOpt;
 use url::Url;
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::ffi::{OsStr, OsString};
 use std::io::{self, Read as _, Write as _};
+use std::ops::Deref;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 use std::str::FromStr;
@@ -66,44 +70,60 @@ fn main() -> anyhow::Result<()> {
     let tests = config
         .examples
         .iter()
-        .map(
-            |(
-                slug,
-                Example {
-                    name,
-                    url,
+        .map(|(slug, example)| {
+            let src = Path::new("./examples").join(slug).with_extension("rs");
+            let bin = config.bin.expand_path(slug)?;
+            compile(&src, &bin)?;
+
+            match example {
+                Example::Normal(Normal {
+                    base: Base { name, url },
                     matching,
                     alt_testcases,
-                },
-            )| {
-                let testcases = if let Some(alt_testcases) = alt_testcases {
-                    alt_testcases
+                }) => {
+                    let testcases = if let Some(alt_testcases) = alt_testcases {
+                        alt_testcases
+                            .iter()
+                            .enumerate()
+                            .map(|(i, c)| {
+                                ((i + 1).to_string().into(), (c.r#in.clone(), c.out.clone()))
+                            })
+                            .collect()
+                    } else {
+                        load_testcases(&config.testcases.expand_path(slug)?)?
+                    };
+                    Ok(Either::Left((name, url, bin, *matching, testcases)))
+                }
+                Example::Special(Special {
+                    base: Base { name, url },
+                    tester,
+                }) => {
+                    let tester = tester
                         .iter()
-                        .enumerate()
-                        .map(|(i, c)| ((i + 1).to_string().into(), (c.r#in.clone(), c.out.clone())))
-                        .collect()
-                } else {
-                    load_testcases(&config.testcases.expand(slug))?
-                };
-                let src = Path::new("./examples").join(slug).with_extension("rs");
-                let bin = config.bin.expand(slug);
-                compile(&src, &bin)?;
-                Ok((name, url, *matching, testcases, bin))
-            },
-        )
+                        .map(|t| t.expand_as_arg(&bin))
+                        .collect::<anyhow::Result<Vec<_>>>()?;
+                    Ok(Either::Right((name, url, bin, tester)))
+                }
+            }
+        })
         .collect::<anyhow::Result<Vec<_>>>()?;
 
-    for (name, url, matching, testcases, bin) in tests {
-        test(&name, &url, matching, &testcases, &bin)?;
+    for test in tests {
+        match test {
+            Either::Left((name, url, bin, matching, testcases)) => {
+                normal_test(&name, &url, matching, &testcases, &bin)?
+            }
+            Either::Right((name, url, bin, tester)) => special_test(&name, &url, &tester, &bin)?,
+        }
     }
     Ok(())
 }
 
 fn scrape_sample_cases(config: &Config) -> anyhow::Result<()> {
     for (slug, example) in &config.examples {
-        let dst_dir = config.testcases.expand(slug);
-        if !(dst_dir.exists() || example.alt_testcases.is_some()) {
-            let samples = get_html(&example.url)?.extract_samples()?;
+        let dst_dir = config.testcases.expand_path(slug)?;
+        if example.requires_sample_cases() && !dst_dir.exists() {
+            let samples = get_html(&example.url())?.extract_samples()?;
             save_testcases(&dst_dir, &samples)?;
         }
     }
@@ -439,7 +459,7 @@ fn compile(src: &Path, bin: &Path) -> anyhow::Result<()> {
     run_command(program, args).map(drop)
 }
 
-fn test(
+fn normal_test(
     task_name: &str,
     url: &Url,
     matching: Matching,
@@ -487,6 +507,29 @@ fn test(
         if verdict != "AC" {
             return Err(anyhow!("Test failed"));
         }
+    }
+    Ok(())
+}
+
+fn special_test(task_name: &str, url: &Url, tester: &[OsString], bin: &Path) -> anyhow::Result<()> {
+    info!("Testing {}", bin.display());
+    info!("  Name: {:?}", task_name);
+    info!("  URL: {}", url);
+    info!("  Arguments: {:?}", tester);
+
+    let start = Instant::now();
+    let arg0 = tester.get(0).map(Deref::deref).unwrap_or_default();
+    let status = Command::new(arg0)
+        .args(&tester[1..])
+        .status()
+        .with_context(|| format!("Failed to execute {}", arg0.to_string_lossy()))?;
+    let stop = Instant::now();
+    let time = (stop - start).as_millis();
+    let verdict = if status.success() { "AC" } else { "WA" };
+
+    info!("{} in {}ms", verdict, time);
+    if verdict != "AC" {
+        return Err(anyhow!("Test failed"));
     }
     Ok(())
 }
@@ -547,52 +590,70 @@ impl BoolExt for bool {
 
 #[derive(Debug, Deserialize)]
 struct Config {
-    bin: PathTemplate,
-    testcases: PathTemplate,
+    bin: Template,
+    testcases: Template,
     examples: IndexMap<String, Example>,
 }
 
 #[derive(Debug)]
-struct PathTemplate(Vec<PathTemplateToken>);
+struct Template(Vec<TemplateToken>);
 
-impl PathTemplate {
-    fn expand(&self, slug: &str) -> PathBuf {
-        self.0
-            .iter()
-            .map(|token| match token {
-                PathTemplateToken::Brace => slug,
-                PathTemplateToken::Plain(plain) => plain,
-            })
-            .join("")
-            .into()
+impl Template {
+    fn expand(&self, vars: &HashMap<&str, &OsStr>) -> anyhow::Result<OsString> {
+        let args = self.0.iter().map(|token| match token {
+            TemplateToken::Brace(name) => vars.get(&**name).copied().ok_or_else(|| {
+                anyhow!(
+                    "Undefined variable {:?} (expected {:?})",
+                    name,
+                    vars.keys().collect::<BTreeSet<_>>(),
+                )
+            }),
+            TemplateToken::Plain(plain) => Ok(plain.as_ref()),
+        });
+        fallible_iterator::convert(args).fold(OsString::new(), |mut acc, arg| {
+            acc.push(arg);
+            Ok(acc)
+        })
+    }
+
+    fn expand_path(&self, slug: &str) -> anyhow::Result<PathBuf> {
+        let vars = hashmap!("problem" => slug.as_ref());
+        self.expand(&vars).map(Into::into)
+    }
+
+    fn expand_as_arg(&self, bin: &Path) -> anyhow::Result<OsString> {
+        let vars = hashmap!("bin" => bin.as_ref());
+        self.expand(&vars)
     }
 }
 
-impl<'de> Deserialize<'de> for PathTemplate {
+impl<'de> Deserialize<'de> for Template {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
         use nom::branch::alt;
         use nom::bytes::complete::take_while1;
-        use nom::character::complete::{char, space0};
+        use nom::character::complete::{alphanumeric1, char, space0};
         use nom::multi::many0;
         use nom::IResult;
 
-        fn tokens(input: &str) -> IResult<&str, Vec<PathTemplateToken>> {
+        fn tokens(input: &str) -> IResult<&str, Vec<TemplateToken>> {
             many0(alt((brace, plain)))(input)
         }
 
-        fn brace(input: &str) -> IResult<&str, PathTemplateToken> {
+        fn brace(input: &str) -> IResult<&str, TemplateToken> {
             let (input, _) = char('{')(input)?;
             let (input, _) = space0(input)?;
+            let (input, name) = alphanumeric1(input)?;
+            let (input, _) = space0(input)?;
             let (input, _) = char('}')(input)?;
-            Ok((input, PathTemplateToken::Brace))
+            Ok((input, TemplateToken::Brace(name.to_owned())))
         }
 
-        fn plain(input: &str) -> IResult<&str, PathTemplateToken> {
+        fn plain(input: &str) -> IResult<&str, TemplateToken> {
             let (input, plain) = take_while1(|c| !['{', '}'].contains(&c))(input)?;
-            Ok((input, PathTemplateToken::Plain(plain.to_owned())))
+            Ok((input, TemplateToken::Plain(plain.to_owned())))
         }
 
         let input = String::deserialize(deserializer)?;
@@ -607,17 +668,53 @@ impl<'de> Deserialize<'de> for PathTemplate {
 }
 
 #[derive(Debug)]
-enum PathTemplateToken {
-    Brace,
+enum TemplateToken {
+    Brace(String),
     Plain(String),
 }
 
 #[derive(Debug, Deserialize)]
-struct Example {
-    name: String,
-    url: Url,
+#[serde(tag = "type")]
+enum Example {
+    Normal(Normal),
+    Special(Special),
+}
+
+impl Example {
+    fn url(&self) -> &Url {
+        match self {
+            Self::Normal(this) => &this.base.url,
+            Self::Special(this) => &this.base.url,
+        }
+    }
+
+    fn requires_sample_cases(&self) -> bool {
+        match self {
+            Self::Normal(this) => this.alt_testcases.is_none(),
+            Self::Special(_) => false,
+        }
+    }
+}
+
+#[derive(Debug, Deserialize)]
+struct Normal {
+    #[serde(flatten)]
+    base: Base,
     matching: Matching,
     alt_testcases: Option<Vec<AltTestCase>>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Special {
+    #[serde(flatten)]
+    base: Base,
+    tester: Vec<Template>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Base {
+    name: String,
+    url: Url,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]

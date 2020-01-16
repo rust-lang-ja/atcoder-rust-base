@@ -2,7 +2,7 @@
 
 use maplit::hashset;
 
-use std::io;
+use std::{io, str};
 
 fn main() {
     fn read_line() -> String {
@@ -28,7 +28,7 @@ fn main() {
         5 => on_5(query),
         _ => unreachable!(),
     };
-    println!("! {}", String::from_utf8(ans).unwrap());
+    println!("! {}", str::from_utf8(&ans).unwrap());
 }
 
 fn on_26(mut query: impl FnMut(u8, u8) -> bool) -> Vec<u8> {

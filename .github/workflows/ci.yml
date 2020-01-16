@@ -57,6 +57,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: setup-python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+
       - name: rust-toolchain
         uses: actions-rs/toolchain@v1
         with:

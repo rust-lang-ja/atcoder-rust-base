@@ -1,147 +1,171 @@
 # Dropboxからのダウンロードは行なわない。（面倒なのと誰のアカウントを使うかという問題がある）
 
-bin = "./target/test-with-generated-opts/bin/{}"
-testcases = "./target/test-with-generated-opts/testcases/{}"
+bin = "./target/test-with-generated-opts/bin/{problem}"
+testcases = "./target/test-with-generated-opts/testcases/{problem}"
 
 [examples.abc054-c]
+type = "Normal"
 name = "ABC054: C - One-stroke Path"
 url = "https://atcoder.jp/contests/abc054/tasks/abc054_c"
 matching = "Words"
 meta = { using = ["itertools", "petgraph"] }
 
 [examples.abc057-b-naive]
+type = "Normal"
 name = "ABC057: B - Checkpoints"
 url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 meta = { using = [] } # 下3つと比較するため
 
 [examples.abc057-b-proconio]
+type = "Normal"
 name = "ABC057: B - Checkpoints"
 url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 meta = { using = ["proconio"] }
 
 [examples.abc057-b-text-io]
+type = "Normal"
 name = "ABC057: B - Checkpoints"
 url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 meta = { using = ["text_io"] }
 
 [examples.abc057-b-whiteread]
+type = "Normal"
 name = "ABC057: B - Checkpoints"
 url = "https://atcoder.jp/contests/abc057/tasks/abc057_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
 
 [examples.abc073-d]
+type = "Normal"
 name = "ABC073: D - joisino's travel"
 url = "https://atcoder.jp/contests/abc073/tasks/abc073_d"
 matching = "Words"
 meta = { using = ["itertools", "petgraph"] }
 
 [examples.abc084-d]
+type = "Normal"
 name = "ABC084: D - 2017-like Number"
 url = "https://atcoder.jp/contests/abc084/tasks/abc084_d"
 matching = "Words"
 meta = { using = ["itertools-num", "primal"] }
 
 [examples.abc118-b-naive]
+type = "Normal"
 name = "ABC118: B - Foods Loved by Everyone"
 url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
 meta = { using = [] } # 下3つと比較するため
 
 [examples.abc118-b-proconio]
+type = "Normal"
 name = "ABC118: B - Foods Loved by Everyone"
 url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
 meta = { using = ["proconio"] }
 
 [examples.abc118-b-text-io]
+type = "Normal"
 name = "ABC118: B - Foods Loved by Everyone"
 url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
 meta = { using = ["text-io"] }
 
 [examples.abc118-b-whiteread]
+type = "Normal"
 name = "ABC118: B - Foods Loved by Everyone"
 url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
 
 [examples.abc120-d]
+type = "Normal"
 name = "ABC120: D - Decayed Bridges"
 url = "https://atcoder.jp/contests/abc120/tasks/abc120_d"
 matching = "Words"
 meta = { using = ["union-find"] }
 
 [examples.abc121-b-naive]
+type = "Normal"
 name = "ABC121: B - Can you solve this?"
 url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = [] } # 下3つと比較するため
 
 [examples.abc121-b-proconio]
+type = "Normal"
 name = "ABC121: B - Can you solve this?"
 url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = ["proconio"] }
 
 [examples.abc121-b-text-io]
+type = "Normal"
 name = "ABC121: B - Can you solve this?"
 url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = ["text_io"] }
 
 [examples.abc121-b-whiteread]
+type = "Normal"
 name = "ABC121: B - Can you solve this?"
 url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
 
 [examples.abc129-f]
+type = "Normal"
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
 url = "https://atcoder.jp/contests/abc129/tasks/abc129_f"
 matching = "Words"
 meta = { using = ["derive_more", "ndarray", "num", "num-derive"] }
 
 [examples.abc141-c]
+type = "Normal"
 name = "ABC141: C - Attack Survival"
 url = "https://atcoder.jp/contests/abc141/tasks/abc141_c"
 matching = "Words"
 meta = { using = ["proconio"] }
 
 [examples.abc142-c]
+type = "Normal"
 name = "ABC142: C - Go to School"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_c"
 matching = "Words"
 meta = { using = ["itertools", "superslice"] }
 
 [examples.abc142-d]
+type = "Normal"
 name = "ABC142: D - Disjoint Set of Common Divisors"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_d"
 matching = "Words"
 meta = { using = ["num-integer", "primal"] }
 
 [examples.abc144-d]
+type = "Normal"
 name = "ABC144: D - Water Bottle"
 url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 meta = { using = ["libm"] }
 
 [examples.abc150-d]
+type = "Normal"
 name = "ABC150: D - Semi Common Multiple"
 url = "https://atcoder.jp/contests/abc150/tasks/abc150_d"
 matching = "Words"
 meta = { using = ["itertools", "num"] }
 
 [examples.abc151-d]
+type = "Normal"
 name = "ABC151: D - Maze Master"
 url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
 matching = "Words"
 meta = { using = ["itertools", "ndarray", "smallvec"] }
 
 [examples.apg4b-a]
+type = "Normal"
 name = "APG4b: A - 1.00.はじめに"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_a"
 matching = "Exact"
@@ -149,42 +173,49 @@ alt_testcases = [{ in = "", out = "Hello, world!\n" }]
 meta = { using = ["aho-corasick", "alga", "approx", "ascii", "bitset-fixed", "defmac", "derive_more", "derive-new", "either", "euclid", "fixedbitset", "getrandom", "jemallocator", "jemalloc-ctl", "if_chain", "im-rc", "indexmap", "itertools", "itertools-num", "lazy_static", "libm", "maplit", "matches", "modtype", "nalgebra", "ndarray", "nom", "num", "num-bigint", "num-complex", "num-derive", "num-integer", "num-iter", "num-rational", "num-traits", "ordered-float", "permutohedron", "petgraph", "primal", "primal-check", "primal-estimate", "primal-sieve", "proconio", "rand", "rand_chacha", "rand_core", "rand_distr", "rand_hc", "rand_pcg", "regex", "rustc-hash", "smallvec", "strsim", "superslice", "take_mut", "text_io", "union-find", "whiteread"] }
 
 [examples.apg4b-ex25]
+type = "Normal"
 name = "APG4b: EX25 - 集合の操作 / 3.05"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bx"
 matching = "Words"
 meta = { using = ["fixedbitset", "itertools"] }
 
 [examples.apg4b-ex26]
+type = "Normal"
 name = "APG4b: EX26 - 電卓を作ろう3 / 3.06"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bw"
 matching = "Exact"
 meta = { using = ["itertools", "maplit", "matches", "nom"] }
 
 [examples.arc065-c]
+type = "Normal"
 name = "ABC049 / ARC065: C - 白昼夢 / Daydream"
 url = "https://atcoder.jp/contests/arc065/tasks/arc065_a"
 matching = "Words"
 meta = { using = ["lazy_static", "regex"] }
 
 [examples.arc084-c]
+type = "Normal"
 name = "ABC077 / ARC084: C - Snuke Festival"
 url = "https://atcoder.jp/contests/arc084/tasks/arc084_a"
 matching = "Words"
 meta = { using = ["superslice"] }
 
 [examples.atc001-b]
+type = "Normal"
 name = "ATC001: B - Union Find"
 url = "https://atcoder.jp/contests/atc001/tasks/unionfind_a"
 matching = "Words"
 meta = { using = ["petgraph"] }
 
 [examples.atc002-b]
+type = "Normal"
 name = "ATC002: B - n^p mod m"
 url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
 meta = { using = ["num"] }
 
 [examples.practice-a-naive]
+type = "Normal"
 name = "practice contest: A - Welcome to AtCoder"
 url = "https://atcoder.jp/contests/practice/tasks/practice_1"
 matching = "Exact"
@@ -192,6 +223,7 @@ alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\
 meta = { using = [] } # 下3つと比較するため
 
 [examples.practice-a-proconio]
+type = "Normal"
 name = "practice contest: A - Welcome to AtCoder"
 url = "https://atcoder.jp/contests/practice/tasks/practice_1"
 matching = "Exact"
@@ -199,6 +231,7 @@ alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\
 meta = { using = ["proconio"] }
 
 [examples.practice-a-text-io]
+type = "Normal"
 name = "practice contest: A - Welcome to AtCoder"
 url = "https://atcoder.jp/contests/practice/tasks/practice_1"
 matching = "Exact"
@@ -206,33 +239,43 @@ alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\
 meta = { using = ["text-io"] }
 
 [examples.practice-a-whiteread]
+type = "Normal"
 name = "practice contest: A - Welcome to AtCoder"
 url = "https://atcoder.jp/contests/practice/tasks/practice_1"
 matching = "Exact"
 alt_testcases = [{ in = "1\n2 3\ntest", out = "6 test\n" }, { in = "72\n128 256\nmyonmyon", out = "456 myonmyon\n" }]
 meta = { using = ["whiteread"] }
 
-# [examples.practice-b-naive]
-# name = "practice contest: B - Interactive Sorting"
-# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
-# meta = { using = ["itertools"] }
-#
-# [examples.practice-b-proconio]
-# name = "practice contest: B - Interactive Sorting"
-# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
-# meta = { using = ["itertools", "proconio"] }
-#
-# [examples.practice-b-text-io]
-# name = "practice contest: B - Interactive Sorting"
-# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
-# meta = { using = ["itertools", "text-io"] }
-#
-# [examples.practice-b-whiteread]
-# name = "practice contest: B - Interactive Sorting"
-# url = "https://atcoder.jp/contests/practice/tasks/practice_2"
-# meta = { using = ["itertools", "whiteread"] }
+[examples.practice-b-naive]
+type = "Special"
+name = "practice contest: B - Interactive Sorting"
+url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+tester = ["python", "./examples/testers/practice-b.py", "{bin}"]
+meta = { using = ["itertools", "maplit"] }
+
+[examples.practice-b-proconio]
+type = "Special"
+name = "practice contest: B - Interactive Sorting"
+url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+tester = ["python", "./examples/testers/practice-b.py", "{bin}"]
+meta = { using = ["itertools", "maplit", "proconio"] }
+
+[examples.practice-b-text-io]
+type = "Special"
+name = "practice contest: B - Interactive Sorting"
+url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+tester = ["python", "./examples/testers/practice-b.py", "{bin}"]
+meta = { using = ["itertools", "maplit", "text-io"] }
+
+[examples.practice-b-whiteread]
+type = "Special"
+name = "practice contest: B - Interactive Sorting"
+url = "https://atcoder.jp/contests/practice/tasks/practice_2"
+tester = ["python", "./examples/testers/practice-b.py", "{bin}"]
+meta = { using = ["itertools", "maplit", "whiteread"] }
 
 [examples.sumitrust2019-c]
+type = "Normal"
 name = "Sumitomo Mitsui Trust Bank Programming Contest 2019: C - 100 to 105"
 url = "https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c"
 matching = "Words"

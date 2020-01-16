@@ -3,7 +3,7 @@
 use maplit::hashset;
 use text_io::{read, try_read, try_scan};
 
-use std::io;
+use std::{io, str};
 
 #[allow(clippy::try_err)]
 fn main() {
@@ -28,7 +28,7 @@ fn main() {
         5 => on_5(query),
         _ => unreachable!(),
     };
-    println!("! {}", String::from_utf8(ans).unwrap());
+    println!("! {}", str::from_utf8(&ans).unwrap());
 }
 
 fn on_26(mut query: impl FnMut(u8, u8) -> bool) -> Vec<u8> {
@@ -99,6 +99,8 @@ mod tests {
                 let wr = balls.iter().position(|&b| b == r).unwrap();
                 wl < wr
             });
+            let ans = str::from_utf8(&ans).unwrap();
+            let balls = str::from_utf8(&balls).unwrap();
             assert_eq!(ans, balls);
             assert!(queries <= 7);
         }

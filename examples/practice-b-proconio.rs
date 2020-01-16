@@ -4,7 +4,7 @@ use maplit::hashset;
 use proconio::input;
 use proconio::source::line::LineSource;
 
-use std::io;
+use std::{io, str};
 
 fn main() {
     let stdin = io::stdin();
@@ -29,7 +29,7 @@ fn main() {
         5 => on_5(query),
         _ => unreachable!(),
     };
-    println!("! {}", String::from_utf8(ans).unwrap());
+    println!("! {}", str::from_utf8(&ans).unwrap());
 }
 
 fn on_26(mut query: impl FnMut(u8, u8) -> bool) -> Vec<u8> {
@@ -100,6 +100,8 @@ mod tests {
                 let wr = balls.iter().position(|&b| b == r).unwrap();
                 wl < wr
             });
+            let ans = str::from_utf8(&ans).unwrap();
+            let balls = str::from_utf8(&balls).unwrap();
             assert_eq!(ans, balls);
             assert!(queries <= 7);
         }
