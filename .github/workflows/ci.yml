@@ -181,17 +181,17 @@ jobs:
           override: true
           profile: default
 
-      - name: '`cargo clippy ${{ matrix.features }} -- -D warnings`'
+      - name: '`cargo clippy --all-targets --profile test ${{ matrix.features }} -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: ${{ matrix.features }} -- -D warnings
+          args: --all-targets --profile test ${{ matrix.features }} -- -D warnings
 
-      - name: '`cargo test ${{ matrix.features }} --no-fail-fast`'
+      - name: '`cargo test --all-targets ${{ matrix.features }} --no-fail-fast`'
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: ${{ matrix.features }} --no-fail-fast
+          args: --all-targets ${{ matrix.features }} --no-fail-fast
 
       - name: '`cargo run --release`'
         uses: actions-rs/cargo@v1
