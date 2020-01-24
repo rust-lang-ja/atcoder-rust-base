@@ -43,14 +43,14 @@ jobs:
           command: fmt
           args: --manifest-path ./tools/dep-tests/Cargo.toml -- --check
 
-      - name: '`cargo fmt --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- --check`'
+      - name: '`cargo fmt --manifest-path ./tools/test-examples/Cargo.toml -- --check`'
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- --check
+          args: --manifest-path ./tools/test-examples/Cargo.toml -- --check
 
-  test-with-generated-opts:
-    name: test-with-generated-opts
+  test-examples:
+    name: test-examples
     runs-on: ubuntu-18.04
 
     steps:
@@ -75,11 +75,11 @@ jobs:
           command: install
           args: --git https://github.com/rust-lang-ja/atcoder-rustc-dep-option-generator
 
-      - name: '`cargo clippy --all-features --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- -D warnings`'
+      - name: '`cargo clippy --all-features --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --all-features --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- -D warnings
+          args: --all-features --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings
 
       - name: '`cargo build --all-features --release`'
         uses: actions-rs/cargo@v1
@@ -87,13 +87,10 @@ jobs:
           command: build
           args: --all-features --release
 
-      - name: '`chmod -R a=rX-w ./target/release`'
-        run: chmod -R a=rX-w ./target/release
-
-      - name: '`cargo test-with-generated-opts`'
+      - name: '`cargo test-examples`'
         uses: actions-rs/cargo@v1
         with:
-          command: test-with-generated-opts
+          command: test-examples
 
   build:
     strategy:

@@ -44,13 +44,6 @@ url = "https://atcoder.jp/contests/abc073/tasks/abc073_d"
 matching = "Words"
 meta = { using = ["itertools", "petgraph"] }
 
-[examples.abc084-d]
-type = "Normal"
-name = "ABC084: D - 2017-like Number"
-url = "https://atcoder.jp/contests/abc084/tasks/abc084_d"
-matching = "Words"
-meta = { using = ["itertools-num", "primal"] }
-
 [examples.abc118-b-naive]
 type = "Normal"
 name = "ABC118: B - Foods Loved by Everyone"
@@ -78,13 +71,6 @@ name = "ABC118: B - Foods Loved by Everyone"
 url = "https://atcoder.jp/contests/abc118/tasks/abc118_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
-
-[examples.abc120-d]
-type = "Normal"
-name = "ABC120: D - Decayed Bridges"
-url = "https://atcoder.jp/contests/abc120/tasks/abc120_d"
-matching = "Words"
-meta = { using = ["union-find"] }
 
 [examples.abc121-b-naive]
 type = "Normal"
@@ -119,7 +105,7 @@ type = "Normal"
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
 url = "https://atcoder.jp/contests/abc129/tasks/abc129_f"
 matching = "Words"
-meta = { using = ["derive_more", "ndarray", "num", "num-derive"] }
+meta = { using = ["ndarray", "num", "num-derive"] }
 
 [examples.abc141-c]
 type = "Normal"
@@ -134,13 +120,6 @@ name = "ABC142: C - Go to School"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_c"
 matching = "Words"
 meta = { using = ["itertools", "superslice"] }
-
-[examples.abc142-d]
-type = "Normal"
-name = "ABC142: D - Disjoint Set of Common Divisors"
-url = "https://atcoder.jp/contests/abc142/tasks/abc142_d"
-matching = "Words"
-meta = { using = ["num-integer", "primal"] }
 
 [examples.abc144-d]
 type = "Normal"
@@ -169,7 +148,7 @@ name = "APG4b: A - 1.00.はじめに"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_a"
 matching = "Exact"
 alt_testcases = [{ in = "", out = "Hello, world!\n" }]
-meta = { using = ["aho-corasick", "alga", "approx", "ascii", "bitset-fixed", "defmac", "derive_more", "derive-new", "either", "euclid", "fixedbitset", "getrandom", "jemallocator", "jemalloc-ctl", "if_chain", "im-rc", "indexmap", "itertools", "itertools-num", "lazy_static", "libm", "maplit", "matches", "modtype", "nalgebra", "ndarray", "nom", "num", "num-bigint", "num-complex", "num-derive", "num-integer", "num-iter", "num-rational", "num-traits", "ordered-float", "permutohedron", "petgraph", "primal", "primal-check", "primal-estimate", "primal-sieve", "proconio", "rand", "rand_chacha", "rand_core", "rand_distr", "rand_hc", "rand_pcg", "regex", "rustc-hash", "smallvec", "strsim", "superslice", "take_mut", "text_io", "union-find", "whiteread"] }
+meta = { using = ["alga", "ascii", "bitset-fixed", "either", "fixedbitset", "getrandom", "im-rc", "indexmap", "itertools", "itertools-num", "lazy_static", "libm", "maplit", "nalgebra", "ndarray", "num", "num-bigint", "num-complex", "num-derive", "num-integer", "num-iter", "num-rational", "num-traits", "ordered-float", "permutohedron", "petgraph", "proconio", "rand", "rand_chacha", "rand_core", "rand_distr", "rand_hc", "rand_pcg", "regex", "rustc-hash", "smallvec", "superslice", "text_io", "whiteread"] }
 
 [examples.apg4b-ex25]
 type = "Normal"
@@ -177,13 +156,6 @@ name = "APG4b: EX25 - 集合の操作 / 3.05"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bx"
 matching = "Words"
 meta = { using = ["fixedbitset", "itertools"] }
-
-[examples.apg4b-ex26]
-type = "Normal"
-name = "APG4b: EX26 - 電卓を作ろう3 / 3.06"
-url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bw"
-matching = "Exact"
-meta = { using = ["itertools", "maplit", "matches", "nom"] }
 
 [examples.arc065-c]
 type = "Normal"

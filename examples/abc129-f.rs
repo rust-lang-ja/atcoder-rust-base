@@ -1,14 +1,13 @@
 // https://atcoder.jp/contests/abc129/tasks/abc129_f
 
-use derive_more::Display;
 use ndarray::{array, Array2, LinalgScalar};
 use num::{PrimInt, Unsigned};
 use num_derive::{One, Zero};
 
 use std::cell::Cell;
-use std::cmp;
 use std::io::{self, Read};
 use std::ops::{Add, Div, Mul, Sub};
+use std::{cmp, fmt};
 
 fn main() {
     let mut input = read_to_static(io::stdin()).split_whitespace();
@@ -59,12 +58,18 @@ thread_local! {
     static MOD: Cell<u64> = Cell::new(0);
 }
 
-#[derive(Zero, One, Display, Debug, Clone, Copy)]
+#[derive(Zero, One, Debug, Clone, Copy)]
 struct Z(u64);
 
 impl Z {
     fn new(val: u64) -> Self {
         Self(val % MOD.with(Cell::get))
+    }
+}
+
+impl fmt::Display for Z {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Display::fmt(&self.0, fmt)
     }
 }
 
