@@ -7,7 +7,7 @@ type = "Normal"
 name = "ABC054: C - One-stroke Path"
 url = "https://atcoder.jp/contests/abc054/tasks/abc054_c"
 matching = "Words"
-meta = { using = ["itertools", "petgraph"] }
+meta = { using = ["itertools", "petgraph", "proconio"] }
 
 [examples.abc057-b-naive]
 type = "Normal"
@@ -42,7 +42,7 @@ type = "Normal"
 name = "ABC073: D - joisino's travel"
 url = "https://atcoder.jp/contests/abc073/tasks/abc073_d"
 matching = "Words"
-meta = { using = ["itertools", "petgraph"] }
+meta = { using = ["itertools", "num", "petgraph", "proconio"] }
 
 [examples.abc118-b-naive]
 type = "Normal"
@@ -105,7 +105,7 @@ type = "Normal"
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
 url = "https://atcoder.jp/contests/abc129/tasks/abc129_f"
 matching = "Words"
-meta = { using = ["ndarray", "num", "num-derive"] }
+meta = { using = ["ndarray", "num", "num-derive", "proconio"] }
 
 [examples.abc141-c]
 type = "Normal"
@@ -119,28 +119,28 @@ type = "Normal"
 name = "ABC142: C - Go to School"
 url = "https://atcoder.jp/contests/abc142/tasks/abc142_c"
 matching = "Words"
-meta = { using = ["itertools", "superslice"] }
+meta = { using = ["itertools", "proconio", "superslice"] }
 
 [examples.abc144-d]
 type = "Normal"
 name = "ABC144: D - Water Bottle"
 url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
-meta = { using = ["libm"] }
+meta = { using = ["libm", "proconio"] }
 
 [examples.abc150-d]
 type = "Normal"
 name = "ABC150: D - Semi Common Multiple"
 url = "https://atcoder.jp/contests/abc150/tasks/abc150_d"
 matching = "Words"
-meta = { using = ["itertools", "num"] }
+meta = { using = ["itertools", "num", "proconio"] }
 
 [examples.abc151-d]
 type = "Normal"
 name = "ABC151: D - Maze Master"
 url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
 matching = "Words"
-meta = { using = ["itertools", "ndarray", "smallvec"] }
+meta = { using = ["itertools", "ndarray", "proconio", "smallvec"] }
 
 [examples.apg4b-a]
 type = "Normal"
@@ -155,35 +155,35 @@ type = "Normal"
 name = "APG4b: EX25 - 集合の操作 / 3.05"
 url = "https://atcoder.jp/contests/APG4b/tasks/APG4b_bx"
 matching = "Words"
-meta = { using = ["fixedbitset", "itertools"] }
+meta = { using = ["fixedbitset", "itertools", "proconio"] }
 
 [examples.arc065-c]
 type = "Normal"
 name = "ABC049 / ARC065: C - 白昼夢 / Daydream"
 url = "https://atcoder.jp/contests/arc065/tasks/arc065_a"
 matching = "Words"
-meta = { using = ["lazy_static", "regex"] }
+meta = { using = ["lazy_static", "proconio", "regex"] }
 
 [examples.arc084-c]
 type = "Normal"
 name = "ABC077 / ARC084: C - Snuke Festival"
 url = "https://atcoder.jp/contests/arc084/tasks/arc084_a"
 matching = "Words"
-meta = { using = ["superslice"] }
+meta = { using = ["proconio", "superslice"] }
 
 [examples.atc001-b]
 type = "Normal"
 name = "ATC001: B - Union Find"
 url = "https://atcoder.jp/contests/atc001/tasks/unionfind_a"
 matching = "Words"
-meta = { using = ["petgraph"] }
+meta = { using = ["petgraph", "proconio"] }
 
 [examples.atc002-b]
 type = "Normal"
 name = "ATC002: B - n^p mod m"
 url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
-meta = { using = ["num"] }
+meta = { using = ["num", "proconio"] }
 
 [examples.practice-a-naive]
 type = "Normal"
@@ -250,4 +250,4 @@ type = "Normal"
 name = "Sumitomo Mitsui Trust Bank Programming Contest 2019: C - 100 to 105"
 url = "https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c"
 matching = "Words"
-meta = { using = ["fixedbitset"] }
+meta = { using = ["fixedbitset", "proconio"] }

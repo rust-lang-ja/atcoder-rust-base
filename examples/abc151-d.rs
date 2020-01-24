@@ -1,35 +1,22 @@
 // https://atcoder.jp/contests/abc151/tasks/abc151_d
 
 use ndarray::Array;
+use proconio::input;
+use proconio::marker::Bytes;
 use smallvec::SmallVec;
 
-use std::io::{self, Read};
 use std::{iter, mem};
 
 fn main() {
-    let mut input = read_to_static(io::stdin()).split_whitespace();
-    macro_rules! read {
-        ([$tt:tt]) => (read!([$tt; read!(usize)]));
-        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
-        (($($tt:tt),+)) => (($(read!($tt)),*));
-        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
-        ({ Maze<$c:literal, ($h:expr, $w:expr)> }) => {
-            Array::from_shape_vec(
-                ($h, $w),
-                itertools::concat((0..$h).map(|_| read!({ Row<$c> }))),
-            )
-            .unwrap()
-        };
-        ({ Row<$c:literal> }) => {
-            read!({ Bytes }).into_iter().map(|c| c == $c).collect::<Vec<_>>()
-        };
-        ({ Bytes }) => {
-            read!(String).into_bytes()
-        };
+    input! {
+        h: usize,
+        w: usize,
+        sss: [Bytes; h],
     }
 
-    let (h, w) = read!((usize, usize));
-    let maze = read!({ Maze<b'.', (h, w)> });
+    let maze = Array::from_shape_vec((h, w), itertools::concat(sss))
+        .unwrap()
+        .map(|&c| c == b'.');
 
     let neighbors = Array::from_shape_fn((h, w), |(i, j)| {
         let mut neighbors = SmallVec::<[_; 4]>::new();
@@ -68,10 +55,4 @@ fn main() {
         .max()
         .unwrap();
     println!("{}", ans);
-}
-
-fn read_to_static(mut source: impl Read) -> &'static str {
-    let mut input = "".to_owned();
-    source.read_to_string(&mut input).unwrap();
-    Box::leak(input.into_boxed_str())
 }

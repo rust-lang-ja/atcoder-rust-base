@@ -3,19 +3,21 @@
 use ndarray::{array, Array2, LinalgScalar};
 use num::{PrimInt, Unsigned};
 use num_derive::{One, Zero};
+use proconio::input;
+use proconio::source::{Readable, Source};
 
 use std::cell::Cell;
-use std::io::{self, Read};
+use std::io::BufRead;
 use std::ops::{Add, Div, Mul, Sub};
 use std::{cmp, fmt};
 
 fn main() {
-    let mut input = read_to_static(io::stdin()).split_whitespace();
-    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
-
-    let (l, a, b, m): (u64, u64, u64, u64) = (read!(), read!(), read!(), read!());
-
-    MOD.with(|cell| cell.set(m));
+    input! {
+        l: u64,
+        a: u64,
+        b: u64,
+        _m: Mod,
+    }
 
     let count = |d| -> _ {
         let count =
@@ -56,6 +58,16 @@ impl<S: LinalgScalar> Array2Ext for Array2<S> {
 
 thread_local! {
     static MOD: Cell<u64> = Cell::new(0);
+}
+
+enum Mod {}
+
+impl Readable for Mod {
+    type Output = ();
+
+    fn read<R: BufRead, S: Source<R>>(source: &mut S) {
+        MOD.with(|cell| cell.set(u64::read(source)));
+    }
 }
 
 #[derive(Zero, One, Debug, Clone, Copy)]
@@ -103,10 +115,4 @@ impl Div for Z {
     fn div(self, _: Self) -> Self {
         unreachable!("should not be performed")
     }
-}
-
-fn read_to_static(mut source: impl Read) -> &'static str {
-    let mut input = "".to_owned();
-    source.read_to_string(&mut input).unwrap();
-    Box::leak(input.into_boxed_str())
 }

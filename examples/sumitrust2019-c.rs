@@ -1,14 +1,12 @@
 // https://atcoder.jp/contests/sumitrust2019/tasks/sumitb2019_c
 
 use fixedbitset::FixedBitSet;
-
-use std::io::{self, Read};
+use proconio::input;
 
 fn main() {
-    let mut input = read_to_static(io::stdin()).split_whitespace();
-    macro_rules! read(() => (input.next().unwrap().parse().unwrap()));
-
-    let x: usize = read!();
+    input! {
+        x: usize,
+    }
 
     let mut dp = FixedBitSet::with_capacity(x + 105);
     dp.insert(0);
@@ -19,10 +17,4 @@ fn main() {
         }
     }
     println!("{}", u32::from(dp[x]));
-}
-
-fn read_to_static(mut source: impl Read) -> &'static str {
-    let mut input = "".to_owned();
-    source.read_to_string(&mut input).unwrap();
-    Box::leak(input.into_boxed_str())
 }

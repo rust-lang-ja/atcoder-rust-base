@@ -1,26 +1,24 @@
 // https://atcoder.jp/contests/abc073/tasks/abc073_d
 
 use itertools::Itertools as _;
-use petgraph::graph::{NodeIndex, UnGraph};
+use num::traits::One;
+use petgraph::graph::{IndexType, NodeIndex, UnGraph};
+use proconio::input;
+use proconio::source::{Readable, Source};
 
 use std::collections::HashMap;
-use std::io::{self, Read};
+use std::io::BufRead;
+use std::marker::PhantomData;
+use std::ops::Sub;
 
 fn main() {
-    let mut input = read_to_static(io::stdin()).split_whitespace();
-    macro_rules! read {
-        ([$tt:tt]) => (read!([$tt; read!(usize)]));
-        ([$tt:tt; $n:expr]) => ((0..$n).map(|_| read!($tt)).collect::<Vec<_>>());
-        (($($tt:tt),+)) => (($(read!($tt)),*));
-        ($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap());
-        ({ NodeIndex1 }) => {
-            NodeIndex::from(read!(u32) - 1)
-        };
+    input! {
+        _n: usize,
+        m: usize,
+        r: usize,
+        rs: [NodeIndex1<u32>; r],
+        abcs: [(NodeIndex1<u32>, NodeIndex1<u32>, u32); m],
     }
-
-    let (_, m, r) = read!((usize, usize, usize));
-    let rs = read!([{ NodeIndex1 }; r]);
-    let abcs = read!([({ NodeIndex1 }, { NodeIndex1 }, u32); m]);
 
     let graph = UnGraph::<(), u32>::from_edges(abcs);
 
@@ -41,8 +39,12 @@ fn main() {
     println!("{}", ans);
 }
 
-fn read_to_static(mut source: impl Read) -> &'static str {
-    let mut input = "".to_owned();
-    source.read_to_string(&mut input).unwrap();
-    Box::leak(input.into_boxed_str())
+struct NodeIndex1<Ix>(PhantomData<fn() -> Ix>);
+
+impl<Ix: IndexType + Readable<Output = Ix> + One + Sub<Output = Ix>> Readable for NodeIndex1<Ix> {
+    type Output = NodeIndex<Ix>;
+
+    fn read<R: BufRead, S: Source<R>>(source: &mut S) -> NodeIndex<Ix> {
+        NodeIndex::from(Ix::read(source) - Ix::one())
+    }
 }
