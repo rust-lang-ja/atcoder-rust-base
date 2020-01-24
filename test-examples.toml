@@ -1,7 +1,6 @@
 # Dropboxからのダウンロードは行なわない。（面倒なのと誰のアカウントを使うかという問題がある）
 
-bin = "./target/test-with-generated-opts/bin/{problem}"
-testcases = "./target/test-with-generated-opts/testcases/{problem}"
+testcases = "./target/test-examples/testcases/{problem}"
 
 [examples.abc054-c]
 type = "Normal"

@@ -20,7 +20,7 @@ use std::ffi::{OsStr, OsString};
 use std::io::{self, Read as _, Write as _};
 use std::ops::Deref;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Output, Stdio};
+use std::process::{Command, Stdio};
 use std::str::FromStr;
 use std::time::Instant;
 use std::{env, f64, fs};
@@ -30,7 +30,7 @@ struct Opt {
     #[structopt(
         long,
         value_name("PATH"),
-        default_value("./test-with-generated-opts.toml"),
+        default_value("./test-examples.toml"),
         help("Path to the config")
     )]
     config: PathBuf,
@@ -60,20 +60,23 @@ fn main() -> anyhow::Result<()> {
             write_with_style(Color::Black, false, true, "]")?;
             writeln!(buf, " {}", record.args())
         })
-        .filter_module("test_with_generated_opts", LevelFilter::Info)
+        .filter_module("test_examples", LevelFilter::Info)
         .init();
 
     let config = read_toml::<_, Config>(config)?;
 
     scrape_sample_cases(&config)?;
+    cargo_build_examples_release()?;
 
     let tests = config
         .examples
         .iter()
         .map(|(slug, example)| {
-            let src = Path::new("./examples").join(slug).with_extension("rs");
-            let bin = config.bin.expand_path(slug)?;
-            compile(&src, &bin)?;
+            let bin = Path::new(".")
+                .join("target")
+                .join("release")
+                .join("examples")
+                .join(slug);
 
             match example {
                 Example::Normal(Normal {
@@ -131,8 +134,7 @@ fn scrape_sample_cases(config: &Config) -> anyhow::Result<()> {
 }
 
 fn get_html(url: &Url) -> anyhow::Result<Html> {
-    static USER_AGENT: &str =
-        "test-with-generated-opts <https://github.com/rust-lang-ja/atcoder-rust-base>";
+    static USER_AGENT: &str = "test-examples <https://github.com/rust-lang-ja/atcoder-rust-base>";
 
     info!("GET: {}", url);
 
@@ -387,11 +389,11 @@ fn load_testcases(dir: &Path) -> anyhow::Result<BTreeMap<OsString, (String, Stri
         .collect()
 }
 
-fn compile(src: &Path, bin: &Path) -> anyhow::Result<()> {
+fn cargo_build_examples_release() -> anyhow::Result<()> {
     fn run_command<S1: AsRef<OsStr>, S2: AsRef<OsStr>, I: IntoIterator<Item = S2>>(
         program: S1,
         args: I,
-    ) -> anyhow::Result<Vec<u8>> {
+    ) -> anyhow::Result<()> {
         let program = program.as_ref();
         let args = args.into_iter().collect::<Vec<_>>();
 
@@ -405,58 +407,17 @@ fn compile(src: &Path, bin: &Path) -> anyhow::Result<()> {
                 .format_with("", |s, f| f(&format_args!(" {}", s))),
         );
 
-        let Output { status, stdout, .. } = Command::new(program)
-            .args(&args)
-            .stdin(Stdio::null())
-            .stderr(Stdio::inherit())
-            .output()?;
-
+        let status = Command::new(program).args(&args).status()?;
         if !status.success() {
             return Err(anyhow!("{}: {}", program.to_string_lossy(), status));
         }
-        Ok(stdout)
+        Ok(())
     }
 
-    if let (Ok(src_metadata), Ok(bin_metadata)) = (src.metadata(), bin.metadata()) {
-        if src_metadata.modified()? < bin_metadata.modified()? {
-            info!("{} is up to date.", bin.display());
-            return Ok(());
-        }
-    }
-
-    if let Some(parent) = bin.parent() {
-        if !parent.exists() {
-            create_dir_all(parent)?;
-        }
-    }
-
-    let generated_opts = {
-        let program = which::which("rustc-dep-option-generator")?;
-        let stdout = run_command(&program, &["--format", "json"])?;
-        serde_json::from_slice::<Vec<String>>(&stdout)
-            .with_context(|| format!("{}: invalid output", program.to_string_lossy()))?
-    };
-
-    let program = env::var_os("RUSTC")
-        .map(Ok)
-        .unwrap_or_else(|| which::which("rustc").map(Into::into))?;
-
-    let args = {
-        let mut args = vec![
-            OsString::from("--edition"),
-            OsString::from("2018"),
-            OsString::from("-C"),
-            OsString::from("opt-level=3"),
-            OsString::from("-o"),
-            OsString::from(bin),
-        ];
-        for opt in generated_opts {
-            args.push(opt.into());
-        }
-        args.push(src.to_owned().into());
-        args
-    };
-    run_command(program, args).map(drop)
+    run_command(
+        env::var_os("CARGO").unwrap_or_else(|| "cargo".into()),
+        &["build", "--examples", "--release"],
+    )
 }
 
 fn normal_test(
@@ -590,7 +551,6 @@ impl BoolExt for bool {
 
 #[derive(Debug, Deserialize)]
 struct Config {
-    bin: Template,
     testcases: Template,
     examples: IndexMap<String, Example>,
 }
