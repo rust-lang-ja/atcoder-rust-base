@@ -1,3 +1,3 @@
 [alias]
 dep-tests = ["run", "--manifest-path", "./tools/dep-tests/Cargo.toml", "--"]
-test-with-generated-opts = ["run", "--manifest-path", "./tools/test-with-generated-opts/Cargo.toml", "--"]
+test-examples = ["run", "--manifest-path", "./tools/test-examples/Cargo.toml", "--"]

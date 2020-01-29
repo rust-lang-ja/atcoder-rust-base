@@ -18,6 +18,7 @@ use num_derive::{FromPrimitive, Num, NumCast, NumOps, One, ToPrimitive, Zero};
 )]
 struct Weight(i32);
 
+#[allow(clippy::eq_op)]
 #[test]
 fn check_ops() {
     let w1 = Weight(7);

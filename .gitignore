@@ -1,5 +1,5 @@
 /tools/dep-tests/Cargo.lock
-/tools/test-with-generated-opts/Cargo.lock
+/tools/test-examples/Cargo.lock
 **/target/
 **/*.rs.bk
 **/*~

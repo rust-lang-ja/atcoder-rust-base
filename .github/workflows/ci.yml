@@ -43,19 +43,24 @@ jobs:
           command: fmt
           args: --manifest-path ./tools/dep-tests/Cargo.toml -- --check
 
-      - name: '`cargo fmt --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- --check`'
+      - name: '`cargo fmt --manifest-path ./tools/test-examples/Cargo.toml -- --check`'
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- --check
+          args: --manifest-path ./tools/test-examples/Cargo.toml -- --check
 
-  test-with-generated-opts:
-    name: test-with-generated-opts
+  test-examples:
+    name: test-examples
     runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+
+      - name: setup-python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
 
       - name: rust-toolchain
         uses: actions-rs/toolchain@v1
@@ -70,11 +75,11 @@ jobs:
           command: install
           args: --git https://github.com/rust-lang-ja/atcoder-rustc-dep-option-generator
 
-      - name: '`cargo clippy --all-features --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- -D warnings`'
+      - name: '`cargo clippy --all-features --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --all-features --manifest-path ./tools/test-with-generated-opts/Cargo.toml -- -D warnings
+          args: --all-features --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings
 
       - name: '`cargo build --all-features --release`'
         uses: actions-rs/cargo@v1
@@ -82,13 +87,10 @@ jobs:
           command: build
           args: --all-features --release
 
-      - name: '`chmod -R a=rX-w ./target`'
-        run: chmod -R a=rX-w ./target
-
-      - name: '`cargo test-with-generated-opts`'
+      - name: '`cargo test-examples`'
         uses: actions-rs/cargo@v1
         with:
-          command: test-with-generated-opts
+          command: test-examples
 
   build:
     strategy:
@@ -176,17 +178,17 @@ jobs:
           override: true
           profile: default
 
-      - name: '`cargo clippy ${{ matrix.features }} -- -D warnings`'
+      - name: '`cargo clippy --all-targets --profile test ${{ matrix.features }} -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: ${{ matrix.features }} -- -D warnings
+          args: --all-targets --profile test ${{ matrix.features }} -- -D warnings
 
-      - name: '`cargo test ${{ matrix.features }} --no-fail-fast`'
+      - name: '`cargo test --all-targets ${{ matrix.features }} --no-fail-fast`'
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: ${{ matrix.features }} --no-fail-fast
+          args: --all-targets ${{ matrix.features }} --no-fail-fast
 
       - name: '`cargo run --release`'
         uses: actions-rs/cargo@v1

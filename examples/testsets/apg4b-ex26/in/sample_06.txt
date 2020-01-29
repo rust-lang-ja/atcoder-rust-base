@@ -1,3 +1,0 @@
-2
-vec a = [ 3 , 4 ] ;
-print_vec a ;
