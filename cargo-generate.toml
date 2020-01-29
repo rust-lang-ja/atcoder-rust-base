@@ -1,2 +1,2 @@
 [template]
-exclude = [".github", ".cargo", "dep-tests"]
+exclude = [".github/workflows/ci.yml", ".cargo/config", "dep-tests.toml", "tools/**/*"]
