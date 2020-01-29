@@ -46,7 +46,7 @@ fn main() {
                         .iter()
                         .flat_map(|&p| &neighbors[p])
                         .copied()
-                        .filter(|&p| mem::replace(&mut unvisited[p], false))
+                        .filter(|&p| mem::take(&mut unvisited[p]))
                         .collect();
                     !queue.is_empty()
                 })
