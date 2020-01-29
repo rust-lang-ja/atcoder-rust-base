@@ -1,3 +1,2 @@
 [alias]
-dep-tests = ["run", "--manifest-path", "./tools/dep-tests/Cargo.toml", "--"]
 test-examples = ["run", "--manifest-path", "./tools/test-examples/Cargo.toml", "--"]

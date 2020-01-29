@@ -37,12 +37,6 @@ jobs:
           command: fmt
           args: -- --check
 
-      - name: '`cargo fmt --manifest-path ./tools/dep-tests/Cargo.toml -- --check`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --manifest-path ./tools/dep-tests/Cargo.toml -- --check
-
       - name: '`cargo fmt --manifest-path ./tools/test-examples/Cargo.toml -- --check`'
         uses: actions-rs/cargo@v1
         with:
@@ -195,24 +189,3 @@ jobs:
         with:
           command: run
           args: ${{ matrix.features }} --release
-
-      - name: '`cargo clippy ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml -- -D warnings`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml -- -D warnings
-        if: matrix.dep_tests
-
-      - name: '`cargo test ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml --no-fail-fast`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml --no-fail-fast
-        if: matrix.dep_tests
-
-      - name: '`cargo dep-tests --all-features -d 1`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: dep-tests
-          args: --all-features -d 1
-        if: matrix.dep_tests
