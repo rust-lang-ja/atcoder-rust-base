@@ -13,7 +13,7 @@ use std::ops::Sub;
 
 fn main() {
     input! {
-        _n: usize,
+        _: usize,
         m: usize,
         r: usize,
         rs: [NodeIndex1<u32>; r],

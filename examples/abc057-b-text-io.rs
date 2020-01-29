@@ -1,8 +1,6 @@
 // https://atcoder.jp/contests/abc057/tasks/abc057_b
 
-#![allow(clippy::many_single_char_names, clippy::try_err)]
-
-use text_io::{read, try_read, try_scan};
+use text_io::read;
 
 fn main() {
     let n: usize = read!();
