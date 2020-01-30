@@ -8,7 +8,7 @@ use std::ops::{BitAnd, BitOr};
 fn main() {
     input! {
         n: usize,
-        _m: usize,
+        _: usize,
         a: [[Usize1]; n],
     }
 

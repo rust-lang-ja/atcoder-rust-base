@@ -5,7 +5,6 @@ type UnitResult = Result<(), Box<dyn std::error::Error>>;
 fn main() -> UnitResult {
     run_proconio();
     run_ordered_float();
-    run_modtype()?;
     run_ascii()?;
     run_bitset_fixed();
     run_permutohedron();
@@ -108,114 +107,6 @@ fn run_ordered_float() {
 #[test]
 fn test_ordered_float() {
     run_ordered_float();
-}
-
-// modtype
-fn run_modtype() -> UnitResult {
-    use modtype::cartridges::{Additive, AllowFlexibleRhs, Field, ManuallyAdjust, Multiplicative};
-    use modtype::{use_modtype, Cartridge, ConstValue};
-    use num::{BigInt, BigRational, CheckedDiv as _};
-
-    use std::marker::PhantomData;
-
-    {
-        #[use_modtype]
-        type F = modtype::F<1_000_000_007u64>;
-
-        assert_eq!((F(1_000_000_006) + F(2)).to_string(), "1");
-    }
-    {
-        #[allow(non_snake_case)]
-        modtype::thread_local::F::with(1_000_000_007u64, |F| {
-            assert_eq!((F(1_000_000_006) + F(2)).to_string(), "1");
-        });
-    }
-    {
-        #[allow(non_snake_case)]
-        let F = modtype::non_static::F::factory(1_000_000_007u64);
-
-        assert_eq!((F(1_000_000_006) + F(2)).to_string(), "1");
-    }
-    {
-        #[use_modtype]
-        type F = modtype::ModType<AllowFlexibleRhs<Field<u64>>, 1_000_000_007u64>;
-
-        let mut x = F(1);
-        x += F(1);
-        x += 1u64;
-        x += 1i32;
-        x += 1f64;
-        x += BigInt::from(1u32);
-        x += BigRational::new(BigInt::from(1u32), BigInt::from(1u32));
-        assert_eq!(x, F(7));
-    }
-    {
-        #[use_modtype]
-        type Z = modtype::ModType<Multiplicative<u32>, 57u32>;
-
-        assert_eq!(Z(56) * Z(56), Z(1));
-        assert_eq!(Z(1).checked_div(&Z(13)), Some(Z(22))); // 13・22 ≡ 1 (mod 57)
-    }
-    {
-        #[use_modtype]
-        type Z = modtype::ModType<Additive<u64>, 1_000_000_007u64>;
-
-        let mut x = Z(1_000_000_006);
-
-        x += Z(1);
-        assert_eq!(*x.get_mut_unchecked(), 1_000_000_007);
-
-        x += Z(u64::max_value() / 2 - 1_000_000_007);
-        assert_eq!(*x.get_mut_unchecked(), u64::max_value() / 2);
-
-        x += Z(1);
-        assert_eq!(
-            *x.get_mut_unchecked(),
-            (u64::max_value() / 2 + 1) % 1_000_000_007,
-        );
-    }
-    {
-        #[use_modtype]
-        type Z = modtype::ModType<ManuallyAdjust<u64>, 1_000_000_007u64>;
-
-        let mut x = Z(1_000_000_006);
-
-        x += Z(u64::max_value() - 1_000_000_006);
-        assert_eq!(*x.get_mut_unchecked(), u64::max_value());
-
-        x.adjust();
-        assert_eq!(*x.get_mut_unchecked(), u64::max_value() % 1_000_000_007);
-    }
-    {
-        #[rustfmt::skip] // https://github.com/rust-lang/rustfmt/issues/3673
-        #[derive(modtype::ModType)]
-        #[modtype(modulus = "M::VALUE", cartridge = "C")]
-        struct ModType<C: Cartridge<Target = u64>, M: ConstValue<Value = u64>> {
-            #[modtype(value)]
-            value: u64,
-            phantom: PhantomData<fn() -> (C, M)>,
-        }
-
-        impl<M: ConstValue<Value = u64>> ModType<Field<u64>, M> {
-            fn new(value: u64) -> Self {
-                Self {
-                    value,
-                    phantom: PhantomData,
-                }
-            }
-        }
-
-        #[use_modtype]
-        type F = ModType<Field<u64>, 1_000_000_007u64>;
-
-        assert_eq!((-F(1)).to_string(), "1000000006");
-    }
-    Ok(())
-}
-
-#[test]
-fn test_modtype() -> UnitResult {
-    run_modtype()
 }
 
 // ascii

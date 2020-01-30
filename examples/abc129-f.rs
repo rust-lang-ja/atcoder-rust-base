@@ -16,7 +16,7 @@ fn main() {
         l: u64,
         a: u64,
         b: u64,
-        _m: Mod,
+        (): Mod,
     }
 
     let count = |d| -> _ {

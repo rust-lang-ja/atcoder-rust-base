@@ -14,7 +14,7 @@ jobs:
         # Breaking changes like this might be mixed into the future stable versions.
         # https://github.com/rust-lang/rustfmt/pull/3632
         channel:
-          - 1.39.0
+          - 1.40.0
           - stable
 
     name: Rustfmt (${{ matrix.channel }})
@@ -22,9 +22,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: rust-toolchain
+      - name: Setup ${{ matrix.channel }}-x86_64-unknown-linux-gnu
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.channel }}-x86_64-unknown-linux-gnu
@@ -37,60 +37,11 @@ jobs:
           command: fmt
           args: -- --check
 
-      - name: '`cargo fmt --manifest-path ./tools/dep-tests/Cargo.toml -- --check`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --manifest-path ./tools/dep-tests/Cargo.toml -- --check
-
       - name: '`cargo fmt --manifest-path ./tools/test-examples/Cargo.toml -- --check`'
         uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --manifest-path ./tools/test-examples/Cargo.toml -- --check
-
-  test-examples:
-    name: test-examples
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: setup-python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.8'
-
-      - name: rust-toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.39.0-x86_64-unknown-linux-gnu
-          default: true
-          profile: default
-
-      - name: '`cargo install --git https://github.com/rust-lang-ja/atcoder-rustc-dep-option-generator`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: --git https://github.com/rust-lang-ja/atcoder-rustc-dep-option-generator
-
-      - name: '`cargo clippy --all-features --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --all-features --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings
-
-      - name: '`cargo build --all-features --release`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --all-features --release
-
-      - name: '`cargo test-examples`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: test-examples
 
   build:
     strategy:
@@ -98,10 +49,10 @@ jobs:
       matrix:
         toolchain:
           # `x86_64-pc-windows-gnu` is tier 1 **for now**.
-          - 1.39.0-x86_64-pc-windows-msvc
-          - 1.39.0-x86_64-pc-windows-gnu
-          - 1.39.0-x86_64-apple-darwin
-          - 1.39.0-x86_64-unknown-linux-gnu
+          - 1.40.0-x86_64-pc-windows-msvc
+          - 1.40.0-x86_64-pc-windows-gnu
+          - 1.40.0-x86_64-apple-darwin
+          - 1.40.0-x86_64-unknown-linux-gnu
           - stable-x86_64-pc-windows-msvc
           - stable-x86_64-pc-windows-gnu
           - stable-x86_64-apple-darwin
@@ -111,53 +62,29 @@ jobs:
           - beta-x86_64-apple-darwin
           - beta-x86_64-unknown-linux-gnu
         include:
-          - toolchain: 1.39.0-x86_64-pc-windows-msvc
-            features: --no-default-features
-            dep_tests: true
+          - toolchain: 1.40.0-x86_64-pc-windows-msvc
             os: windows-latest
-          - toolchain: 1.39.0-x86_64-pc-windows-gnu
-            features: --no-default-features
-            dep_tests: false
+          - toolchain: 1.40.0-x86_64-pc-windows-gnu
             os: windows-latest
-          - toolchain: 1.39.0-x86_64-apple-darwin
-            features: --all-features
-            dep_tests: true
+          - toolchain: 1.40.0-x86_64-apple-darwin
             os: macOS-latest
-          - toolchain: 1.39.0-x86_64-unknown-linux-gnu
-            features: --all-features
-            dep_tests: true
+          - toolchain: 1.40.0-x86_64-unknown-linux-gnu
             os: ubuntu-18.04
           - toolchain: stable-x86_64-pc-windows-msvc
-            features: --no-default-features
-            dep_tests: true
             os: windows-latest
           - toolchain: stable-x86_64-pc-windows-gnu
-            features: --no-default-features
-            dep_tests: false
             os: windows-latest
           - toolchain: stable-x86_64-apple-darwin
-            features: --all-features
-            dep_tests: true
             os: macOS-latest
           - toolchain: stable-x86_64-unknown-linux-gnu
-            features: --all-features
-            dep_tests: true
             os: ubuntu-18.04
           - toolchain: beta-x86_64-pc-windows-msvc
-            features: --no-default-features
-            dep_tests: true
             os: windows-latest
           - toolchain: beta-x86_64-pc-windows-gnu
-            features: --no-default-features
-            dep_tests: false
             os: windows-latest
           - toolchain: beta-x86_64-apple-darwin
-            features: --all-features
-            dep_tests: true
             os: macOS-latest
           - toolchain: beta-x86_64-unknown-linux-gnu
-            features: --all-features
-            dep_tests: true
             os: ubuntu-18.04
 
     name: ${{ matrix.toolchain }}
@@ -169,50 +96,45 @@ jobs:
         if: matrix.os == 'windows-latest'
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: rust-toolchain
+      - name: Setup ${{ matrix.toolchain }}
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.toolchain }}
           override: true
           profile: default
 
-      - name: '`cargo clippy --all-targets --profile test ${{ matrix.features }} -- -D warnings`'
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+
+      - name: '`cargo clippy --all-targets --profile test -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --all-targets --profile test ${{ matrix.features }} -- -D warnings
+          args: --all-targets --profile test -- -D warnings
 
-      - name: '`cargo test --all-targets ${{ matrix.features }} --no-fail-fast`'
+      - name: '`cargo clippy --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings`'
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings
+
+      - name: '`cargo test --all-targets --no-fail-fast`'
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --all-targets ${{ matrix.features }} --no-fail-fast
+          args: --all-targets --no-fail-fast
 
       - name: '`cargo run --release`'
         uses: actions-rs/cargo@v1
         with:
           command: run
-          args: ${{ matrix.features }} --release
+          args: --release
 
-      - name: '`cargo clippy ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml -- -D warnings`'
+      - name: '`cargo test-examples`'
         uses: actions-rs/cargo@v1
         with:
-          command: clippy
-          args: ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml -- -D warnings
-        if: matrix.dep_tests
-
-      - name: '`cargo test ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml --no-fail-fast`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: ${{ matrix.features }} --manifest-path ./tools/dep-tests/Cargo.toml --no-fail-fast
-        if: matrix.dep_tests
-
-      - name: '`cargo dep-tests --all-features -d 1`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: dep-tests
-          args: --all-features -d 1
-        if: matrix.dep_tests
+          command: test-examples
