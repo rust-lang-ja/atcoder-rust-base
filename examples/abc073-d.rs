@@ -13,7 +13,7 @@ use std::ops::Sub;
 
 fn main() {
     input! {
-        _n: usize,
+        _n: usize, // `proconio` does not accept `_` as a variable name until v0.3.5.
         m: usize,
         r: usize,
         rs: [NodeIndex1<u32>; r],

@@ -16,7 +16,7 @@ fn main() {
         l: u64,
         a: u64,
         b: u64,
-        _m: Mod,
+        _m: Mod, // `proconio` does not accept `_` as a variable name until v0.3.5.
     }
 
     let count = |d| -> _ {
