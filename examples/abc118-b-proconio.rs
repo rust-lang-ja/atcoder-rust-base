@@ -8,7 +8,7 @@ use std::ops::{BitAnd, BitOr};
 fn main() {
     input! {
         n: usize,
-        _: usize,
+        _m: usize, // `proconio` does not accept `_` as a variable name until v0.3.5.
         a: [[Usize1]; n],
     }
 

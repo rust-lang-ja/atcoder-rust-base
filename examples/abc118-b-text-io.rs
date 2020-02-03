@@ -1,9 +1,10 @@
 // https://atcoder.jp/contests/abc118/tasks/abc118_b
 
-use text_io::read;
+use text_io::{read, try_read, try_scan};
 
 use std::ops::{BitAnd, BitOr};
 
+#[allow(clippy::try_err)]
 fn main() {
     let (n, _): (usize, usize) = (read!(), read!());
     let a = (0..n)

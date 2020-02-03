@@ -1,10 +1,11 @@
 // https://atcoder.jp/contests/practice/tasks/practice_2
 
 use maplit::hashset;
-use text_io::read;
+use text_io::{read, try_read, try_scan};
 
 use std::{io, str};
 
+#[allow(clippy::try_err)]
 fn main() {
     fn read_line() -> String {
         let mut input = "".to_owned();

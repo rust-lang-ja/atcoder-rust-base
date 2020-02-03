@@ -1,8 +1,8 @@
 // https://atcoder.jp/contests/abc121/tasks/abc121_b
 
-use text_io::read;
+use text_io::{read, try_read, try_scan};
 
-#[allow(clippy::many_single_char_names)]
+#[allow(clippy::many_single_char_names, clippy::try_err)]
 fn main() {
     let (n, m, c): (usize, usize, i32) = (read!(), read!(), read!());
     let b = (0..m).map(|_| read!()).collect::<Vec<i32>>();
