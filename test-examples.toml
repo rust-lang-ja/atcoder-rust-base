@@ -100,6 +100,13 @@ url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
 
+[examples.abc122-c]
+type = "Normal"
+name = "ABC122: C - GeT AC"
+url = "https://atcoder.jp/contests/abc122/tasks/abc122_c"
+matching = "Words"
+meta = { using = ["itertools-num", "proconio"] }
+
 [examples.abc129-f]
 type = "Normal"
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
