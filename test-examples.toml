@@ -128,6 +128,13 @@ url = "https://atcoder.jp/contests/abc142/tasks/abc142_c"
 matching = "Words"
 meta = { using = ["itertools", "proconio", "superslice"] }
 
+[examples.abc143-d]
+type = "Normal"
+name = "ABC143: D - Triangles"
+url = "https://atcoder.jp/contests/abc143/tasks/abc143_d"
+matching = "Words"
+meta = { using = ["itertools", "proconio", "superslice"] }
+
 [examples.abc144-d]
 type = "Normal"
 name = "ABC144: D - Water Bottle"
