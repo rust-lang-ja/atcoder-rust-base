@@ -142,6 +142,13 @@ url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
 matching = "Words"
 meta = { using = ["itertools", "ndarray", "proconio", "smallvec"] }
 
+[examples.agc023-a]
+type = "Normal"
+name = "AGC023: A - Zero-Sum Ranges"
+url = "https://atcoder.jp/contests/agc023/tasks/agc023_a"
+matching = "Words"
+meta = { using = ["itertools-num", "maplit", "proconio"] }
+
 [examples.apg4b-a]
 type = "Normal"
 name = "APG4b: A - 1.00.はじめに"
