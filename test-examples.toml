@@ -163,6 +163,13 @@ url = "https://atcoder.jp/contests/abc154/tasks/abc154_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 meta = { using = ["itertools-num", "ordered-float", "proconio"] }
 
+[examples.abc154-e]
+type = "Normal"
+name = "ABC154: E - Almost Everywhere Zero"
+url = "https://atcoder.jp/contests/abc154/tasks/abc154_e"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
