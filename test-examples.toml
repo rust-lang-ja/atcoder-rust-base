@@ -156,6 +156,13 @@ url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
 matching = "Words"
 meta = { using = ["itertools", "ndarray", "proconio", "smallvec"] }
 
+[examples.abc154-d]
+type = "Normal"
+name = "ABC154: D - Dice in Line"
+url = "https://atcoder.jp/contests/abc154/tasks/abc154_d"
+matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
+meta = { using = ["itertools-num", "ordered-float", "proconio"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
