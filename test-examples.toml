@@ -184,6 +184,13 @@ url = "https://atcoder.jp/contests/agc023/tasks/agc023_a"
 matching = "Words"
 meta = { using = ["itertools-num", "maplit", "proconio"] }
 
+[examples.agc026-c]
+type = "Normal"
+name = "AGC026: C - String Coloring"
+url = "https://atcoder.jp/contests/agc026/tasks/agc026_c"
+matching = "Words"
+meta = { using = ["either", "itertools", "proconio", "rustc-hash"] }
+
 [examples.apg4b-a]
 type = "Normal"
 name = "APG4b: A - 1.00.はじめに"
