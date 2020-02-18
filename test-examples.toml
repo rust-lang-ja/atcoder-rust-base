@@ -142,6 +142,13 @@ url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 meta = { using = ["libm", "proconio"] }
 
+[examples.abc145-c]
+type = "Normal"
+name = "ABC145: C - Average Length"
+url = "https://atcoder.jp/contests/abc145/tasks/abc145_c"
+matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
+meta = { using = ["itertools", "nalgebra", "proconio"] }
+
 [examples.abc150-d]
 type = "Normal"
 name = "ABC150: D - Semi Common Multiple"
