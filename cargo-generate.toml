@@ -1,2 +1,4 @@
 [template]
-exclude = [".github/workflows/ci.yml", ".cargo/config", "dep-tests.toml", "tools/**/*"]
+# for now
+#include = ["Cargo.toml"]
+include = []
