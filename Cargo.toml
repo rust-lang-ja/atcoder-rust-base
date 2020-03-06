@@ -5,10 +5,6 @@ name = "atcoder-rust-base"
 version = "0.1.0"
 edition = "2018"
 
-[profile.release]
-codegen-units = 1
-incremental = false
-
 [workspace]
 exclude = ["./tools"]
 
