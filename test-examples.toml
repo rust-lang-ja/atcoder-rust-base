@@ -177,6 +177,13 @@ url = "https://atcoder.jp/contests/abc154/tasks/abc154_e"
 matching = "Words"
 meta = { using = ["num", "proconio"] }
 
+[examples.abc156-d]
+type = "Normal"
+name = "ABC156: D - Bouquet"
+url = "https://atcoder.jp/contests/abc156/tasks/abc156_d"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
