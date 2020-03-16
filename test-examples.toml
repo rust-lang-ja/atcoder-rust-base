@@ -241,6 +241,13 @@ url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
 meta = { using = ["num", "proconio"] }
 
+[examples.panasonic2020-d]
+type = "Normal"
+name = "Panasonic Programming Contest 2020: D - String Equivalence"
+url = "https://atcoder.jp/contests/panasonic2020/tasks/panasonic2020_d"
+matching = "Words"
+meta = { using = ["proconio", "smallvec"] }
+
 [examples.practice-a-naive]
 type = "Normal"
 name = "practice contest: A - Welcome to AtCoder"
