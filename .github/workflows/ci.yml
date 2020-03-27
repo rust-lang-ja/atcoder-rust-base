@@ -14,7 +14,7 @@ jobs:
         # Breaking changes like this might be mixed into the future stable versions.
         # https://github.com/rust-lang/rustfmt/pull/3632
         channel:
-          - 1.41.0
+          - 1.42.0
           - stable
 
     name: Rustfmt (${{ matrix.channel }})
@@ -49,10 +49,10 @@ jobs:
       matrix:
         toolchain:
           # `x86_64-pc-windows-gnu` is tier 1 **for now**.
-          - 1.41.0-x86_64-pc-windows-msvc
-          - 1.41.0-x86_64-pc-windows-gnu
-          - 1.41.0-x86_64-apple-darwin
-          - 1.41.0-x86_64-unknown-linux-gnu
+          - 1.42.0-x86_64-pc-windows-msvc
+          - 1.42.0-x86_64-pc-windows-gnu
+          - 1.42.0-x86_64-apple-darwin
+          - 1.42.0-x86_64-unknown-linux-gnu
           - stable-x86_64-pc-windows-msvc
           - stable-x86_64-pc-windows-gnu
           - stable-x86_64-apple-darwin
@@ -62,13 +62,13 @@ jobs:
           - beta-x86_64-apple-darwin
           - beta-x86_64-unknown-linux-gnu
         include:
-          - toolchain: 1.41.0-x86_64-pc-windows-msvc
+          - toolchain: 1.42.0-x86_64-pc-windows-msvc
             os: windows-latest
-          - toolchain: 1.41.0-x86_64-pc-windows-gnu
+          - toolchain: 1.42.0-x86_64-pc-windows-gnu
             os: windows-latest
-          - toolchain: 1.41.0-x86_64-apple-darwin
+          - toolchain: 1.42.0-x86_64-apple-darwin
             os: macOS-latest
-          - toolchain: 1.41.0-x86_64-unknown-linux-gnu
+          - toolchain: 1.42.0-x86_64-unknown-linux-gnu
             os: ubuntu-18.04
           - toolchain: stable-x86_64-pc-windows-msvc
             os: windows-latest
