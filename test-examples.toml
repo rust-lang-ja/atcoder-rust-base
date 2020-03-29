@@ -184,6 +184,13 @@ url = "https://atcoder.jp/contests/abc156/tasks/abc156_d"
 matching = "Words"
 meta = { using = ["num", "proconio"] }
 
+[examples.abc157-d]
+type = "Normal"
+name = "ABC157: D - Friend Suggestions"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_d"
+matching = "Words"
+meta = { using = ["itertools", "petgraph", "proconio"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
