@@ -191,6 +191,34 @@ url = "https://atcoder.jp/contests/abc157/tasks/abc157_d"
 matching = "Words"
 meta = { using = ["itertools", "petgraph", "proconio"] }
 
+[examples.abc157-e-naive]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga"] }
+
+[examples.abc157-e-proconio]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga", "proconio"] }
+
+[examples.abc157-e-text-io]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga", "proconio", "text_io"] }
+
+[examples.abc157-e-whiteread]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga", "proconio", "whiteread"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
