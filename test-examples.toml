@@ -219,6 +219,13 @@ url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
 matching = "Words"
 meta = { using = ["alga", "proconio", "whiteread"] }
 
+[examples.abc160-e]
+type = "Normal"
+name = "ABC160: E - Red and Green Apples"
+url = "https://atcoder.jp/contests/abc160/tasks/abc160_e"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
