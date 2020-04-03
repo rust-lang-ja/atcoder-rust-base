@@ -226,6 +226,13 @@ url = "https://atcoder.jp/contests/abc160/tasks/abc160_e"
 matching = "Words"
 meta = { using = ["itertools", "proconio"] }
 
+[examples.agc020-c]
+type = "Normal"
+name = "AGC020: C - Median Sum"
+url = "https://atcoder.jp/contests/agc020/tasks/agc020_c"
+matching = "Words"
+meta = { using = ["bitset-fixed", "proconio"] }
+
 [examples.agc023-a]
 type = "Normal"
 name = "AGC023: A - Zero-Sum Ranges"
