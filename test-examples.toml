@@ -290,6 +290,34 @@ url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
 meta = { using = ["num", "proconio"] }
 
+[examples.judge-update-202004-a]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: A - Walking Takahashi"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_a"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
+[examples.judge-update-202004-b]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: B - Picking Balls"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_b"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
+[examples.judge-update-202004-c]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: C - Numbering Blocks"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_c"
+matching = "Words"
+meta = { using = ["itertools", "itertools-num", "proconio"] }
+
+[examples.judge-update-202004-d]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: D - Calculating GCD"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_d"
+matching = "Words"
+meta = { using = ["proconio", "superslice"] }
+
 [examples.panasonic2020-d]
 type = "Normal"
 name = "Panasonic Programming Contest 2020: D - String Equivalence"
