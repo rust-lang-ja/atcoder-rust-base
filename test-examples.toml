@@ -247,6 +247,34 @@ url = "https://atcoder.jp/contests/agc026/tasks/agc026_c"
 matching = "Words"
 meta = { using = ["either", "itertools", "proconio", "rustc-hash"] }
 
+[examples.apc001-c-naive]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = [] }
+
+[examples.apc001-c-proconio]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = ["proconio"] }
+
+[examples.apc001-c-text-io]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = ["text_io"] }
+
+[examples.apc001-c-whiteread]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = ["whiteread"] }
+
 [examples.apg4b-a]
 type = "Normal"
 name = "APG4b: A - 1.00.はじめに"
