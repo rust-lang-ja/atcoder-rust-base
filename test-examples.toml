@@ -233,6 +233,13 @@ url = "https://atcoder.jp/contests/abc162/tasks/abc162_c"
 matching = "Words"
 meta = { using = ["itertools", "num", "proconio"] }
 
+[examples.abc165-b]
+type = "Normal"
+name = "ABC165 - B - 1%"
+url = "https://atcoder.jp/contests/abc165/tasks/abc165_b"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
 [examples.agc020-c]
 type = "Normal"
 name = "AGC020: C - Median Sum"
