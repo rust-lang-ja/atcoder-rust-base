@@ -226,6 +226,13 @@ url = "https://atcoder.jp/contests/abc160/tasks/abc160_e"
 matching = "Words"
 meta = { using = ["itertools", "proconio"] }
 
+[examples.abc162-c]
+type = "Normal"
+name = "ABC162 - C - Sum of gcd of Tuples (Easy)"
+url = "https://atcoder.jp/contests/abc162/tasks/abc162_c"
+matching = "Words"
+meta = { using = ["itertools", "num", "proconio"] }
+
 [examples.agc020-c]
 type = "Normal"
 name = "AGC020: C - Median Sum"
