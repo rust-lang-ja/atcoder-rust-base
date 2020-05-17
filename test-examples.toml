@@ -261,6 +261,13 @@ url = "https://atcoder.jp/contests/abc168/tasks/abc168_b"
 matching = "Words"
 meta = { using = ["ascii", "proconio"] }
 
+[examples.abc168-c]
+type = "Normal"
+name = "ABC168 - C - : (Colon)"
+url = "https://atcoder.jp/contests/abc168/tasks/abc168_c"
+matching = { FloatOr = { abs = 1e-9, rel = 1e-9 } }
+meta = { using = ["num", "proconio"] }
+
 [examples.agc020-c]
 type = "Normal"
 name = "AGC020: C - Median Sum"
