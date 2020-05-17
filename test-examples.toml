@@ -254,6 +254,13 @@ url = "https://atcoder.jp/contests/abc166/tasks/abc166_b"
 matching = "Words"
 meta = { using = ["itertools", "proconio"] }
 
+[examples.abc168-b]
+type = "Normal"
+name = "ABC168 - B - ... (Triple Dots)"
+url = "https://atcoder.jp/contests/abc168/tasks/abc168_b"
+matching = "Words"
+meta = { using = ["ascii", "proconio"] }
+
 [examples.agc020-c]
 type = "Normal"
 name = "AGC020: C - Median Sum"
