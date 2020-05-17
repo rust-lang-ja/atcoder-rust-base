@@ -268,6 +268,13 @@ url = "https://atcoder.jp/contests/abc168/tasks/abc168_c"
 matching = { FloatOr = { abs = 1e-9, rel = 1e-9 } }
 meta = { using = ["num", "proconio"] }
 
+[examples.abc168-e]
+type = "Normal"
+name = "ABC168 - E - ∙ (Bullet)"
+url = "https://atcoder.jp/contests/abc168/tasks/abc168_e"
+matching = "Words"
+meta = { using = ["maplit", "num", "proconio"] }
+
 [examples.agc020-c]
 type = "Normal"
 name = "AGC020: C - Median Sum"
