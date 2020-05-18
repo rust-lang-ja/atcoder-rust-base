@@ -100,6 +100,13 @@ url = "https://atcoder.jp/contests/abc121/tasks/abc121_b"
 matching = "Words"
 meta = { using = ["whiteread"] }
 
+[examples.abc122-c]
+type = "Normal"
+name = "ABC122: C - GeT AC"
+url = "https://atcoder.jp/contests/abc122/tasks/abc122_c"
+matching = "Words"
+meta = { using = ["itertools-num", "proconio"] }
+
 [examples.abc129-f]
 type = "Normal"
 name = "ABC129: F - Takahashi's Basics in Education and Learning"
@@ -121,12 +128,26 @@ url = "https://atcoder.jp/contests/abc142/tasks/abc142_c"
 matching = "Words"
 meta = { using = ["itertools", "proconio", "superslice"] }
 
+[examples.abc143-d]
+type = "Normal"
+name = "ABC143: D - Triangles"
+url = "https://atcoder.jp/contests/abc143/tasks/abc143_d"
+matching = "Words"
+meta = { using = ["itertools", "proconio", "superslice"] }
+
 [examples.abc144-d]
 type = "Normal"
 name = "ABC144: D - Water Bottle"
 url = "https://atcoder.jp/contests/abc144/tasks/abc144_d"
 matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
 meta = { using = ["libm", "proconio"] }
+
+[examples.abc145-c]
+type = "Normal"
+name = "ABC145: C - Average Length"
+url = "https://atcoder.jp/contests/abc145/tasks/abc145_c"
+matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
+meta = { using = ["itertools", "nalgebra", "proconio"] }
 
 [examples.abc150-d]
 type = "Normal"
@@ -141,6 +162,167 @@ name = "ABC151: D - Maze Master"
 url = "https://atcoder.jp/contests/abc151/tasks/abc151_d"
 matching = "Words"
 meta = { using = ["itertools", "ndarray", "proconio", "smallvec"] }
+
+[examples.abc154-d]
+type = "Normal"
+name = "ABC154: D - Dice in Line"
+url = "https://atcoder.jp/contests/abc154/tasks/abc154_d"
+matching = { FloatOr = { abs = 1e-6, rel = 1e-6 } }
+meta = { using = ["itertools-num", "ordered-float", "proconio"] }
+
+[examples.abc154-e]
+type = "Normal"
+name = "ABC154: E - Almost Everywhere Zero"
+url = "https://atcoder.jp/contests/abc154/tasks/abc154_e"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
+[examples.abc156-d]
+type = "Normal"
+name = "ABC156: D - Bouquet"
+url = "https://atcoder.jp/contests/abc156/tasks/abc156_d"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
+[examples.abc157-d]
+type = "Normal"
+name = "ABC157: D - Friend Suggestions"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_d"
+matching = "Words"
+meta = { using = ["itertools", "petgraph", "proconio"] }
+
+[examples.abc157-e-naive]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga"] }
+
+[examples.abc157-e-proconio]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga", "proconio"] }
+
+[examples.abc157-e-text-io]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga", "proconio", "text_io"] }
+
+[examples.abc157-e-whiteread]
+type = "Normal"
+name = "ABC157: E - Simple String Queries"
+url = "https://atcoder.jp/contests/abc157/tasks/abc157_e"
+matching = "Words"
+meta = { using = ["alga", "proconio", "whiteread"] }
+
+[examples.abc160-e]
+type = "Normal"
+name = "ABC160: E - Red and Green Apples"
+url = "https://atcoder.jp/contests/abc160/tasks/abc160_e"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
+[examples.abc162-c]
+type = "Normal"
+name = "ABC162 - C - Sum of gcd of Tuples (Easy)"
+url = "https://atcoder.jp/contests/abc162/tasks/abc162_c"
+matching = "Words"
+meta = { using = ["itertools", "num", "proconio"] }
+
+[examples.abc165-b]
+type = "Normal"
+name = "ABC165 - B - 1%"
+url = "https://atcoder.jp/contests/abc165/tasks/abc165_b"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
+[examples.abc165-c]
+type = "Normal"
+name = "ABC165 - C - Many Requirements"
+url = "https://atcoder.jp/contests/abc165/tasks/abc165_c"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
+[examples.abc166-b]
+type = "Normal"
+name = "ABC166 - B - Trick or Treat"
+url = "https://atcoder.jp/contests/abc166/tasks/abc166_b"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
+[examples.abc168-b]
+type = "Normal"
+name = "ABC168 - B - ... (Triple Dots)"
+url = "https://atcoder.jp/contests/abc168/tasks/abc168_b"
+matching = "Words"
+meta = { using = ["ascii", "proconio"] }
+
+[examples.abc168-c]
+type = "Normal"
+name = "ABC168 - C - : (Colon)"
+url = "https://atcoder.jp/contests/abc168/tasks/abc168_c"
+matching = { FloatOr = { abs = 1e-9, rel = 1e-9 } }
+meta = { using = ["num", "proconio"] }
+
+[examples.abc168-e]
+type = "Normal"
+name = "ABC168 - E - ∙ (Bullet)"
+url = "https://atcoder.jp/contests/abc168/tasks/abc168_e"
+matching = "Words"
+meta = { using = ["maplit", "num", "proconio"] }
+
+[examples.agc020-c]
+type = "Normal"
+name = "AGC020: C - Median Sum"
+url = "https://atcoder.jp/contests/agc020/tasks/agc020_c"
+matching = "Words"
+meta = { using = ["bitset-fixed", "proconio"] }
+
+[examples.agc023-a]
+type = "Normal"
+name = "AGC023: A - Zero-Sum Ranges"
+url = "https://atcoder.jp/contests/agc023/tasks/agc023_a"
+matching = "Words"
+meta = { using = ["itertools-num", "maplit", "proconio"] }
+
+[examples.agc026-c]
+type = "Normal"
+name = "AGC026: C - String Coloring"
+url = "https://atcoder.jp/contests/agc026/tasks/agc026_c"
+matching = "Words"
+meta = { using = ["either", "itertools", "proconio", "rustc-hash"] }
+
+[examples.apc001-c-naive]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = [] }
+
+[examples.apc001-c-proconio]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = ["proconio"] }
+
+[examples.apc001-c-text-io]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = ["text_io"] }
+
+[examples.apc001-c-whiteread]
+type = "Special"
+name = "APC001: C - Vacant Seat"
+url = "https://atcoder.jp/contests/apc001/tasks/apc001_c"
+tester = ["python", "./examples/testers/apc001-c.py", "{bin}"]
+meta = { using = ["whiteread"] }
 
 [examples.apg4b-a]
 type = "Normal"
@@ -184,6 +366,41 @@ name = "ATC002: B - n^p mod m"
 url = "https://atcoder.jp/contests/atc002/tasks/atc002_b"
 matching = "Words"
 meta = { using = ["num", "proconio"] }
+
+[examples.judge-update-202004-a]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: A - Walking Takahashi"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_a"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
+[examples.judge-update-202004-b]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: B - Picking Balls"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_b"
+matching = "Words"
+meta = { using = ["itertools", "proconio"] }
+
+[examples.judge-update-202004-c]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: C - Numbering Blocks"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_c"
+matching = "Words"
+meta = { using = ["itertools", "itertools-num", "proconio"] }
+
+[examples.judge-update-202004-d]
+type = "Normal"
+name = "Judge System Update Test Contest 202004: D - Calculating GCD"
+url = "https://atcoder.jp/contests/judge-update-202004/tasks/judge_update_202004_d"
+matching = "Words"
+meta = { using = ["proconio", "superslice"] }
+
+[examples.panasonic2020-d]
+type = "Normal"
+name = "Panasonic Programming Contest 2020: D - String Equivalence"
+url = "https://atcoder.jp/contests/panasonic2020/tasks/panasonic2020_d"
+matching = "Words"
+meta = { using = ["proconio", "smallvec"] }
 
 [examples.practice-a-naive]
 type = "Normal"

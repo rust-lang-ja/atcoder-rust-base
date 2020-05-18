@@ -1,9 +1,14 @@
 // https://atcoder.jp/contests/practice/tasks/practice_2
+//
+// 以下のクレートを使用。
+//
+// - `itertools`
+// - `maplit`
+// - `whiteread`
 
 use maplit::hashset;
-use whiteread::Reader;
-
 use std::str;
+use whiteread::Reader;
 
 fn main() {
     let mut rdr = Reader::from_stdin_naive();

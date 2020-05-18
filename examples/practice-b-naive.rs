@@ -1,26 +1,35 @@
 // https://atcoder.jp/contests/practice/tasks/practice_2
+//
+// 以下のクレートを使用。
+//
+// - `itertools`
+// - `maplit`
 
 use maplit::hashset;
-
 use std::{io, str};
 
 fn main() {
-    fn read_line() -> String {
-        let mut input = "".to_owned();
-        io::stdin().read_line(&mut input).unwrap();
-        input
-    }
+    let mut input = "".split_ascii_whitespace();
+    let mut read = || loop {
+        if let Some(word) = input.next() {
+            break word;
+        }
+        input = {
+            let mut input = "".to_owned();
+            io::stdin().read_line(&mut input).unwrap();
+            if input.is_empty() {
+                panic!("reached EOF");
+            }
+            Box::leak(input.into_boxed_str()).split_ascii_whitespace()
+        };
+    };
+    macro_rules! read(($ty:ty) => (read().parse::<$ty>().unwrap()));
 
-    fn query(l: u8, r: u8) -> bool {
+    let (n, _): (u32, u32) = (read!(u32), read!(u32));
+
+    let query = |l: u8, r: u8| -> bool {
         println!("? {} {}", l as char, r as char);
-        read_line() == "<\n"
-    }
-
-    let n = {
-        let input = read_line();
-        let mut input = input.split_whitespace();
-        macro_rules! read(($ty:ty) => (input.next().unwrap().parse::<$ty>().unwrap()));
-        read!(u32)
+        read!(char) == '<'
     };
 
     let ans = match n {
