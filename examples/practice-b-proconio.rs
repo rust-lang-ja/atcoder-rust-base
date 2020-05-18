@@ -1,26 +1,35 @@
 // https://atcoder.jp/contests/practice/tasks/practice_2
+//
+// 以下のクレートを使用。
+//
+// - `itertools`
+// - `maplit`
+// - `proconio`
 
 use maplit::hashset;
-use proconio::input;
-use proconio::source::line::LineSource;
-
-use std::{io, str};
+use proconio::{input, source::line::LineSource};
+use std::{
+    io::{self, BufReader},
+    str,
+};
 
 fn main() {
-    let stdin = io::stdin();
-    let mut stdin = stdin.lock();
+    // `proconio::input!`はrelease modeではデフォルトでは`OnceSource`を使ってしまうので、
+    // `input! { from: .., }`で`LineSource`を指定する必要がある。
+    // `Source`を指定するときはこのように部分適用したマクロを用意しておくと楽。
+    //
+    // https://docs.rs/proconio/0.3.6/proconio/macro.input.html
+    // https://docs.rs/proconio/0.3.6/proconio/source/once/struct.OnceSource.html
+    // https://docs.rs/proconio/0.3.6/proconio/source/line/struct.LineSource.html
+    // https://docs.rs/proconio/0.3.6/proconio/source/trait.Source.html
+    let mut stdin = LineSource::new(BufReader::new(io::stdin()));
+    macro_rules! input(($($tt:tt)*) => (proconio::input!(from &mut stdin, $($tt)*)));
 
-    input! {
-        from LineSource::new(&mut stdin),
-        n: u32,
-    }
+    input!(n: u32, _: u32);
 
     let query = |l: u8, r: u8| -> _ {
         println!("? {} {}", l as char, r as char);
-        input! {
-            from LineSource::new(&mut stdin),
-            c: char,
-        }
+        input!(c: char);
         c == '<'
     };
 

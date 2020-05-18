@@ -1,25 +1,22 @@
 // https://atcoder.jp/contests/practice/tasks/practice_2
+//
+// 以下のクレートを使用。
+//
+// - `itertools`
+// - `maplit`
+// - `text_io`
 
 use maplit::hashset;
+use std::str;
 use text_io::read;
 
-use std::{io, str};
-
 fn main() {
-    fn read_line() -> String {
-        let mut input = "".to_owned();
-        io::stdin().read_line(&mut input).unwrap();
-        input
-    }
-
-    let n: u32 = {
-        let line = read_line();
-        read!("{}", line.bytes())
-    };
+    let (n, _): (u32, u32) = (read!(), read!());
 
     let query = |l: u8, r: u8| -> _ {
         println!("? {} {}", l as char, r as char);
-        read_line() == "<\n"
+        let c: char = read!();
+        c == '<'
     };
 
     let ans = match n {
