@@ -1,4 +1,3 @@
-/xtask/Cargo.lock
 **/target/
 **/*.rs.bk
 **/*~
