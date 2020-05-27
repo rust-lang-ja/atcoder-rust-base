@@ -38,11 +38,11 @@ jobs:
           command: fmt
           args: -- --check
 
-      - name: '`cargo fmt --manifest-path ./tools/test-examples/Cargo.toml -- --check`'
+      - name: '`cargo fmt --manifest-path ./xtask/Cargo.toml -- --check`'
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          args: --manifest-path ./tools/test-examples/Cargo.toml -- --check
+          args: --manifest-path ./xtask/Cargo.toml -- --check
 
   build:
     strategy:
@@ -118,11 +118,11 @@ jobs:
           command: clippy
           args: --all-targets --profile test -- -D warnings
 
-      - name: '`cargo clippy --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings`'
+      - name: '`cargo clippy --manifest-path ./xtask/Cargo.toml -- -D warnings`'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --manifest-path ./tools/test-examples/Cargo.toml -- -D warnings
+          args: --manifest-path ./xtask/Cargo.toml -- -D warnings
 
       - name: '`cargo test --all-targets --no-fail-fast`'
         uses: actions-rs/cargo@v1
@@ -136,7 +136,8 @@ jobs:
           command: run
           args: --release
 
-      - name: '`cargo test-examples`'
+      - name: '`cargo xtask test-examples`'
         uses: actions-rs/cargo@v1
         with:
-          command: test-examples
+          command: xtask
+          args: test-examples

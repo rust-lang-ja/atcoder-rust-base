@@ -1,4 +1,4 @@
-/tools/test-examples/Cargo.lock
+/xtask/Cargo.lock
 **/target/
 **/*.rs.bk
 **/*~

@@ -26,7 +26,18 @@ use std::time::Instant;
 use std::{env, f64, fs};
 
 #[derive(StructOpt, Debug)]
-struct Opt {
+#[structopt(bin_name("cargo"))]
+enum Opt {
+    Xtask(OptXtask),
+}
+
+#[derive(StructOpt, Debug)]
+enum OptXtask {
+    TestExamples(OptXtaskTestExamples),
+}
+
+#[derive(StructOpt, Debug)]
+struct OptXtaskTestExamples {
     #[structopt(
         long,
         value_name("PATH"),
@@ -37,7 +48,7 @@ struct Opt {
 }
 
 fn main() -> anyhow::Result<()> {
-    let Opt { config } = Opt::from_args();
+    let Opt::Xtask(OptXtask::TestExamples(OptXtaskTestExamples { config })) = Opt::from_args();
 
     env_logger::builder()
         .format(|buf, record| {
@@ -60,7 +71,7 @@ fn main() -> anyhow::Result<()> {
             write_with_style(Color::Black, false, true, "]")?;
             writeln!(buf, " {}", record.args())
         })
-        .filter_module("test_examples", LevelFilter::Info)
+        .filter_module("xtask", LevelFilter::Info)
         .init();
 
     let config = read_toml::<_, Config>(config)?;
@@ -134,7 +145,8 @@ fn scrape_sample_cases(config: &Config) -> anyhow::Result<()> {
 }
 
 fn get_html(url: &Url) -> anyhow::Result<Html> {
-    static USER_AGENT: &str = "test-examples <https://github.com/rust-lang-ja/atcoder-rust-base>";
+    static USER_AGENT: &str =
+        "atcoder-rust-base <https://github.com/rust-lang-ja/atcoder-rust-base>";
 
     info!("GET: {}", url);
 
