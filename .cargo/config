@@ -1,2 +1,2 @@
 [alias]
-test-examples = ["run", "--manifest-path", "./tools/test-examples/Cargo.toml", "--"]
+xtask = ["run", "--manifest-path", "./xtask/Cargo.toml", "--", "xtask"]
