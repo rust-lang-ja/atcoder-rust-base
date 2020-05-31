@@ -275,6 +275,13 @@ url = "https://atcoder.jp/contests/abc168/tasks/abc168_e"
 matching = "Words"
 meta = { using = ["maplit", "num", "proconio"] }
 
+[examples.abc169-c]
+type = "Normal"
+name = "ABC169 - C - Multiplication 3"
+url = "https://atcoder.jp/contests/abc169/tasks/abc169_c"
+matching = "Words"
+meta = { using = ["num", "proconio"] }
+
 [examples.agc020-c]
 type = "Normal"
 name = "AGC020: C - Median Sum"
