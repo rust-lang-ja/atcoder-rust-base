@@ -25,8 +25,9 @@ fn main() {
     //
     // `ascii`クレートを使わずに行うなら、
     //
-    // 1. Sを`String`として読み、`s.chars().take(3).collect::<String>()`
-    // 2. Sを[`proconio::marker::Bytes`]経由で`Vec<u8>`として読み(あるいは`String`から`.into_bytes()`する)、`std::str::from_utf8(&s[..3]).unwrap()`
+    // 1. Sを`String`として読み、`&s[..3]`としてスライスを取得する
+    // 2. Sを`String`として読み、`s.chars().take(3).collect::<String>()`
+    // 3. Sを[`proconio::marker::Bytes`]経由で`Vec<u8>`として読み(あるいは`String`から`.into_bytes()`する)、`std::str::from_utf8(&s[..3]).unwrap()`
     //
     // の2つの方法がある。
     //
