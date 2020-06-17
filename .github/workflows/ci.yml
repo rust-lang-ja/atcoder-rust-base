@@ -8,26 +8,17 @@ on:
 
 jobs:
   rustfmt:
-    strategy:
-      fail-fast: false
-      matrix:
-        # Breaking changes like this might be mixed into the future stable versions.
-        # https://github.com/rust-lang/rustfmt/pull/3632
-        channel:
-          - 1.42.0
-          - stable
-
-    name: Rustfmt (${{ matrix.channel }})
+    name: Rustfmt
     runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup ${{ matrix.channel }}-x86_64-unknown-linux-gnu
+      - name: Setup 1.42.0-x86_64-unknown-linux-gnu
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.channel }}-x86_64-unknown-linux-gnu
+          toolchain: 1.42.0-x86_64-unknown-linux-gnu
           override: true
           profile: minimal
           components: rustfmt
@@ -54,14 +45,6 @@ jobs:
           - 1.42.0-x86_64-pc-windows-gnu
           - 1.42.0-x86_64-apple-darwin
           - 1.42.0-x86_64-unknown-linux-gnu
-          - stable-x86_64-pc-windows-msvc
-          - stable-x86_64-pc-windows-gnu
-          - stable-x86_64-apple-darwin
-          - stable-x86_64-unknown-linux-gnu
-          - beta-x86_64-pc-windows-msvc
-          - beta-x86_64-pc-windows-gnu
-          - beta-x86_64-apple-darwin
-          - beta-x86_64-unknown-linux-gnu
         include:
           - toolchain: 1.42.0-x86_64-pc-windows-msvc
             os: windows-latest
@@ -70,22 +53,6 @@ jobs:
           - toolchain: 1.42.0-x86_64-apple-darwin
             os: macOS-latest
           - toolchain: 1.42.0-x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
-          - toolchain: stable-x86_64-pc-windows-msvc
-            os: windows-latest
-          - toolchain: stable-x86_64-pc-windows-gnu
-            os: windows-latest
-          - toolchain: stable-x86_64-apple-darwin
-            os: macOS-latest
-          - toolchain: stable-x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
-          - toolchain: beta-x86_64-pc-windows-msvc
-            os: windows-latest
-          - toolchain: beta-x86_64-pc-windows-gnu
-            os: windows-latest
-          - toolchain: beta-x86_64-apple-darwin
-            os: macOS-latest
-          - toolchain: beta-x86_64-unknown-linux-gnu
             os: ubuntu-18.04
 
     name: ${{ matrix.toolchain }}
