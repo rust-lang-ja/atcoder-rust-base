@@ -16,12 +16,14 @@
 | 名前 | Rustバージョン | 内容 |
 |:-- |:--:|:-- |
 | [ja][ja-branch] | 1.42.0 | 標準的な内容のテンプレートに日本語のソースコードコメントを付けたもの。 |
+| [ja-all-enabled][ja-all-enabled-branch] | 1.42.0 | 39個のクレートをすべて有効化したテンプレート。クレートの使用例が`exmaples`ディレクトリ下にある。 |
 
 使いかたについては、テンプレートの名前をクリックして表示されたREADMEを参照してください。
 
 If you want a template with English source code comments, please request it to us by filing [a GitHub issue][gh-issue].
 
 [ja-branch]: https://github.com/rust-lang-ja/atcoder-rust-base/tree/ja
+[ja-all-enabled-branch]: https://github.com/rust-lang-ja/atcoder-rust-base/tree/ja-all-enabled
 [gh-issue]: https://github.com/rust-lang-ja/atcoder-rust-base/issues
 
 
