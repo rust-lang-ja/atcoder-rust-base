@@ -96,7 +96,13 @@ path = "src/main.rs"
 #bitset-fixed = "=0.1.0"
 
 # 競技プログラミングの入出力サポートその1
-proconio = { version = "=0.3.6", features = ["derive"] }
+proconio = { version = "^0.3.6", features = ["derive"] }
+# proconio は AtCoder のサーバー環境では 0.3.6 がインストールされていますが、
+# Rust Analyzer で型推論を可能にするなど、提出先での挙動を変えない範囲の改善が
+# ありました。これらはバージョン 0.3 シリーズとして提供されているので、利便性の
+# 観点から少し緩めに指定しておきます。ただし、万が一サーバー側と挙動が違うなど
+# の問題があるようでしたら直接 0.3.6 を指定して利用してください。
+#proconio = { version = "=0.3.6", features = ["derive"] }
 
 # 競技プログラミングの入出力サポートその2
 #text_io = "=0.1.8"
