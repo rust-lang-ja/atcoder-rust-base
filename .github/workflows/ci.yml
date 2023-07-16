@@ -9,51 +9,39 @@ on:
 jobs:
   rustfmt:
     name: Rustfmt
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup 1.42.0-x86_64-unknown-linux-gnu
-        uses: actions-rs/toolchain@v1
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@master
         with:
           toolchain: 1.42.0-x86_64-unknown-linux-gnu
-          override: true
-          profile: minimal
           components: rustfmt
 
       - name: '`cargo fmt -- --check`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: -- --check
+        run: cargo fmt -- --check
 
       - name: '`cargo fmt --manifest-path ./xtask/Cargo.toml -- --check`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --manifest-path ./xtask/Cargo.toml -- --check
+        run: cargo fmt --manifest-path ./xtask/Cargo.toml -- --check
 
   build:
     strategy:
       fail-fast: false
       matrix:
         toolchain:
-          # `x86_64-pc-windows-gnu` is tier 1 **for now**.
           - 1.42.0-x86_64-pc-windows-msvc
-          - 1.42.0-x86_64-pc-windows-gnu
           - 1.42.0-x86_64-apple-darwin
           - 1.42.0-x86_64-unknown-linux-gnu
         include:
           - toolchain: 1.42.0-x86_64-pc-windows-msvc
-            os: windows-latest
-          - toolchain: 1.42.0-x86_64-pc-windows-gnu
-            os: windows-latest
+            os: windows-2022
           - toolchain: 1.42.0-x86_64-apple-darwin
-            os: macOS-latest
+            os: macos-11
           - toolchain: 1.42.0-x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-22.04
 
     name: ${{ matrix.toolchain }}
     runs-on: ${{ matrix.os }}
@@ -64,47 +52,36 @@ jobs:
         if: matrix.os == 'windows-latest'
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup ${{ matrix.toolchain }}
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
-          override: true
-          profile: minimal
           components: clippy
 
+      - name: '`rustup override set ${{ matrix.toolchain }}`'
+        run: rustup override set ${{ matrix.toolchain }}
+
       - name: Setup Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+
       - name: '`cargo clippy --all-targets --profile test -- -D warnings`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --all-targets --profile test -- -D warnings
+        run: cargo clippy --all-targets --profile test -- -D warnings
 
       - name: '`cargo clippy --manifest-path ./xtask/Cargo.toml -- -D warnings`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --manifest-path ./xtask/Cargo.toml -- -D warnings
+        run: cargo clippy --manifest-path ./xtask/Cargo.toml -- -D warnings
 
       - name: '`cargo test --all-targets --no-fail-fast`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --all-targets --no-fail-fast
+        run: cargo test --all-targets --no-fail-fast
 
       - name: '`cargo run --release`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: run
-          args: --release
+        run: cargo run --release
 
       - name: '`cargo xtask test-examples`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: xtask
-          args: test-examples
+        run: cargo xtask test-examples
